@@ -1,6 +1,7 @@
-import {Controller, Get, Req, Post, Header} from '@nestjs/common';
+import {Controller, Get, Req, Post, Header, Render} from '@nestjs/common';
 import { AppService } from './app.service';
-import { Request } from 'express';
+import { NewsService } from './news/news.service';
+
 
 @Controller()
 export class AppController {
@@ -13,14 +14,11 @@ export class AppController {
   }
 
   @Get()
-  getHello(@Req() request: Request): string {
-    console.log('body', request.body)
-    console.log('params', request.params)
-    console.log('query', request.query)
-    console.log('headers', request.headers)
-    console.log('ip', request.ip)
-    return this.appService.getHello();
+  @Render('index')
+  root() {
+    return { message: 'stop this bla' }
   }
+
 
   @Get('secret-page')
   getSecret(): string {

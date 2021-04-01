@@ -1,0 +1,13 @@
+body {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 10px;
+    background: azure;
+    text-align: center;
+}
+
+.news {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
