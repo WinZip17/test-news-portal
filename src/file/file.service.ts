@@ -17,16 +17,20 @@ export class FileService {
       const fileExtension = file.originalname.split('.').pop()
 
       // делаем уникальное имя файла
-      const fileName = uuid.v4() + fileExtension
+      const fileName = uuid.v4() + '.' + fileExtension
 
       // сохраняем путь файла
-      const filePath = path.resolve(__dirname, '..', 'static')
+      const filePath = path.resolve(__dirname, '..', 'static', type)
 
       // проверяем доступность этого пути, если папки нет - создать
       if (!fs.existsSync(filePath)) {
         fs.mkdirSync(filePath, {recursive: true})
       }
-      fs.writeFileSync((filePath + fileName), file.buffer)
+
+      // сохраняем файл
+      fs.writeFileSync((filePath + '/' + fileName), file.buffer)
+
+      // возвращаем путь для сохранения в базе
       return type + '/' + fileName
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR)

@@ -16,7 +16,7 @@ export class AppController {
   @Render('index')
   async root() {
     const news = await this.newsService.findAll()
-    return { message: 'stop this bla', news }
+    return { news }
   }
 
 

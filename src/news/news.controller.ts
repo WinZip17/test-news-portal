@@ -1,24 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
+import {Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, Query} from '@nestjs/common';
 import { NewsService } from './news.service';
 import { CreateNewsDto } from './dto/create-news.dto';
 import { UpdateNewsDto } from './dto/update-news.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import {FileService} from "../file/file.service";
+import {FileService, FileType} from "../file/file.service";
+import {News} from "./entities/news.entity";
 
 @Controller('news')
 export class NewsController {
-  constructor(private readonly newsService: NewsService, private fileService: FileService) {}
+  constructor(private readonly newsService: NewsService,
+              private fileService: FileService) {}
 
   @Post()
   @UseInterceptors(FileInterceptor('image'))
-  create(@UploadedFile() file, @Body() createNewsDto: CreateNewsDto) {
-    console.log(file);
-    return this.newsService.create(createNewsDto);
+  async create(@UploadedFile() file, @Body() createNewsDto: CreateNewsDto) {
+    const saveImage = await this.fileService.createFile(FileType.IMAGE, file)
+    return this.newsService.create({ ...createNewsDto, image: saveImage});
   }
 
   @Get()
-  findAll() {
-    return this.newsService.findAll();
+  findAll(@Query('count') count: number, @Query('offset') offset: number) {
+    return this.newsService.findAll(count, offset);
   }
 
   @Get(':id')

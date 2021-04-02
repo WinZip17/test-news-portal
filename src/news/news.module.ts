@@ -4,6 +4,7 @@ import { NewsController } from './news.controller';
 import {newsProviders} from "./news.providers";
 import { DatabaseModule } from 'src/database/database.module';
 import {FileService} from "../file/file.service";
+import { FileModule } from 'src/file/file.module';
 
 @Module({
   imports: [DatabaseModule],

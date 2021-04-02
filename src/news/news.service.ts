@@ -14,8 +14,9 @@ export class NewsService {
     return newNews;
   }
 
-  async findAll(): Promise<News[]> {
-    return this.newsRepository.findAll<News>();
+  async findAll(count = 10, offset = 0): Promise<News[]> {
+    console.log(count, offset)
+    return this.newsRepository.findAll<News>({ offset, limit: count });
   }
 
   async findOne(id: number): Promise<News> {
@@ -24,12 +25,12 @@ export class NewsService {
   }
 
   async update(id: number, updateNewsDto: UpdateNewsDto): Promise<string> {
-    const updateNews = await this.newsRepository.update(updateNewsDto, { where: { id } } )
+    await this.newsRepository.update(updateNewsDto, { where: { id } } )
     return `новость с ид ${id} обновлена`;
   }
 
   async remove(id: number): Promise<string> {
-    const delNews = await this.newsRepository.destroy({ where: { id } })
+    await this.newsRepository.destroy({ where: { id } })
     return `новость с ид ${id} удалена`;
   }
 }
