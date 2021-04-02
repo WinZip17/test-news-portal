@@ -1,12 +1,11 @@
-import {Controller, Get, Req, Post, Header, Render} from '@nestjs/common';
+import {Controller, Get, Req, Post, Render } from '@nestjs/common';
 import { AppService } from './app.service';
 import { NewsService } from './news/news.service';
 
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-  @Header('Access-Control-Allow-Origin', '*')
+  constructor(private readonly appService: AppService, private readonly newsService: NewsService) {}
 
   @Post()
   create(): string {
@@ -15,8 +14,16 @@ export class AppController {
 
   @Get()
   @Render('index')
-  root() {
-    return { message: 'stop this bla' }
+  async root() {
+    const news = await this.newsService.findAll()
+    return { message: 'stop this bla', news }
+  }
+
+
+  @Get('add')
+  @Render('add')
+  async add() {
+
   }
 
 

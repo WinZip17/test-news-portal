@@ -4,18 +4,24 @@ import { AppModule } from './app.module';
 import { join } from 'path';
 import {setupAdminPanel} from './admin-panel/admin-panel.plugin';
 
-async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+const start = async () => {
+  try {
+    const PORT = process.env.PORT || 3000
+    const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  app.useStaticAssets(join(__dirname, '..', 'public'));
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
-  app.setViewEngine('pug');
+    app.useStaticAssets(join(__dirname, '..', 'public'));
+    app.setBaseViewsDir(join(__dirname, '..', 'views'));
+    app.setViewEngine('pug');
 
-  /**
-   * Setup Admin panel
-   */
-  await setupAdminPanel(app);
+    /**
+     * Setup Admin panel
+     */
+    await setupAdminPanel(app);
 
-  await app.listen(3000);
+    await app.listen(3000, () => console.log(`server started http://localhost:${PORT}`));
+  } catch (e) {
+    console.log('error', e)
+  }
 }
-bootstrap();
+
+start();
