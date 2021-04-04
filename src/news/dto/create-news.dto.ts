@@ -1,5 +1,5 @@
 export class CreateNewsDto {
-  title: string
-  content: string
-  image: string | null
+  title: string;
+  content: string;
+  image: string | null;
 }

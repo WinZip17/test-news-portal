@@ -4,11 +4,11 @@ import { NewsInterfaces } from '../interfaces/news.interfaces';
 @Table
 export class News extends Model<NewsInterfaces> {
   @Column
-  title: string
+  title: string;
 
   @Column
-  content: string
+  content: string;
 
   @Column
-  image: string | null
+  image: string | null;
 }

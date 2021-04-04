@@ -1,21 +1,33 @@
-import {Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, Query} from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseInterceptors,
+  UploadedFile,
+  Query,
+} from '@nestjs/common';
 import { NewsService } from './news.service';
 import { CreateNewsDto } from './dto/create-news.dto';
 import { UpdateNewsDto } from './dto/update-news.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import {FileService, FileType} from "../file/file.service";
-import {News} from "./entities/news.entity";
+import { FileService, FileType } from '../file/file.service';
 
 @Controller('news')
 export class NewsController {
-  constructor(private readonly newsService: NewsService,
-              private fileService: FileService) {}
+  constructor(
+    private readonly newsService: NewsService,
+    private fileService: FileService,
+  ) {}
 
   @Post()
   @UseInterceptors(FileInterceptor('image'))
   async create(@UploadedFile() file, @Body() createNewsDto: CreateNewsDto) {
-    const saveImage = await this.fileService.createFile(FileType.IMAGE, file)
-    return this.newsService.create({ ...createNewsDto, image: saveImage});
+    const saveImage = await this.fileService.createFile(FileType.IMAGE, file);
+    return this.newsService.create({ ...createNewsDto, image: saveImage });
   }
 
   @Get()

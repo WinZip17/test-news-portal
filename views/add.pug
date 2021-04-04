@@ -4,8 +4,16 @@ html(lang="ru-ru")
         meta(charset="utf-8")
         title Add News
         link(href="index.css" rel="stylesheet")
-    body
+    body.add
         h1 Добавить новость
-        form(class="add-news")
-            label(for="title") Title
-            input(type="text" id="title" name="title")
+        form(class="add-news" onsubmit="")
+            .add-news__wrap
+                label(for="title") Title
+                input(type="text" id="title" name="title")
+            .add-news__wrap
+                label(for="content") Content
+                input(type="textarea" id="content" name="content")
+            .add-news__wrap
+                label(for="image") Image
+                input(type="file" id="image" name="image")
+            input.button(type='submit')

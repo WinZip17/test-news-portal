@@ -5,8 +5,8 @@ import * as AdminBroExpress from 'admin-bro-expressjs';
 export async function setupAdminPanel(app: INestApplication): Promise<void> {
   /** Create adminBro instance */
   const adminBro = new AdminBro({
-    resources: [],        // Here we will put resources
-    rootPath: '/admin',   // Define path for the admin panel
+    resources: [], // Here we will put resources
+    rootPath: '/admin', // Define path for the admin panel
   });
 
   /** Create router */
@@ -14,5 +14,4 @@ export async function setupAdminPanel(app: INestApplication): Promise<void> {
 
   /** Bind routing */
   app.use(adminBro.options.rootPath, router);
-
 }

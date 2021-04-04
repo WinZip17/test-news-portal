@@ -11,3 +11,32 @@ body {
     flex-direction: column;
     text-align: left;
 }
+.add {
+    max-width: 500px;
+}
+.add-news {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.button {
+    width: 100%;
+    background: gold;
+}
+
+.add-news__wrap {
+    display: flex;
+    margin-bottom: 15px;
+    width: 100%;
+    text-align: start;
+}
+
+.add-news__wrap > label {
+    min-width: 100px;
+    margin-right: 10px;
+}
+
+.add-news__wrap > input {
+    width: 300px;
+}

@@ -1,2 +1,2 @@
-export const NEWS_REPOSITORY = 'NEWS_REPOSITORY'
-export const SEQUELIZE = 'SEQUELIZE'
+export const NEWS_REPOSITORY = 'NEWS_REPOSITORY';
+export const SEQUELIZE = 'SEQUELIZE';

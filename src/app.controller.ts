@@ -23,7 +23,7 @@ export class AppController {
   @Get('add')
   @Render('add')
   async add() {
-
+    return { addNews: this.newsService.create }
   }
 
 
