@@ -10,6 +10,7 @@ body {
     display: flex;
     flex-direction: column;
     text-align: left;
+    margin-bottom: 150px;
 }
 .add {
     max-width: 500px;
@@ -23,6 +24,7 @@ body {
 .button {
     width: 100%;
     background: gold;
+    cursor: pointer;
 }
 
 .add-news__wrap {
@@ -40,3 +42,20 @@ body {
 .add-news__wrap > input {
     width: 300px;
 }
+
+img {
+    max-width: 320px;
+}
+
+.news-add_button {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    padding: 10px;
+    background: aqua;
+    border-radius: 8px;
+    text-decoration: none;
+    color: black;
+}
+
+input:invalid {border-color: red;}

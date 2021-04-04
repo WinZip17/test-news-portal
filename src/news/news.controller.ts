@@ -16,7 +16,7 @@ import { UpdateNewsDto } from './dto/update-news.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileService, FileType } from '../file/file.service';
 
-@Controller('news')
+@Controller('api/news')
 export class NewsController {
   constructor(
     private readonly newsService: NewsService,

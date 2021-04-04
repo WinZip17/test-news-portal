@@ -1,0 +1,12 @@
+doctype html
+html(lang="ru-ru")
+    head
+        meta(charset="utf-8")
+        title Add News
+        link(href="/index.css" rel="stylesheet")
+    body.news-page
+        a(href="/") На главную
+        h1 #{news.title}
+        if news.image
+            img(alt='img' src=`/${news.image}`)
+        div #{news.content}

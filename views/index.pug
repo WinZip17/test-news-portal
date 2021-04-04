@@ -6,11 +6,12 @@ html(lang="ru-ru")
         link(href="index.css" rel="stylesheet")
     body
         h1 да пошло оно все туды где светит солнце
-        a(href="/add") добавить новость
+        a.news-add_button(href="/add") добавить новость
         div(class="news-list")
             each item in news
               div(class='news')
-                h2 #{item.title}
+                h2
+                  a(href=`news/${item.id}`) #{item.title}
                 p #{item.content}
                 if item.image
                   img(alt='img' src=item.image)

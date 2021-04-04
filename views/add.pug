@@ -6,14 +6,45 @@ html(lang="ru-ru")
         link(href="index.css" rel="stylesheet")
     body.add
         h1 Добавить новость
-        form(class="add-news" onsubmit="")
+        form(class="add-news" id="form")
             .add-news__wrap
                 label(for="title") Title
-                input(type="text" id="title" name="title")
+                input(type="text" id="title" name="title" required="true" autofocus="true" )
             .add-news__wrap
                 label(for="content") Content
-                input(type="textarea" id="content" name="content")
+                input(type="textarea" id="content" name="content" required="true")
             .add-news__wrap
                 label(for="image") Image
                 input(type="file" id="image" name="image")
-            input.button(type='submit')
+            input.button(type='submit' value="Добавить новость" formnovalidate)
+script.
+    document.getElementById('form').addEventListener("submit", function (e) {
+        e.preventDefault();
+        const title = e.target[0].value
+        const content = e.target[1].value
+        const file = e.target[2].files[0]
+        const xhr = new XMLHttpRequest(),
+            fd = new FormData();
+        fd.append('title', title)
+        fd.append('content', content)
+        if (file) {
+            fd.append('image', file)
+        }
+        xhr.open('POST', 'http://localhost:3000/api/news', true);
+        if (title && content) {
+            xhr.send(fd);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState != 4) return;
+
+                if (xhr.status != 201) {
+                    // обработать ошибку
+                    alert(xhr.status + ': ' + xhr.statusText);
+                } else {
+                    // вывести результат
+                    console.log()
+                    alert(xhr.responseText);
+                    window.location.href = `news/${xhr.responseText}`
+                }
+            }
+        }
+    });

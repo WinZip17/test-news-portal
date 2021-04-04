@@ -12,24 +12,28 @@ export class FileService {
   createFile(type: FileType, file): string {
     try {
       // сохраняем расширение файла
-      const fileExtension = file.originalname.split('.').pop();
+      console.log('file', file)
+      if (file) {
+        const fileExtension = file.originalname.split('.').pop();
 
-      // делаем уникальное имя файла
-      const fileName = uuid.v4() + '.' + fileExtension;
+        // делаем уникальное имя файла
+        const fileName = uuid.v4() + '.' + fileExtension;
 
-      // сохраняем путь файла
-      const filePath = path.resolve(__dirname, '..', 'static', type);
+        // сохраняем путь файла
+        const filePath = path.resolve(__dirname, '..', 'static', type);
 
-      // проверяем доступность этого пути, если папки нет - создать
-      if (!fs.existsSync(filePath)) {
-        fs.mkdirSync(filePath, { recursive: true });
+        // проверяем доступность этого пути, если папки нет - создать
+        if (!fs.existsSync(filePath)) {
+          fs.mkdirSync(filePath, { recursive: true });
+        }
+
+        // сохраняем файл
+        fs.writeFileSync(filePath + '/' + fileName, file.buffer);
+
+        // возвращаем путь для сохранения в базе
+        return type + '/' + fileName;
       }
-
-      // сохраняем файл
-      fs.writeFileSync(filePath + '/' + fileName, file.buffer);
-
-      // возвращаем путь для сохранения в базе
-      return type + '/' + fileName;
+      return null
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
