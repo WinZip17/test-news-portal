@@ -8,43 +8,46 @@ html(lang="ru-ru")
         h1 Добавить новость
         form(class="add-news" id="form")
             .add-news__wrap
-                label(for="title") Title
-                input(type="text" id="title" name="title" required="true" autofocus="true" )
+                label(for="title") Заголовок
+                input(type="text" id="title" name="title" autofocus="true" )
             .add-news__wrap
-                label(for="content") Content
-                input(type="textarea" id="content" name="content" required="true")
+                label(for="content") Контент
+                input(type="textarea" id="content" name="content")
             .add-news__wrap
                 label(for="image") Image
                 input(type="file" id="image" name="image")
             input.button(type='submit' value="Добавить новость" formnovalidate)
 script.
-    document.getElementById('form').addEventListener("submit", function (e) {
-        e.preventDefault();
-        const title = e.target[0].value
-        const content = e.target[1].value
-        const file = e.target[2].files[0]
-        const xhr = new XMLHttpRequest(),
-            fd = new FormData();
-        fd.append('title', title)
-        fd.append('content', content)
-        if (file) {
-            fd.append('image', file)
-        }
-        xhr.open('POST', 'http://localhost:3000/api/news', true);
-        if (title && content) {
-            xhr.send(fd);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState != 4) return;
+  document.getElementById('form').addEventListener("submit", function (e) {
+    e.preventDefault();
+    const title = e.target[0].value
+    const content = e.target[1].value
+    const file = e.target[2].files[0]
+    const xhr = new XMLHttpRequest(),
+      fd = new FormData();
+    fd.append('title', title)
+    fd.append('content', content)
+    if (file) {
+      fd.append('image', file)
+    }
+    xhr.open('POST', 'http://localhost:3003/api/news', true);
+    xhr.send(fd);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState != 4) return;
 
-                if (xhr.status != 201) {
-                    // обработать ошибку
-                    alert(xhr.status + ': ' + xhr.statusText);
-                } else {
-                    // вывести результат
-                    console.log()
-                    alert(xhr.responseText);
-                    window.location.href = `news/${xhr.responseText}`
-                }
-            }
+      if (xhr.status != 201) {
+        // обработать ошибку
+        const messages = JSON.parse(xhr.response).message
+        if (messages.length > 0) {
+          alert(messages.join(', '))
+        } else {
+          alert(xhr.status + ': ' + xhr.statusText);
         }
-    });
+      } else {
+        // вывести результат
+        alert(xhr.responseText);
+        window.location.href = `news/${xhr.responseText}`
+      }
+    }
+
+  });

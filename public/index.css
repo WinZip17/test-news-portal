@@ -10,7 +10,7 @@ body {
     display: flex;
     flex-direction: column;
     text-align: left;
-    margin-bottom: 150px;
+    margin-bottom: 50px;
 }
 .add {
     max-width: 500px;

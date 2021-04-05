@@ -1,13 +1,10 @@
-import { Controller, Get, Post, Render, Param } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller, Get, Post, Render, Param, Res } from '@nestjs/common';
 import { NewsService } from './news/news.service';
+import { Response } from 'express';
 
 @Controller()
 export class AppController {
-  constructor(
-    private readonly appService: AppService,
-    private readonly newsService: NewsService,
-  ) {}
+  constructor(private readonly newsService: NewsService) {}
 
   @Post()
   create(): string {
@@ -15,10 +12,16 @@ export class AppController {
   }
 
   @Get()
-  @Render('index')
-  async root() {
+  async root(@Res() res: Response) {
     const news = await this.newsService.findAll();
-    return { news };
+    const userAgent = res.req.headers['user-agent'];
+    const MobileDetect = await require('mobile-detect');
+    const deviceInfo = new MobileDetect(userAgent);
+    if (!deviceInfo.mobile()) {
+      return res.render('index.pug', { news });
+    } else {
+      return res.render('mobile.pug', { news });
+    }
   }
 
   @Get('add')
@@ -32,10 +35,5 @@ export class AppController {
   async news(@Param('id') id: number) {
     const news = await this.newsService.findOne(id);
     return { news };
-  }
-
-  @Get('secret-page')
-  getSecret(): string {
-    return this.appService.getSecret();
   }
 }
