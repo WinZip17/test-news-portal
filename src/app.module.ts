@@ -8,7 +8,6 @@ import { NewsModule } from './news/news.module';
 import { NewsService } from './news/news.service';
 import { FileModule } from './file/file.module';
 import { newsProviders } from './news/news.providers';
-import { MobileModule } from './mobile/mobile.module';
 
 @Module({
   imports: [
@@ -18,7 +17,6 @@ import { MobileModule } from './mobile/mobile.module';
     NewsModule,
     FileModule,
     ConfigModule.forRoot({ isGlobal: true, cache: true }),
-    MobileModule,
   ],
   controllers: [AppController],
   // TODO: вопрос. Почему NewsService начали работать когда продублировал newsProviders сюда, которые добавлены в NewsService

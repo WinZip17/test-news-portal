@@ -8,8 +8,8 @@ export const databaseProviders = [
     provide: SEQUELIZE,
     useFactory: async () => {
       const sequelize = new Sequelize({
-        dialect: process.env.DATABASE_DIALECT as Dialect || 'postgres',
-        host:  process.env.DATABASE_HOST || 'localhost',
+        dialect: (process.env.DATABASE_DIALECT as Dialect) || 'postgres',
+        host: process.env.DATABASE_HOST || 'localhost',
         port: Number(process.env.DATABASE_PORT) || 5432,
         username: process.env.DATABASE_USER || 'postgres',
         password: process.env.DATABASE_PASSWORD || 'postgres',
