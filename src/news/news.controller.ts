@@ -36,13 +36,18 @@ export class NewsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.newsService.findOne(+id);
+  findByPk(@Param('id') id: string) {
+    return this.newsService.findByPk(+id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateNewsDto: UpdateNewsDto) {
     return this.newsService.update(+id, updateNewsDto);
+  }
+
+  @Post('reactions')
+  setReactions(@Body() reaction: { id: number; reaction: 'like' | 'dislike' }) {
+    return this.newsService.updateReactions(reaction);
   }
 
   @Delete(':id')

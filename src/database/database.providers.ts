@@ -2,6 +2,7 @@ import { Sequelize } from 'sequelize-typescript';
 import { Dialect } from 'sequelize/types';
 import { SEQUELIZE } from 'src/constants';
 import { News } from 'src/news/entities/news.entity';
+import { Comment } from 'src/news/entities/comment.entity';
 
 export const databaseProviders = [
   {
@@ -15,8 +16,8 @@ export const databaseProviders = [
         password: process.env.DATABASE_PASSWORD || 'postgres',
         database: process.env.DATABASE_NAME || 'news_db',
       });
-      sequelize.addModels([News]);
-      await sequelize.sync();
+      sequelize.addModels([News, Comment]);
+      await sequelize.sync({ alter: true });
       return sequelize;
     },
   },

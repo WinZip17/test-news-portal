@@ -33,7 +33,7 @@ export class AppController {
   @Get('news/:id')
   @Render('news')
   async news(@Param('id') id: number) {
-    const news = await this.newsService.findOne(id);
+    const news = await this.newsService.findByPk(id);
     return { news };
   }
 }

@@ -17,7 +17,7 @@ export class NewsService {
     return this.newsRepository.findAll<News>({ offset, limit: count });
   }
 
-  async findOne(id: number): Promise<News> {
+  async findByPk(id: number): Promise<News> {
     const findNews = await this.newsRepository.findByPk(id);
     return findNews;
   }
@@ -25,6 +25,17 @@ export class NewsService {
   async update(id: number, updateNewsDto: UpdateNewsDto): Promise<string> {
     await this.newsRepository.update(updateNewsDto, { where: { id } });
     return `новость с ид ${id} обновлена`;
+  }
+
+  async updateReactions(data): Promise<News> {
+    const { id, reaction } = data;
+
+    const news: News = await this.findByPk(id);
+    news.like = 10
+    console.log('newssss', news.like)
+
+    // await this.newsRepository.update(news, { where: { id } });
+    return news;
   }
 
   async remove(id: number): Promise<string> {
