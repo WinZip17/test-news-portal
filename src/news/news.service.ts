@@ -3,6 +3,7 @@ import { NEWS_REPOSITORY } from 'src/constants';
 import { CreateNewsDto } from './dto/create-news.dto';
 import { UpdateNewsDto } from './dto/update-news.dto';
 import { News } from './entities/news.entity';
+import { Comment } from './entities/comment.entity';
 
 @Injectable()
 export class NewsService {
@@ -14,7 +15,11 @@ export class NewsService {
   }
 
   async findAll(count = 10, offset = 0): Promise<News[]> {
-    return this.newsRepository.findAll<News>({ offset, limit: count });
+    return this.newsRepository.findAll<News>({
+      offset,
+      limit: count,
+      include: [Comment],
+    });
   }
 
   async findByPk(id: number): Promise<News> {
@@ -27,15 +32,23 @@ export class NewsService {
     return `новость с ид ${id} обновлена`;
   }
 
-  async updateReactions(data): Promise<News> {
-    const { id, reaction } = data;
-
+  async updateReactions(data): Promise<{ [key: string]: number }> {
+    const { id, reactions, action } = data;
     const news: News = await this.findByPk(id);
-    news.like = 10
-    console.log('newssss', news.like)
+    let result = news[reactions] || 0;
+    if (action === 'down') {
+      if (result > 1) {
+        result -= 1;
+      } else {
+        result = 0;
+      }
+    } else {
+      result += 1;
+    }
+    news[reactions] = result;
+    await news.save();
 
-    // await this.newsRepository.update(news, { where: { id } });
-    return news;
+    return { [reactions]: result };
   }
 
   async remove(id: number): Promise<string> {

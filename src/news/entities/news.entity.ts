@@ -1,13 +1,21 @@
-import { Table, Column, Model } from 'sequelize-typescript';
-import { DataTypes } from 'sequelize/types';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  HasMany,
+  NotEmpty,
+} from 'sequelize-typescript';
 import { NewsInterfaces } from '../interfaces/news.interfaces';
+import { Comment } from './comment.entity';
 
 @Table
 export class News extends Model<NewsInterfaces> {
-  @Column({ validate: { notEmpty: true } })
+  @NotEmpty({ msg: 'ну нах' })
+  @Column(DataType.TEXT)
   title: string;
 
-  @Column({ validate: { notEmpty: true } })
+  @Column(DataType.TEXT)
   content: string;
 
   @Column({ defaultValue: null })
@@ -18,4 +26,7 @@ export class News extends Model<NewsInterfaces> {
 
   @Column({ defaultValue: 0 })
   dislike: number;
+
+  @HasMany(() => Comment)
+  comments: Comment[];
 }

@@ -12,7 +12,6 @@ export class FileService {
   createFile(type: FileType, file): string {
     try {
       // сохраняем расширение файла
-      console.log('file', file)
       if (file) {
         const fileExtension = file.originalname.split('.').pop();
 
@@ -33,7 +32,7 @@ export class FileService {
         // возвращаем путь для сохранения в базе
         return type + '/' + fileName;
       }
-      return null
+      return null;
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }

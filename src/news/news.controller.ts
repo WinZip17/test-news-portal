@@ -15,6 +15,7 @@ import { CreateNewsDto } from './dto/create-news.dto';
 import { UpdateNewsDto } from './dto/update-news.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileService, FileType } from '../file/file.service';
+import { News } from './entities/news.entity';
 
 @Controller('api/news')
 export class NewsController {
@@ -46,7 +47,14 @@ export class NewsController {
   }
 
   @Post('reactions')
-  setReactions(@Body() reaction: { id: number; reaction: 'like' | 'dislike' }) {
+  setReactions(
+    @Body()
+    reaction: {
+      id: number;
+      reaction: 'like' | 'dislike';
+      action: 'up' | 'down';
+    },
+  ) {
     return this.newsService.updateReactions(reaction);
   }
 
