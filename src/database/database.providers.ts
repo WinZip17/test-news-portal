@@ -1,5 +1,3 @@
-import { Sequelize } from 'sequelize-typescript';
-import { Dialect } from 'sequelize/types';
 import { SEQUELIZE } from 'src/constants';
 import { News } from 'src/news/entities/news.entity';
 import { Comment } from 'src/news/entities/comment.entity';

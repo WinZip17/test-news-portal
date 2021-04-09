@@ -12,16 +12,13 @@ import { News } from './news.entity';
 
 @Table
 export class Comment extends Model<CommentInterfaces> {
-  @Column(DataType.TEXT)
-  name: string;
 
   @Column(DataType.TEXT)
-  text: string;
+  content: string;
 
-  @ForeignKey(() => News)
-  @Column
-  newsId: number;
+  @BelongsTo(() => News, 'NewsId')
+  news: number;
 
-  @BelongsTo(() => User, 'myUserId')
+  @BelongsTo(() => User, 'UserId')
   user: User;
 }

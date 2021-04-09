@@ -16,6 +16,7 @@ import { UpdateNewsDto } from './dto/update-news.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileService, FileType } from '../file/file.service';
 import { News } from './entities/news.entity';
+import { CreateCommentDto } from './dto/create-comment.dto';
 
 @Controller('api/news')
 export class NewsController {
@@ -61,5 +62,10 @@ export class NewsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.newsService.remove(+id);
+  }
+
+  @Post('comment')
+  async createComment(@Body() data: CreateCommentDto) {
+    return this.newsService.createComment(data);
   }
 }

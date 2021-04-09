@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { NEWS_REPOSITORY } from 'src/constants';
+import { COMMENTS_REPOSITORY, NEWS_REPOSITORY } from 'src/constants';
 import { CreateNewsDto } from './dto/create-news.dto';
 import { UpdateNewsDto } from './dto/update-news.dto';
 import { News } from './entities/news.entity';
@@ -7,7 +7,10 @@ import { Comment } from './entities/comment.entity';
 
 @Injectable()
 export class NewsService {
-  constructor(@Inject(NEWS_REPOSITORY) private newsRepository: typeof News) {}
+  constructor(
+    @Inject(NEWS_REPOSITORY) private newsRepository: typeof News,
+    @Inject(COMMENTS_REPOSITORY) private commentRepository: typeof Comment,
+  ) {}
 
   async create(createNewsDto: CreateNewsDto) {
     const newNews = await this.newsRepository.create(createNewsDto);
@@ -54,5 +57,14 @@ export class NewsService {
   async remove(id: number): Promise<string> {
     await this.newsRepository.destroy({ where: { id } });
     return `новость с ид ${id} удалена`;
+  }
+
+  async createComment(data): Promise<Comment> {
+    const { id, content } = data;
+    const newComment = await this.commentRepository.create({
+      content,
+      NewsId: id,
+    });
+    return newComment;
   }
 }

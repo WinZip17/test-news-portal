@@ -10,6 +10,9 @@ export class User extends Model<UserInterfaces> {
   @Column(DataType.TEXT)
   name: string;
 
-  @HasOne(() => Comment, 'myUserId')
+  @HasOne(() => Comment, 'UserId')
   comment;
+
+  @HasOne(() => Comment, 'UserId')
+  news;
 }
