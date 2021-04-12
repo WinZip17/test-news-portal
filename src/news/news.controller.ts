@@ -9,20 +9,17 @@ import {
   UseInterceptors,
   UploadedFile,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { NewsService } from './news.service';
 import { CreateNewsDto } from './dto/create-news.dto';
 import { UpdateNewsDto } from './dto/update-news.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { FileService, FileType } from '../file/file.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 
 @Controller('api/news')
 export class NewsController {
-  constructor(
-    private readonly newsService: NewsService,
-    private fileService: FileService,
-  ) {}
+  constructor(private readonly newsService: NewsService) {}
 
   @Post()
   @UseInterceptors(FileInterceptor('image'))

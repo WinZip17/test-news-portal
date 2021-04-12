@@ -23,7 +23,6 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
   controllers: [AppController],
-  // TODO: вопрос. Почему NewsService начали работать когда продублировал newsProviders сюда, которые добавлены в NewsService
   providers: [...newsProviders, NewsService],
 })
 export class AppModule {}

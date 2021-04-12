@@ -28,7 +28,6 @@ export class NewsService {
   }
 
   async findAll(count = 10, offset = 0): Promise<News[]> {
-    console.log('this', this);
     return this.newsRepository.findAll<News>({
       offset,
       limit: count,
@@ -68,7 +67,6 @@ export class NewsService {
     const news: News = await this.findByPk(id);
     let delImage = '';
     if (news.image) {
-      // TODO: доделать удаление файлов
       delImage = await this.fileService.removeFile(news.image);
     }
     await this.newsRepository.destroy({ where: { id } });

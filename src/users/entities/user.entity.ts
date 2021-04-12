@@ -5,10 +5,13 @@ import { Comment } from '../../news/entities/comment.entity';
 @Table
 export class User extends Model<UserInterfaces> {
   @Column(DataType.TEXT)
-  email: string;
+  email;
 
   @Column(DataType.TEXT)
-  name: string;
+  name;
+
+  @Column(DataType.TEXT)
+  password;
 
   @HasOne(() => Comment, 'UserId')
   comment;

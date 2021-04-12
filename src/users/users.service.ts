@@ -1,41 +1,43 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { USER_REPOSITORY } from '../constants';
+import { User } from './entities/user.entity';
 
-export type User = any;
+const bcrypt = require('bcrypt');
 
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      userId: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      userId: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
+  constructor(@Inject(USER_REPOSITORY) private userRepository: typeof User) {}
 
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  async create(createUserDto: CreateUserDto) {
+    const saltRounds = 10;
+    const hash = bcrypt.hashSync(createUserDto.password, saltRounds);
+    const newUser = await this.userRepository.create({
+      ...createUserDto,
+      password: hash,
+    });
+    return newUser.id;
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findOne(email: string): Promise<User | undefined> {
+    console.log('UsersService findOne')
+    return this.userRepository.findOne({
+      where: {
+        email,
+      },
+    });
   }
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find((user) => user.username === username);
-  }
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async update(updateUserDto: UpdateUserDto): Promise<User> {
+    const { email } = updateUserDto;
+    const updateUser = await this.userRepository.findOne({
+      where: {
+        email,
+      },
+    });
+    Object.assign(updateUser, updateUserDto);
+    await updateUser.save();
+    return updateUser;
   }
 }
