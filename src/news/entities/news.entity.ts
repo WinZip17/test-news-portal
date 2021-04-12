@@ -23,11 +23,17 @@ export class News extends Model<NewsInterfaces> {
   @Column({ defaultValue: null })
   image: string | null;
 
-  @Column({ defaultValue: 0 })
-  like: number;
+  @Column({
+    defaultValue: [12, 11, 22],
+    type: DataType.ARRAY(DataType.INTEGER),
+  })
+  like: number[];
 
-  @Column({ defaultValue: 0 })
-  dislike: number;
+  @Column({
+    defaultValue: [12, 11, 22],
+    type: DataType.ARRAY(DataType.INTEGER),
+  })
+  dislike: number[];
 
   @HasMany(() => Comment, 'NewsId')
   comments: Comment[];

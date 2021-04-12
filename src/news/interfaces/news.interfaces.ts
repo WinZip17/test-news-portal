@@ -3,6 +3,6 @@ export interface NewsInterfaces {
   title: string;
   content: string;
   image: string | null;
-  like?: number;
-  dislike?: number;
+  like?: number[];
+  dislike?: number[];
 }

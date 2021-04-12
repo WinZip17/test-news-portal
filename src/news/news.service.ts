@@ -1,32 +1,48 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { COMMENTS_REPOSITORY, NEWS_REPOSITORY } from 'src/constants';
+import {
+  COMMENTS_REPOSITORY,
+  FILE_SERVICE,
+  NEWS_REPOSITORY,
+} from 'src/constants';
 import { CreateNewsDto } from './dto/create-news.dto';
 import { UpdateNewsDto } from './dto/update-news.dto';
 import { News } from './entities/news.entity';
 import { Comment } from './entities/comment.entity';
+import { FileService, FileType } from '../file/file.service';
 
 @Injectable()
 export class NewsService {
   constructor(
     @Inject(NEWS_REPOSITORY) private newsRepository: typeof News,
     @Inject(COMMENTS_REPOSITORY) private commentRepository: typeof Comment,
+    @Inject(FILE_SERVICE) private fileService: FileService,
   ) {}
 
-  async create(createNewsDto: CreateNewsDto) {
-    const newNews = await this.newsRepository.create(createNewsDto);
+  async create(createNewsDto: CreateNewsDto, file) {
+    const saveImage = await this.fileService.createFile(FileType.IMAGE, file);
+    const newNews = await this.newsRepository.create({
+      ...createNewsDto,
+      image: saveImage,
+    });
     return newNews.id;
   }
 
   async findAll(count = 10, offset = 0): Promise<News[]> {
+    console.log('this', this);
     return this.newsRepository.findAll<News>({
       offset,
       limit: count,
-      include: [Comment],
+      include: {
+        model: Comment,
+        attributes: ['content'],
+      },
     });
   }
 
   async findByPk(id: number): Promise<News> {
-    const findNews = await this.newsRepository.findByPk(id);
+    const findNews = await this.newsRepository.findByPk(id, {
+      include: [Comment],
+    });
     return findNews;
   }
 
@@ -35,28 +51,28 @@ export class NewsService {
     return `новость с ид ${id} обновлена`;
   }
 
-  async updateReactions(data): Promise<{ [key: string]: number }> {
-    const { id, reactions, action } = data;
+  async updateReactions(data): Promise<News> {
+    const { id, userId, reactions } = data;
     const news: News = await this.findByPk(id);
-    let result = news[reactions] || 0;
-    if (action === 'down') {
-      if (result > 1) {
-        result -= 1;
-      } else {
-        result = 0;
-      }
+    if (news.like.includes(userId) || news.dislike.includes(userId)) {
+      news.like = news.like.filter((id) => id !== userId);
+      news.dislike = news.dislike.filter((id) => id !== userId);
     } else {
-      result += 1;
+      news[reactions] = [...news[reactions], userId];
     }
-    news[reactions] = result;
     await news.save();
-
-    return { [reactions]: result };
+    return news;
   }
 
   async remove(id: number): Promise<string> {
+    const news: News = await this.findByPk(id);
+    let delImage = '';
+    if (news.image) {
+      // TODO: доделать удаление файлов
+      delImage = await this.fileService.removeFile(news.image);
+    }
     await this.newsRepository.destroy({ where: { id } });
-    return `новость с ид ${id} удалена`;
+    return `новость с ид ${id} удалена, ${delImage}`;
   }
 
   async createComment(data): Promise<Comment> {

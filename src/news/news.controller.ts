@@ -15,7 +15,6 @@ import { CreateNewsDto } from './dto/create-news.dto';
 import { UpdateNewsDto } from './dto/update-news.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileService, FileType } from '../file/file.service';
-import { News } from './entities/news.entity';
 import { CreateCommentDto } from './dto/create-comment.dto';
 
 @Controller('api/news')
@@ -28,8 +27,7 @@ export class NewsController {
   @Post()
   @UseInterceptors(FileInterceptor('image'))
   async create(@UploadedFile() file, @Body() createNewsDto: CreateNewsDto) {
-    const saveImage = await this.fileService.createFile(FileType.IMAGE, file);
-    return this.newsService.create({ ...createNewsDto, image: saveImage });
+    return this.newsService.create({ ...createNewsDto }, file);
   }
 
   @Get()
@@ -53,7 +51,7 @@ export class NewsController {
     reaction: {
       id: number;
       reaction: 'like' | 'dislike';
-      action: 'up' | 'down';
+      userId: number;
     },
   ) {
     return this.newsService.updateReactions(reaction);
