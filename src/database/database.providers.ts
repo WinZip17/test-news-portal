@@ -10,7 +10,7 @@ export const databaseProviders = [
       const db = await require('../../models/index.js');
       db.sequelize.addModels([News, Comment, User]);
       // await db.sequelize.sync({ alter: true });
-      await db.sequelize.sync();
+      await db.sequelize.sync({ alter: true });
       return db.sequelize;
     },
   },

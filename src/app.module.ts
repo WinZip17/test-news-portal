@@ -18,7 +18,7 @@ import { AuthModule } from './auth/auth.module';
     }),
     NewsModule,
     FileModule,
-    ConfigModule.forRoot({ isGlobal: true, cache: true }),
+    ConfigModule.forRoot({ isGlobal: true, cache: false }),
     UsersModule,
     AuthModule,
   ],

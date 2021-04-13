@@ -7,12 +7,13 @@ import {
   Res,
   UseGuards,
   Request,
+  Body,
 } from '@nestjs/common';
 import { NewsService } from './news/news.service';
 import { Response } from 'express';
-import { LocalAuthGuard } from './auth/local-auth.guard';
 import { AuthService } from './auth/auth.service';
 import { JwtAuthGuard } from './auth/ jwt-auth.guard';
+import { LoginUserDto } from './users/dto/login-user.dto';
 
 @Controller()
 export class AppController {
@@ -21,11 +22,9 @@ export class AppController {
     private authService: AuthService,
   ) {}
 
-  @UseGuards(LocalAuthGuard)
   @Post('auth/login')
-  async login(@Request() req) {
-    console.log('AppController', req);
-    return this.authService.login(req.user);
+  async login(@Body() data: LoginUserDto) {
+    return this.authService.login(data);
   }
 
   @UseGuards(JwtAuthGuard)

@@ -15,13 +15,13 @@ import { User } from '../../users/entities/user.entity';
 export class News extends Model<NewsInterfaces> {
   @NotEmpty({ msg: 'ну нах' })
   @Column(DataType.TEXT)
-  title: string;
+  title;
 
   @Column(DataType.TEXT)
-  content: string;
+  content;
 
-  @Column({ defaultValue: null })
-  image: string | null;
+  @Column({ defaultValue: null, type: DataType.TEXT })
+  image;
 
   @Column({
     defaultValue: [12, 11, 22],
@@ -33,7 +33,7 @@ export class News extends Model<NewsInterfaces> {
     defaultValue: [12, 11, 22],
     type: DataType.ARRAY(DataType.INTEGER),
   })
-  dislike: number[];
+  dislike;
 
   @HasMany(() => Comment, 'NewsId')
   comments: Comment[];

@@ -4,27 +4,30 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { USER_REPOSITORY } from '../constants';
 import { User } from './entities/user.entity';
 
-const bcrypt = require('bcrypt');
-
 @Injectable()
 export class UsersService {
   constructor(@Inject(USER_REPOSITORY) private userRepository: typeof User) {}
 
   async create(createUserDto: CreateUserDto) {
-    const saltRounds = 10;
-    const hash = bcrypt.hashSync(createUserDto.password, saltRounds);
-    const newUser = await this.userRepository.create({
-      ...createUserDto,
-      password: hash,
-    });
-    return newUser.id;
+    const user = await this.userRepository.create(createUserDto);
+    return user;
   }
 
-  async findOne(email: string): Promise<User | undefined> {
-    console.log('UsersService findOne')
-    return this.userRepository.findOne({
+  async findOne(
+    email: string,
+    scope: string = 'minimal',
+  ): Promise<User | undefined> {
+    return this.userRepository.scope(scope).findOne({
       where: {
         email,
+      },
+    });
+  }
+
+  async findValidateUser(name: string): Promise<User | undefined> {
+    return this.userRepository.scope('full').findOne({
+      where: {
+        name,
       },
     });
   }
