@@ -9,6 +9,7 @@ import {
   useHistory,
   useLocation
 } from 'react-router-dom'
+
 const useStyles = makeStyles({
   root: {
     width: '100%',
