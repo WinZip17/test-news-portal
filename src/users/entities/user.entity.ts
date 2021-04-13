@@ -48,6 +48,12 @@ export class User extends Model<UserInterfaces> {
   })
   isBlocked;
 
+  @Column({
+    defaultValue: null,
+    type: DataType.TEXT,
+  })
+  avatar;
+
   @HasOne(() => Comment, 'UserId')
   comment;
 

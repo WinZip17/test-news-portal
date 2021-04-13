@@ -10,4 +10,6 @@ export class CreateUserDto {
 
   @IsNotEmpty({ message: 'Введите пароль' })
   password: string;
+
+  avatar?: string | null;
 }

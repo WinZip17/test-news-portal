@@ -4,6 +4,8 @@ import { UsersModule } from '../users/users.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
+import { FileService } from '../file/file.service';
+import { FILE_SERVICE } from '../constants';
 
 @Module({
   imports: [
@@ -18,7 +20,14 @@ import { JwtStrategy } from './jwt.strategy';
       },
     }),
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [
+    AuthService,
+    JwtStrategy,
+    {
+      provide: FILE_SERVICE,
+      useValue: new FileService(),
+    },
+  ],
   exports: [AuthService, JwtModule],
 })
 export class AuthModule {}

@@ -7,7 +7,8 @@ import {
   Inject,
   forwardRef,
   Request,
-  Get,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -17,8 +18,7 @@ import { AuthService } from 'src/auth/auth.service';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { RecoveryPasswordDto } from './dto/recovery-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-
-
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('api/users')
 export class UsersController {
@@ -29,8 +29,9 @@ export class UsersController {
   ) {}
 
   @Post('registration')
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.authService.registration(createUserDto);
+  @UseInterceptors(FileInterceptor('image'))
+  create(@UploadedFile() file, @Body() createUserDto: CreateUserDto) {
+    return this.authService.registration(createUserDto, file);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -52,7 +53,7 @@ export class UsersController {
 
   @Post('reset-password')
   resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
-
+    return this.authService.resetPassword(resetPasswordDto);
   }
 
   @UseGuards(JwtAuthGuard)

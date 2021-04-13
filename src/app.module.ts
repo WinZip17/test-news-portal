@@ -10,6 +10,8 @@ import { FileModule } from './file/file.module';
 import { newsProviders } from './news/news.providers';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 
 @Module({
   imports: [
@@ -21,6 +23,21 @@ import { AuthModule } from './auth/auth.module';
     ConfigModule.forRoot({ isGlobal: true, cache: false }),
     UsersModule,
     AuthModule,
+    MailerModule.forRootAsync({
+      useFactory: () => ({
+        transport: `${process.env.MAIL_MAILER}://${process.env.MAIL_USERNAME}:${process.env.MAIL_PASSWORD}@${process.env.MAIL_HOST}`,
+        defaults: {
+          from: 'News portal',
+        },
+        template: {
+          dir: __dirname + '/templates',
+          adapter: new PugAdapter(),
+          options: {
+            strict: true,
+          },
+        },
+      }),
+    }),
   ],
   controllers: [AppController],
   providers: [...newsProviders, NewsService],

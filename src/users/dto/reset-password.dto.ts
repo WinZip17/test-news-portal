@@ -3,6 +3,9 @@ import { CreateUserDto } from './create-user.dto';
 import { IsNotEmpty } from 'class-validator';
 
 export class ResetPasswordDto extends PartialType(CreateUserDto) {
+  @IsNotEmpty({ message: 'Введите email' })
+  email: string;
+
   @IsNotEmpty({ message: 'Введите пароль' })
   password: string;
 
