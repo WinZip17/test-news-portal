@@ -7,7 +7,7 @@ export const databaseProviders = [
   {
     provide: SEQUELIZE,
     useFactory: async () => {
-      const db = await require('../../models/index.js');
+      const db = await require('../../models');
       db.sequelize.addModels([News, Comment, User]);
       // await db.sequelize.sync({ alter: true });
       await db.sequelize.sync({ alter: true });
