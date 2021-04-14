@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import {Injectable, Inject, HttpException, HttpStatus} from '@nestjs/common';
 import {
   COMMENTS_REPOSITORY,
   FILE_SERVICE,
@@ -42,6 +42,12 @@ export class NewsService {
     const findNews = await this.newsRepository.findByPk(id, {
       include: [Comment],
     });
+    if (!findNews) {
+      throw new HttpException(
+        'Запрашиваемая новость не найдена :(',
+        HttpStatus.NOT_FOUND,
+      );
+    }
     return findNews;
   }
 

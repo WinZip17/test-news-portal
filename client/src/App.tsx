@@ -1,42 +1,39 @@
-import React, { useState } from 'react';
+import React, {useEffect} from 'react';
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
-    Link
+    Route
 } from 'react-router-dom';
 import NewsList from './components/NewsList';
 import NewsPage from './components/NewsPage';
 import AddNews from "./components/AddNews";
-import SignUp from './components/SignUp';
-import SignIn from './components/SignIn';
-import { Container} from '@material-ui/core';
 import Layout from './components/Layout';
+import User from './components/User';
+import { getMeFx } from './store/models/UserModels';
 
 const App = () => {
+
+  useEffect(() => {
+    getMeFx()
+  }, [])
 
   return (
     <Router>
       <Layout>
-        <Container maxWidth="md">
-          <Switch>
-            <Route exact path="/">
-              <NewsList />
-            </Route>
-            <Route path="/news/:id">
-              <NewsPage />
-            </Route>
-            <Route path="/add">
-              <AddNews />
-            </Route>
-            <Route path="/sign-in">
-              <SignIn />
-            </Route>
-            <Route path="/sign-up">
-              <SignUp />
-            </Route>
-          </Switch>
-        </Container>
+        <Switch>
+          <Route exact path="/">
+            <NewsList />
+          </Route>
+          <Route path="/news/:id">
+            <NewsPage />
+          </Route>
+          <Route path="/add">
+            <AddNews />
+          </Route>
+          <Route path="/user">
+            <User />
+          </Route>
+        </Switch>
       </Layout>
     </Router>
   );
