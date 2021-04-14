@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import { getNewsFx } from "../../store/models/newsModels";
+import { getNewsFx } from "../../store/models/NewsModels";
 import {useStore} from "effector-react";
 import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/core/styles";
@@ -8,7 +8,7 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import {BASE_URL} from "../../constant";
 import CardContent from "@material-ui/core/CardContent";
 import {useParams} from "react-router-dom";
-import { $newsGetStatus } from "../../store/models/newsModels/init";
+import { $newsGetStatus } from "../../store/models/NewsModels/init";
 
 const useStyles = makeStyles({
   header: {

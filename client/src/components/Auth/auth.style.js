@@ -15,5 +15,12 @@ export const useAuthStyles = makeStyles({
   },
   footer: {
     marginTop: 20
+  },
+  inputFile: {
+    display: 'none'
+  },
+  fileButton: {
+    width: '100%',
+    marginBottom: 12
   }
 });

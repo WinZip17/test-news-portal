@@ -1,7 +1,7 @@
 import Axios from 'axios';
 import { NewsApi, NewsApiImpl } from './NewsApi';
 import { UserApi, UserApiImpl } from './UserApi';
-
+import { BASE_URL } from '../constant';
 const accessToken = window.localStorage.getItem('token');
 
 class ApiFactory {
@@ -9,7 +9,7 @@ class ApiFactory {
 
   constructor() {
     this.axios = Axios.create({
-      baseURL: '/',
+      baseURL: BASE_URL,
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },

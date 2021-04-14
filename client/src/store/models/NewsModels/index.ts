@@ -1,6 +1,6 @@
 import ApiFactory from '../../../api/ApiFactory';
 import {createEffect, createStore} from "effector";
-import {News} from "../newsListModels";
+import {News} from "../NewsListModels";
 import {AxiosError} from "axios";
 
 export const getNewsFx = createEffect<{id: number}, News, AxiosError>(async (params) => {

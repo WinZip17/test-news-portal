@@ -4,8 +4,8 @@ import Typography from '@material-ui/core/Typography';
 import {useHistory} from "react-router-dom";
 import NewsCard from "./NewsCard";
 import { useStore } from 'effector-react';
-import { $newsListGetStatus } from '../../store/models/newsListModels/init';
-import { getNewsListFx } from '../../store/models/newsListModels';
+import { $newsListGetStatus } from '../../store/models/NewsListModels/init';
+import { getNewsListFx } from '../../store/models/NewsListModels';
 import Card from "@material-ui/core/Card";
 
 const useStyles = makeStyles({

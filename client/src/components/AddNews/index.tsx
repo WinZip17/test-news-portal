@@ -1,11 +1,14 @@
 import React from 'react';
 
 const AddNews = () => {
-    return (
-        <div>
-            AddNews
-        </div>
-    )
+
+  return (
+    <div>
+      <div>
+        AddNews
+      </div>
+    </div>
+  )
 }
 
 export default AddNews

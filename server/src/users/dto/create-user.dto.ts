@@ -2,7 +2,7 @@ import { IsEmail, IsNotEmpty } from 'class-validator';
 
 export class CreateUserDto {
   @IsNotEmpty({ message: 'Введите email' })
-  @IsEmail(undefined, { message: 'Email имеет ошибочный формат' } )
+  @IsEmail(undefined, { message: 'Email имеет ошибочный формат' })
   email: string;
 
   @IsNotEmpty({ message: 'Введите имя' })
@@ -14,5 +14,5 @@ export class CreateUserDto {
   @IsNotEmpty({ message: 'Подтвердите пароль' })
   confirmPassword: string;
 
-  avatar?: string | null;
+  avatar?: any;
 }

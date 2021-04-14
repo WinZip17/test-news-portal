@@ -7,7 +7,7 @@ import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
-import { News } from "../../store/models/newsListModels";
+import { News } from "../../store/models/NewsListModels";
 
 const useStyles = makeStyles({
   card: {

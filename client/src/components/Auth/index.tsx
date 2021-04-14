@@ -4,16 +4,16 @@ import {Button, TextField} from "@material-ui/core";
 import {useAuthStyles} from "./auth.style";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
-import SwipeableViews from 'react-swipeable-views';
+import {useMedia} from "../Hooks/useMedia";
 
 const Auth = () => {
   const classes = useAuthStyles();
   const [isLoading, setIsLoading] = useState(false)
-
-  const [signIn, setSignIn] = useState(0)
+  const isMobile = useMedia(756);
+  const [signIn, setSignIn] = useState(true)
 
   const handleChangeAuth = () => {
-    setSignIn(value => value === 0 ? 1 : 0)
+    setSignIn(value => !value)
   }
 
   const onLogin = (data: any) => {
@@ -39,25 +39,14 @@ const Auth = () => {
 
   return (
     <div>
-      <SwipeableViews
-        index={signIn}
-      >
-        <div>
-          <Typography variant="h2" gutterBottom className={classes.header}>
-            Войти
-          </Typography>
-          <SignIn getError={getError} onLogin={onLogin} />
-        </div>
-        <div>
-          <Typography variant="h2" gutterBottom className={classes.header}>
-            Зарегистрироваться
-          </Typography>
-          <SignUp getError={getError} onRegister={onRegister}/>
-        </div>
-      </SwipeableViews>
+      <Typography variant={isMobile? "h4" : "h2"} gutterBottom className={classes.header}>
+        {signIn ? 'Войти' : 'Регистрация'}
+      </Typography>
+      {signIn && <SignIn getError={getError} onLogin={onLogin}/>}
+      {!signIn && <SignUp getError={getError} onRegister={onRegister}/>}
       <div className={classes.footer}>
         {signIn? 'Я не зарегистрирован, ': 'У меня есть пользователь, '}
-        <Button size="small" onClick={handleChangeAuth} color="primary">{signIn === 0 ? 'Зарегистрироваться' : 'Войти'}</Button>
+        <Button size="small" onClick={handleChangeAuth} color="primary">{signIn ? 'Зарегистрироваться' : 'Войти'}</Button>
       </div>
     </div>
   )}

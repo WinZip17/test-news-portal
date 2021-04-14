@@ -2,6 +2,8 @@ import {Controller, useForm} from "react-hook-form";
 import {Button, TextField} from "@material-ui/core";
 import React from "react";
 import {useAuthStyles} from "./auth.style";
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+
 
 type SignUpProps = {
   onRegister: (data: any) => void,
@@ -12,7 +14,8 @@ const SignUp = ({ onRegister, getError }: SignUpProps): JSX.Element => {
   const classes = useAuthStyles();
   const {
     handleSubmit,
-    control
+    control,
+    register
   } = useForm({mode: 'onBlur', reValidateMode: 'onChange'});
 
   return (
@@ -47,6 +50,26 @@ const SignUp = ({ onRegister, getError }: SignUpProps): JSX.Element => {
         />}
       />
 
+      <input
+        {...register("avatar")}
+        className={classes.inputFile}
+        accept="image/*"
+        id="contained-button-file"
+        type="file"
+      />
+
+      <label htmlFor="contained-button-file">
+        <Button
+          variant="contained"
+          color="default"
+          component="span"
+          className={classes.fileButton}
+          startIcon={<CloudUploadIcon />}
+        >
+          Загрузить аватарку
+        </Button>
+      </label>
+
       <Controller
         name="password"
         control={control}
@@ -62,6 +85,7 @@ const SignUp = ({ onRegister, getError }: SignUpProps): JSX.Element => {
           error={!!fieldState.error}
         />}
       />
+
       <Controller
         name="confirmPassword"
         control={control}

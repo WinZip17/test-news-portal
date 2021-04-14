@@ -1,5 +1,4 @@
 import { AxiosInstance } from 'axios';
-import { BASE_URL } from "../constant";
 
 export interface NewsApi {
   getNewsList(): Promise<any>;
@@ -12,13 +11,11 @@ export class NewsApiImpl implements NewsApi {
   }
 
   async getNewsList(): Promise<any> {
-    const result = await this.axios.get(`${BASE_URL}/api/news`);
-    return result;
+    return await this.axios.get(`/api/news`);
   }
 
   async getNews(id: number): Promise<any> {
-    const result = await this.axios.get(`${BASE_URL}/api/news/${id}`);
-    return result;
+    return await this.axios.get(`/api/news/${id}`);
   }
 
 }
