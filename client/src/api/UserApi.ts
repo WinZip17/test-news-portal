@@ -1,5 +1,5 @@
 import { AxiosInstance,AxiosPromise } from 'axios';
-import {registrationUser} from "../store/models/UserModels/userTypes";
+import {registrationUser} from "../models/UserModels/userTypes";
 
 export interface UserApi {
   getMe(): AxiosPromise<any>;
@@ -21,11 +21,18 @@ export class UserApiImpl implements UserApi {
   }
 
   async login(data: {email: string, password: string}): Promise<any> {
-    return await this.axios.post(`/api/users`, data);
+    return await this.axios.post(`/auth/login`, data);
   }
 
   async registration(data: registrationUser): Promise<any> {
-    return await this.axios.post(`/api/users/registration`, data);
+    const formData = new FormData();
+    formData.append('name', data.name)
+    formData.append('email', data.email)
+    formData.append('password', data.password)
+    if (data.avatar && data.avatar.length > 0) {
+      formData.append('avatar', data.avatar[0])
+    }
+    return await this.axios.post(`/api/users/registration`, formData);
   }
 
   async changePassword(data: {password: string, newPassword: string}): Promise<any> {

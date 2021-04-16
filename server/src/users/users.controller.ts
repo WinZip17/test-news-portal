@@ -29,7 +29,7 @@ export class UsersController {
   ) {}
 
   @Post('registration')
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FileInterceptor('avatar'))
   create(@UploadedFile() file, @Body() createUserDto: CreateUserDto) {
     return this.authService.registration(createUserDto, file);
   }

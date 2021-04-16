@@ -2,21 +2,33 @@ import {Controller, useForm} from "react-hook-form";
 import {Button, TextField} from "@material-ui/core";
 import React from "react";
 import {useAuthStyles} from "./auth.style";
+import {useStore} from "effector-react";
+import {$userGetStatus} from "../../models/UserModels";
+import Typography from "@material-ui/core/Typography";
+import {LoginFx} from "../../models/UserModels/userLogin";
+import { getError } from "../../utils/getFieldError";
 
-type SignInProps = {
-  onLogin: (data: any) => void,
-  getError: (error: string) => string,
-}
-
-const SignIn = ({ onLogin, getError }: SignInProps): JSX.Element => {
+const SignIn = (): JSX.Element => {
   const classes = useAuthStyles();
   const {
     handleSubmit,
     control
   } = useForm({mode: 'onBlur', reValidateMode: 'onChange'});
 
+  const { loginError, loadingLogin }  = useStore($userGetStatus)
+
+  // TODO: ошибки валидации class-validator приходят массивом, HttpException строкой..
+  const getMessages = (message: string | string[]) => {
+    if (typeof message === 'string') {
+      return [message]
+    }
+    return message
+  }
+
+  const messages: string[] = loginError ? getMessages(loginError.response?.data.message) : [];
+
   return (
-    <form autoComplete="off" className={classes.form} onSubmit={handleSubmit(onLogin)}>
+    <form autoComplete="off" className={classes.form} onSubmit={handleSubmit(LoginFx)}>
       <Controller
         name="email"
         control={control}
@@ -27,7 +39,7 @@ const SignIn = ({ onLogin, getError }: SignInProps): JSX.Element => {
           variant="outlined"
           className={classes.input}
           {...field}
-          helperText={getError(fieldState.error ? fieldState.error.type : '')}
+          helperText={getError(fieldState.error ? fieldState.error : null)}
           error={!!fieldState.error}
         />}
       />
@@ -43,12 +55,22 @@ const SignIn = ({ onLogin, getError }: SignInProps): JSX.Element => {
           type="password"
           className={classes.input}
           {...field}
-          helperText={getError(fieldState.error ? fieldState.error.type : '')}
+          helperText={getError(fieldState.error ? fieldState.error : null)}
           error={!!fieldState.error}
         />}
       />
 
-      <Button type="submit" variant="contained" color="primary">Войти</Button>
+      {loginError && <div>
+        {messages.map(error => {
+          return (
+            <Typography variant="subtitle2" gutterBottom color={'error'}>
+              {error}
+            </Typography>
+          )
+        })}
+      </div>}
+
+      <Button type="submit" variant="contained" color="primary" disabled={loadingLogin}>Войти</Button>
     </form>
   )
 }

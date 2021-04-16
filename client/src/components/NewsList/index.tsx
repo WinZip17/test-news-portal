@@ -4,9 +4,9 @@ import Typography from '@material-ui/core/Typography';
 import {useHistory} from "react-router-dom";
 import NewsCard from "./NewsCard";
 import { useStore } from 'effector-react';
-import { $newsListGetStatus } from '../../store/models/NewsListModels/init';
-import { getNewsListFx } from '../../store/models/NewsListModels';
-import Card from "@material-ui/core/Card";
+import { $newsListGetStatus } from '../../models/NewsListModels';
+import { getNewsListFx } from '../../models/NewsListModels';
+import Preloader from "../Preloader";
 
 const useStyles = makeStyles({
   header: {
@@ -44,8 +44,8 @@ const NewsList = () => {
         <Typography variant="h3" gutterBottom className={classes.header}>
           Свежие новости!
         </Typography>
-        {loading && <div>Загрузка...</div>}
         {data.map( item => <NewsCard news={item} handleNews={handleNews}  key={item.id.toString()} />)}
+        {loading && <Preloader />}
       </div>
   )
 

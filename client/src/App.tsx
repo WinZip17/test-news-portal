@@ -9,7 +9,7 @@ import NewsPage from './components/NewsPage';
 import AddNews from "./components/AddNews";
 import Layout from './components/Layout';
 import User from './components/User';
-import { getMeFx } from './store/models/UserModels';
+import { getMeFx } from './models/UserModels';
 import TransitionsModal from './components/TransitionsModal';
 
 const App = () => {

@@ -11,8 +11,5 @@ export class CreateUserDto {
   @IsNotEmpty({ message: 'Введите пароль' })
   password: string;
 
-  @IsNotEmpty({ message: 'Подтвердите пароль' })
-  confirmPassword: string;
-
   avatar?: any;
 }

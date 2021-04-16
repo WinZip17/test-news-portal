@@ -48,7 +48,10 @@
       "node": true,
       "jest": true
     },
-    "root": true
+    "root": true,
+    "rules": {
+      "@typescript-eslint/ban-ts-comment": "off"
+    }
   },
   "browserslist": {
     "production": [

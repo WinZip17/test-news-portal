@@ -34,8 +34,8 @@ export class AuthService {
         HttpStatus.FORBIDDEN,
       );
     }
-    const { name, email, id } = user;
-    return { name, email, id };
+    const { name, email, id, avatar } = user;
+    return { name, email, id, avatar };
   }
 
   async login(data: LoginUserDto) {

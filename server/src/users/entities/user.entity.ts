@@ -11,12 +11,12 @@ import { UserInterfaces } from '../interfaces/user.interfaces';
 import { Comment } from '../../news/entities/comment.entity';
 
 @DefaultScope(() => ({
-  attributes: ['id', 'email', 'name'],
+  attributes: ['id', 'email', 'name', 'avatar'],
 }))
 @Scopes(() => ({
   full: {},
   minimal: {
-    attributes: ['id', 'email', 'name'],
+    attributes: ['id', 'email', 'name', 'avatar'],
   },
 }))
 @Table

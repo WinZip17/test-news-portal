@@ -1,7 +1,7 @@
 import {createEffect} from "effector";
 import {registrationUser, User} from "./userTypes";
 import {AxiosError} from "axios";
-import ApiFactory from "../../../api/ApiFactory";
+import ApiFactory from "../../api/ApiFactory";
 import {$modal} from "../ModalModels";
 
 export const registrationFx = createEffect<registrationUser, User, AxiosError>(async (data) => {
@@ -13,7 +13,7 @@ export const registrationFx = createEffect<registrationUser, User, AxiosError>(a
 $modal
   .on(registrationFx.doneData, () => ({
     title: 'Поздравляем!',
-    content: 'Вы успешно зарегестрированы',
+    content: 'Вы успешно зарегистрированы',
     open: true
   }))
 

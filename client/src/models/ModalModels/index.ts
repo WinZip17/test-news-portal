@@ -1,5 +1,4 @@
 import { createEvent, createStore } from "effector";
-import { registrationFx } from "../UserModels/userRegistration";
 
 export class ModalContentTypes {
   title = '';
@@ -17,6 +16,6 @@ $modal
   .on(showModal , (state, data) =>data)
 
 $modal
-  .on(closeModal, () => new ModalContentTypes() )
+  .on(closeModal, (state) => ({ ...state, open: false }) )
 
 

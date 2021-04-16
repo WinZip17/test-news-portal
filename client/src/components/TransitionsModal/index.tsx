@@ -2,8 +2,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
-import {useStore} from "effector-react";
-import {$modal, closeModal, ModalContentTypes} from "../../store/models/ModalModels";
+import {useStore} from 'effector-react';
+import {$modal, closeModal, ModalContentTypes} from '../../models/ModalModels';
 import Fade from '@material-ui/core/Fade';
 
 const useStyles = makeStyles((theme) => ({
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function TransitionsModal() {
+const TransitionsModal = (): JSX.Element => {
   const classes = useStyles();
   const { open, title, content } = useStore<ModalContentTypes>($modal);
 
@@ -51,3 +51,5 @@ export default function TransitionsModal() {
     </Modal>
   );
 }
+
+export default TransitionsModal;

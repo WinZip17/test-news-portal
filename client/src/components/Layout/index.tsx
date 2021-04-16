@@ -15,6 +15,7 @@ import Card from "@material-ui/core/Card";
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import PersonIcon from '@material-ui/icons/Person';
 import HomeIcon from '@material-ui/icons/Home';
+import { setIsMobile } from '../../models/MediaModels';
 
 const useStyles = makeStyles({
   root: {
@@ -58,6 +59,10 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
   const history = useHistory();
   const location = useLocation();
   const [page, setPage] = useState<number>(0)
+
+  useEffect(() => {
+    setIsMobile(isMobile)
+  }, [isMobile])
 
   useEffect(() => {
     switch (location.pathname) {

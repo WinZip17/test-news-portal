@@ -1,25 +1,58 @@
 import {Controller, useForm} from "react-hook-form";
-import {Button, TextField} from "@material-ui/core";
-import React from "react";
+import {AvatarTypeMap, Button, TextField} from "@material-ui/core";
+import React, {useEffect, useRef, useState} from "react";
 import {useAuthStyles} from "./auth.style";
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import {registrationUser} from "../../models/UserModels/userTypes";
+import Avatar from '@material-ui/core/Avatar';
+import {useStore} from "effector-react";
+import {$userGetStatus} from "../../models/UserModels";
+import { getError } from "../../utils/getFieldError";
 
 
 type SignUpProps = {
-  onRegister: (data: any) => void,
-  getError: (error: string) => string,
+  onRegister: (data: any) => Promise<boolean>,
 }
 
-const SignUp = ({ onRegister, getError }: SignUpProps): JSX.Element => {
+const SignUp = ({ onRegister }: SignUpProps): JSX.Element => {
   const classes = useAuthStyles();
   const {
     handleSubmit,
     control,
-    register
+    register,
+    reset,
+    watch
   } = useForm({mode: 'onBlur', reValidateMode: 'onChange'});
 
+  const { loadingRegister }  = useStore($userGetStatus)
+
+  const [image, setImage] = useState<string | ArrayBuffer | null>(null);
+
+  const avatar = watch("avatar", null);
+
+  const imageRef = useRef<AvatarTypeMap>(null)
+
+  const currentPassword = watch("password", "");
+
+  const sendForm = async (data: registrationUser) => {
+    const result = await onRegister(data)
+    if (result) {
+      reset();
+    }
+  }
+
+  useEffect(() => {
+    if (avatar && avatar.length && imageRef) {
+      const reader = new FileReader();
+      reader.onload = function() {
+        setImage(reader.result)
+      }
+      reader.readAsDataURL(avatar[0]);
+    }
+  }, [avatar])
+
   return (
-    <form autoComplete="off" className={classes.form} onSubmit={handleSubmit(onRegister)}>
+    <form autoComplete="off" className={classes.form} onSubmit={handleSubmit(sendForm)}>
       <Controller
         name="email"
         control={control}
@@ -30,7 +63,7 @@ const SignUp = ({ onRegister, getError }: SignUpProps): JSX.Element => {
           variant="outlined"
           className={classes.input}
           {...field}
-          helperText={getError(fieldState.error ? fieldState.error.type : '')}
+          helperText={getError(fieldState.error ? fieldState.error : null)}
           error={!!fieldState.error}
         />}
       />
@@ -45,35 +78,42 @@ const SignUp = ({ onRegister, getError }: SignUpProps): JSX.Element => {
           variant="outlined"
           className={classes.input}
           {...field}
-          helperText={getError(fieldState.error ? fieldState.error.type : '')}
+          helperText={getError(fieldState.error ? fieldState.error : null)}
           error={!!fieldState.error}
         />}
       />
 
-      <input
-        {...register("avatar")}
-        className={classes.inputFile}
-        accept="image/*"
-        id="contained-button-file"
-        type="file"
-      />
+      <div className={classes.avatarWrap}>
+        <Avatar alt="photo" src={typeof image === "string" ? image : ''} className={classes.large}/>
+        <input
+          {...register("avatar")}
+          className={classes.inputFile}
+          accept="image/*"
+          id="contained-button-file"
+          type="file"
+        />
 
-      <label htmlFor="contained-button-file">
-        <Button
-          variant="contained"
-          color="default"
-          component="span"
-          className={classes.fileButton}
-          startIcon={<CloudUploadIcon />}
-        >
-          Загрузить аватарку
-        </Button>
-      </label>
+        <label htmlFor="contained-button-file">
+          <Button
+            variant="contained"
+            color="default"
+            component="span"
+            className={classes.fileButton}
+            startIcon={<CloudUploadIcon />}
+          >
+            Загрузить аватарку
+          </Button>
+        </label>
+      </div>
+
 
       <Controller
         name="password"
         control={control}
-        rules={{required: true}}
+        rules={{required: true, minLength: {
+            value: 8,
+            message: "Пароль минимум 8 символов"
+          }}}
         defaultValue={''}
         render={({field, fieldState}) => <TextField
           label="Пароль"
@@ -81,7 +121,7 @@ const SignUp = ({ onRegister, getError }: SignUpProps): JSX.Element => {
           type="password"
           className={classes.input}
           {...field}
-          helperText={getError(fieldState.error ? fieldState.error.type : '')}
+          helperText={getError(fieldState.error ? fieldState.error : null)}
           error={!!fieldState.error}
         />}
       />
@@ -89,7 +129,8 @@ const SignUp = ({ onRegister, getError }: SignUpProps): JSX.Element => {
       <Controller
         name="confirmPassword"
         control={control}
-        rules={{required: true}}
+        rules={{required: true, validate: value =>
+            value === currentPassword || "Пароли не совпадают"}}
         defaultValue={''}
         render={({field, fieldState}) => <TextField
           label="Подтвердите пароль"
@@ -97,13 +138,13 @@ const SignUp = ({ onRegister, getError }: SignUpProps): JSX.Element => {
           type="password"
           className={classes.input}
           {...field}
-          helperText={getError(fieldState.error ? fieldState.error.type : '')}
+          helperText={getError(fieldState.error ? fieldState.error : null)}
           error={!!fieldState.error}
         />}
       />
 
 
-      <Button type="submit" variant="contained" color="primary">Зарегистрироваться</Button>
+      <Button type="submit" variant="contained" color="primary" disabled={loadingRegister}>Зарегистрироваться</Button>
     </form>
   )
 }

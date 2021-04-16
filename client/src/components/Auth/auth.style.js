@@ -21,6 +21,16 @@ export const useAuthStyles = makeStyles({
   },
   fileButton: {
     width: '100%',
+  },
+  large: {
+    width: 70,
+    height: 70,
+    marginRight: 20
+  },
+  avatarWrap: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     marginBottom: 12
   }
 });

@@ -1,5 +1,5 @@
-import { createEffect, createStore } from 'effector';
-import ApiFactory from '../../../api/ApiFactory';
+import {combine, createEffect, createStore} from 'effector';
+import ApiFactory from '../../api/ApiFactory';
 
 export interface News {
   id: number;
@@ -9,6 +9,7 @@ export interface News {
   like: number[];
   dislike: number[];
 }
+
 
 // Создаем эффект, который делает GET-запрос на бек
 export const getNewsListFx = createEffect<void, News[], Error>(async () => {
@@ -28,3 +29,14 @@ export const $newsList = createStore<News[]>([])
 $newsList.on(getNewsListFx.doneData, updateStore )
 
 
+export const $fetchErrorNewsList = createStore<Error | null>(null);
+$fetchErrorNewsList
+  .on(getNewsListFx.fail, (_, { error }) => error)
+  .reset(getNewsListFx.done);
+
+
+export const $newsListGetStatus = combine({
+  loading: getNewsListFx.pending,
+  error: $fetchErrorNewsList,
+  data: $newsList,
+});

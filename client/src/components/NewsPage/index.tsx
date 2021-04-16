@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import { getNewsFx } from "../../store/models/NewsModels";
+import { getNewsFx } from "../../models/NewsModels";
 import {useStore} from "effector-react";
 import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/core/styles";
@@ -8,7 +8,8 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import {BASE_URL} from "../../constant";
 import CardContent from "@material-ui/core/CardContent";
 import {useParams} from "react-router-dom";
-import { $newsGetStatus } from "../../store/models/NewsModels/init";
+import { $newsGetStatus } from "../../models/NewsModels";
+import Preloader from "../Preloader";
 
 const useStyles = makeStyles({
   header: {
@@ -48,7 +49,7 @@ const NewsPage = () => {
       <Typography variant="h3" gutterBottom className={classes.header}>
         И так, внимание!!!
       </Typography>
-      {loading && <div>загрузка...</div>}
+      {loading &&  <Preloader />}
       {news && (
         <Card className={classes.card} key={news.id} >
           <CardActionArea>
