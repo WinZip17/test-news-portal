@@ -5,6 +5,10 @@ import { User} from "./userTypes";
 import {LoginFx} from "./userLogin";
 import {registrationFx} from "./userRegistration";
 
+const removeToken = (): void => {
+  window.localStorage.removeItem('token');
+}
+
 export const getMeFx = createEffect<void, User, AxiosError>(async () => {
   const api = new ApiFactory().userApi();
   const responce = await api.getMe();
@@ -25,14 +29,19 @@ $user
 
 $user
   .on(signOut, () => {
-    window.localStorage.removeItem('token');
+    removeToken()
     return null;
   })
 
 
+
 export const $fetchErrorLogin = createStore<AxiosError | null>(null);
 $fetchErrorLogin
-  .on(LoginFx.fail, (_, { error }: {error: AxiosError}) => error)
+  .on(LoginFx.fail, (_, { error }: {error: AxiosError}) => {
+    removeToken()
+    return error
+  })
+  .on(getMeFx.fail, (_, { error }: {error: AxiosError}) => removeToken())
   .reset(LoginFx.done);
 
 export const $userGetStatus = combine({
