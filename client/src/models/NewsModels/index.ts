@@ -1,4 +1,4 @@
-import ApiFactory from '../../api/ApiFactory';
+import ApiFactory from "../../api/ApiFactory";
 import {combine, createEffect, createStore} from "effector";
 import {News} from "../NewsListModels";
 import {AxiosError} from "axios";

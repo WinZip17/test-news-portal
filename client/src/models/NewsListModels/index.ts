@@ -1,5 +1,5 @@
-import {combine, createEffect, createStore} from 'effector';
-import ApiFactory from '../../api/ApiFactory';
+import {combine, createEffect, createStore} from "effector";
+import ApiFactory from "../../api/ApiFactory";
 
 export interface News {
   id: number;

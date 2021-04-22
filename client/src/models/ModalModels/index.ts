@@ -1,8 +1,8 @@
 import { createEvent, createStore } from "effector";
 
 export class ModalContentTypes {
-  title = '';
-  content = '';
+  title = "";
+  content = "";
   open = false;
 }
 

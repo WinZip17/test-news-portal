@@ -1,12 +1,18 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { USER_REPOSITORY } from '../constants';
+import { FILE_SERVICE, USER_REPOSITORY } from '../constants';
 import { User } from './entities/user.entity';
+import { FileService, FileType } from '../file/file.service';
+
+const bcrypt = require('bcrypt');
 
 @Injectable()
 export class UsersService {
-  constructor(@Inject(USER_REPOSITORY) private userRepository: typeof User) {}
+  constructor(
+    @Inject(USER_REPOSITORY) private userRepository: typeof User,
+    @Inject(FILE_SERVICE) private fileService: FileService,
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
     const user = await this.userRepository.create(createUserDto);
@@ -24,23 +30,28 @@ export class UsersService {
     });
   }
 
-  async findValidateUser(name: string): Promise<User | undefined> {
-    return this.userRepository.scope('full').findOne({
-      where: {
-        name,
-      },
-    });
-  }
-
-  async update(updateUserDto: UpdateUserDto): Promise<User> {
+  async update(updateUserDto: UpdateUserDto, file): Promise<User> {
     const { email } = updateUserDto;
-    const updateUser = await this.userRepository.findOne({
-      where: {
-        email,
-      },
-    });
-    Object.assign(updateUser, updateUserDto);
+    const updateUser = await this.findOne(email, 'full');
+    const match = await bcrypt.compare(
+      updateUserDto.password,
+      updateUser.password,
+    );
+    delete updateUserDto.password;
+    if (!match) {
+      throw new HttpException(
+        'Введен не правильный пароль',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    let saveImage;
+    if (file) {
+      await this.fileService.removeFile(updateUser.avatar);
+      saveImage = await this.fileService.createFile(FileType.IMAGE, file);
+    }
+    Object.assign(updateUser, { ...updateUserDto, avatar: saveImage });
     await updateUser.save();
-    return updateUser;
+    const sendUser = await this.findOne(updateUser.email, 'minimal');
+    return sendUser;
   }
 }

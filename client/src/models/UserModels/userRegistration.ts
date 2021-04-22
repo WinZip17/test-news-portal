@@ -12,14 +12,14 @@ export const registrationFx = createEffect<registrationUser, User, AxiosError>(a
 
 $modal
   .on(registrationFx.doneData, () => ({
-    title: 'Поздравляем!',
-    content: 'Вы успешно зарегистрированы',
+    title: "Поздравляем!",
+    content: "Вы успешно зарегистрированы",
     open: true
   }))
 
 $modal
   .on(registrationFx.fail, (state, {error}) => ({
-    title: 'Внимание!',
-    content: error ? error.response?.data.message : 'Что то пошло не так',
+    title: "Внимание!",
+    content: error ? error.response?.data.message : "Что то пошло не так",
     open: true
   }))

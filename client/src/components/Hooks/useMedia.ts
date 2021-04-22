@@ -16,8 +16,8 @@ export const useMedia: (width: number) => boolean = (width: number) => {
   }, [debouncedValue])
 
   useEffect(() => {
-    window.addEventListener('resize', resize);
-    return () => window.removeEventListener('resize', resize);
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
   })
 
   return isMatch

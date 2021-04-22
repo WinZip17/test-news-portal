@@ -1,16 +1,16 @@
-import React, {useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
+import React, {useEffect} from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 import {useHistory} from "react-router-dom";
 import NewsCard from "./NewsCard";
-import { useStore } from 'effector-react';
-import { $newsListGetStatus } from '../../models/NewsListModels';
-import { getNewsListFx } from '../../models/NewsListModels';
+import { useStore } from "effector-react";
+import { $newsListGetStatus } from "../../models/NewsListModels";
+import { getNewsListFx } from "../../models/NewsListModels";
 import Preloader from "../Preloader";
 
 const useStyles = makeStyles({
   header: {
-    textAlign: 'center'
+    textAlign: "center"
   }
 });
 

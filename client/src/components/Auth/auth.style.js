@@ -2,14 +2,14 @@ import {makeStyles} from "@material-ui/core/styles";
 
 export const useAuthStyles = makeStyles({
   header: {
-    textAlign: 'center'
+    textAlign: "center"
   },
   form: {
-    display: 'flex',
-    flexDirection: 'column'
+    display: "flex",
+    flexDirection: "column"
   },
   input: {
-    '&:not(:last-child)': {
+    "&:not(:last-child)": {
       marginBottom: 10,
     }
   },
@@ -17,10 +17,10 @@ export const useAuthStyles = makeStyles({
     marginTop: 20
   },
   inputFile: {
-    display: 'none'
+    display: "none"
   },
   fileButton: {
-    width: '100%',
+    width: "100%",
   },
   large: {
     width: 70,
@@ -28,9 +28,9 @@ export const useAuthStyles = makeStyles({
     marginRight: 20
   },
   avatarWrap: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     marginBottom: 12
   }
 });

@@ -8,7 +8,7 @@ import { registrationFx } from "../../models/UserModels/userRegistration";
 import { registrationUser } from "../../models/UserModels/userTypes";
 import {useStore} from "effector-react";
 import { $isMobile } from "../../models/MediaModels";
-
+import {clearError} from "../../models/UserModels";
 
 const Auth = () => {
 
@@ -17,6 +17,7 @@ const Auth = () => {
   const [signIn, setSignIn] = useState(true)
 
   const handleChangeAuth = () => {
+    clearError()
     setSignIn(value => !value)
   }
 
@@ -35,13 +36,13 @@ const Auth = () => {
   return (
     <div>
       <Typography variant={isMobile? "h4" : "h2"} gutterBottom className={classes.header}>
-        {signIn ? 'Войти' : 'Регистрация'}
+        {signIn ? "Войти" : "Регистрация"}
       </Typography>
       {signIn && <SignIn />}
       {!signIn && <SignUp onRegister={onRegister}/>}
       <div className={classes.footer}>
-        {signIn? 'Я не зарегистрирован, ': 'У меня есть пользователь, '}
-        <Button size="small" onClick={handleChangeAuth} color="primary">{signIn ? 'Зарегистрироваться' : 'Войти'}</Button>
+        {signIn? "Я не зарегистрирован, ": "У меня есть пользователь, "}
+        <Button size="small" onClick={handleChangeAuth} color="primary">{signIn ? "Зарегистрироваться" : "Войти"}</Button>
       </div>
     </div>
   )}

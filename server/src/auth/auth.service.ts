@@ -23,8 +23,9 @@ export class AuthService {
     @Inject(FILE_SERVICE) private fileService: FileService,
   ) {}
 
-  async validateUser(userName: string): Promise<any> {
-    const user = await this.usersService.findValidateUser(userName);
+  async validateUser(findEmail: string): Promise<any> {
+    console.log('сюда попадаем?', findEmail)
+    const user = await this.usersService.findOne(findEmail, 'full');
     if (!user) {
       throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
     }

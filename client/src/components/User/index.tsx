@@ -1,9 +1,9 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useStore} from "effector-react";
-import Auth from "../Auth";
-import { $userGetStatus } from "../../models/UserModels";
+import Auth from "../Auth"
+import {$userGetStatus, clearError} from "../../models/UserModels";
 import Preloader from "../Preloader";
-import Card from "@material-ui/core/Card";
+import Card from "@material-ui/core/Card"
 import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import {Avatar, AvatarTypeMap, Button, TextField} from "@material-ui/core";
@@ -12,26 +12,29 @@ import {BASE_URL} from "../../constant";
 import {Controller, useForm} from "react-hook-form";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { getError } from "../../utils/getFieldError";
+import ErrorList from "../ErrorList";
+import getMessagesError from "../../utils/getMessagesError";
+import { updateUserFx } from "../../models/UserModels/userUpdate";
 
 const useStyles = makeStyles({
   header: {
-    textAlign: 'center'
+    textAlign: "center"
   },
   card: {
-    '&:not(:last-child)': {
+    "&:not(:last-child)": {
       marginBottom: 20,
     },
     padding: 10
   },
   button: {
-    '&:not(:last-child)': {
+    "&:not(:last-child)": {
       marginRight: 20,
     }
   },
   avatarWrap: {
-    display: 'flex',
+    display: "flex",
     marginBottom: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   avatar: {
     marginLeft: 20,
@@ -44,25 +47,28 @@ const useStyles = makeStyles({
     height: 70
   },
   form: {
-    display: 'flex',
-    flexDirection: 'column'
+    display: "flex",
+    flexDirection: "column"
   },
   input: {
-    '&:not(:last-child)': {
+    "&:not(:last-child)": {
       marginBottom: 10,
     }
   },
   inputFile: {
-    display: 'none'
+    display: "none"
   },
   fileButton: {
-    width: '100%',
+    width: "100%",
   },
-
+  saveButton: {
+    marginBottom: 10,
+    width: "auto"
+  }
 });
 
 const User = () => {
-  const { user, loadingGetMe} = useStore($userGetStatus)
+  const { user, loadingGetMe, loadingUpdateUser, updateError} = useStore($userGetStatus)
   const classes = useStyles();
   const {
     handleSubmit,
@@ -70,7 +76,9 @@ const User = () => {
     register,
     reset,
     watch
-  } = useForm({mode: 'onBlur', reValidateMode: 'onChange'});
+  } = useForm({mode: "onBlur", reValidateMode: "onChange"});
+
+  const updateErrorMessage: string[] = updateError ? getMessagesError(updateError.response?.data.message) : [];
 
   const [image, setImage] = useState<string | ArrayBuffer | null>(null);
 
@@ -78,8 +86,17 @@ const User = () => {
 
   const imageRef = useRef<AvatarTypeMap>(null)
 
-
   const [change, setChange] = useState(false)
+
+  useEffect(() => {
+    if (change && avatar && avatar.length && imageRef) {
+      const reader = new FileReader();
+      reader.onload = function() {
+        setImage(reader.result)
+      }
+      reader.readAsDataURL(avatar[0]);
+    }
+  }, [avatar])
 
   if (loadingGetMe) {
     return <Preloader />
@@ -93,8 +110,13 @@ const User = () => {
     signOut()
   }
 
-  const sendForm = (data: any) => {
-    console.log(data)
+  const sendForm = async (data: any) => {
+    clearError()
+    const update = await updateUserFx(data);
+    if (update) {
+      await reset()
+      setChange(false)
+    }
   }
 
   return (
@@ -113,7 +135,7 @@ const User = () => {
           <Typography variant="subtitle1" gutterBottom>
             Аватарка:
           </Typography>
-          <Avatar src={BASE_URL + '/' + user.avatar} className={classes.avatar}/>
+          <Avatar src={BASE_URL + "/" + user.avatar} className={classes.avatar}/>
         </div>}
         <Button variant="contained" color="primary" className={classes.button} onClick={handleSignOut}>Выйти</Button>
         {!change && <Button variant="contained" color="secondary" onClick={() => setChange(true)}>Редактировать данные</Button>}
@@ -139,7 +161,7 @@ const User = () => {
             />
 
             <div className={classes.avatarWrap}>
-              <Avatar alt="photo" src={typeof image === "string" ? image : user.avatar? BASE_URL + '/' + user.avatar : ''} className={classes.changeAvatar}/>
+              <Avatar alt="photo" src={typeof image === "string" ? image : user.avatar? BASE_URL + "/" + user.avatar : ""} className={classes.changeAvatar}/>
               <input
                 {...register("avatar")}
                 className={classes.inputFile}
@@ -165,11 +187,8 @@ const User = () => {
             <Controller
               name="password"
               control={control}
-              rules={{required: true, minLength: {
-                  value: 8,
-                  message: "Пароль минимум 8 символов"
-                }}}
-              defaultValue={''}
+              rules={{required: true}}
+              defaultValue={""}
               render={({field, fieldState}) => <TextField
                 label="Пароль"
                 variant="outlined"
@@ -180,12 +199,14 @@ const User = () => {
                 error={!!fieldState.error}
               />}
             />
-
-            <Button type="submit" variant="contained" className={classes.button} color="primary" disabled={false}>Зарегистрироваться</Button>
+            {updateError && <ErrorList errors={updateErrorMessage}/>}
+            <div>
+              <Button type="submit" variant="contained" className={classes.saveButton} color="primary" disabled={loadingUpdateUser}>Сохранить изменения</Button>
+            </div>
           </form>
+          <Button variant="contained" color="secondary" onClick={() => setChange(false)}>Отменить редактирование </Button>
 
 
-          {change && <Button variant="contained" color="secondary" onClick={() => setChange(false)}>Отменить редактирование </Button>}
         </Card>
       )}
     </div>

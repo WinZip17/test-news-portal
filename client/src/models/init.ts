@@ -1,5 +1,5 @@
-import './MediaModels'
-import './ModalModels'
-import './NewsListModels'
-import './NewsModels'
-import './UserModels'
+import "./MediaModels"
+import "./ModalModels"
+import "./NewsListModels"
+import "./NewsModels"
+import "./UserModels"

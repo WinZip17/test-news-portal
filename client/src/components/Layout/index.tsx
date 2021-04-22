@@ -1,26 +1,26 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from "react";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 import {
   useHistory,
   useLocation
-} from 'react-router-dom'
+} from "react-router-dom"
 import { useMedia } from "../Hooks/useMedia";
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 import {Container} from "@material-ui/core";
 import Card from "@material-ui/core/Card";
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import PersonIcon from '@material-ui/icons/Person';
-import HomeIcon from '@material-ui/icons/Home';
-import { setIsMobile } from '../../models/MediaModels';
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import PersonIcon from "@material-ui/icons/Person";
+import HomeIcon from "@material-ui/icons/Home";
+import { setIsMobile } from "../../models/MediaModels";
 
 const useStyles = makeStyles({
   root: {
-    width: '100%',
-    position: 'fixed',
+    width: "100%",
+    position: "fixed",
     bottom: 0
   },
   card: {
@@ -32,17 +32,17 @@ const useStyles = makeStyles({
     minWidth: 275,
     padding: 20,
     marginTop: 10,
-    minHeight: '85vh'
+    minHeight: "85vh"
   },
   hide: {
-    display: 'none'
+    display: "none"
   }
 });
 
 function a11yProps(index: any) {
   return {
     id: `full-width-tab-${index}`,
-    'aria-controls': `full-width-tabpanel-${index}`,
+    "aria-controls": `full-width-tabpanel-${index}`,
   };
 }
 
@@ -66,17 +66,17 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
 
   useEffect(() => {
     switch (location.pathname) {
-      case '/':
+      case "/":
         setPage(0)
         break;
-      case '/add':
+      case "/add":
         setPage(1)
         break;
-      case '/user':
+      case "/user":
         setPage(2)
         break;
       default:
-        if (location.pathname.includes('news')) {
+        if (location.pathname.includes("news")) {
           setPage(3)
         }
     }
@@ -85,16 +85,16 @@ const Layout = ({ children }: LayoutProps): JSX.Element => {
   const handleLink = (page: number) => {
     switch (page) {
       case 0:
-        history.push('/')
+        history.push("/")
         break;
       case 1:
-        history.push('/add')
+        history.push("/add")
         break;
       case 2:
-        history.push('/user')
+        history.push("/user")
         break;
       default:
-        history.push('/')
+        history.push("/")
     }
     setPage(page)
   }

@@ -13,18 +13,18 @@ import Preloader from "../Preloader";
 
 const useStyles = makeStyles({
   header: {
-    textAlign: 'center'
+    textAlign: "center"
   },
   card: {
-    '&:not(:last-child)': {
+    "&:not(:last-child)": {
       marginBottom: 20,
     }
   },
   media: {
     padding: 8,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    display: 'block',
+    marginLeft: "auto",
+    marginRight: "auto",
+    display: "block",
     borderRadius: 15
   },
 
@@ -56,7 +56,7 @@ const NewsPage = () => {
             {news.image && (
               <img
                 className={classes.media}
-                src={BASE_URL + '/' + news.image}
+                src={BASE_URL + "/" + news.image}
                 title="image"
               />
             )}

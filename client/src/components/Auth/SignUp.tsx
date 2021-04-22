@@ -2,11 +2,11 @@ import {Controller, useForm} from "react-hook-form";
 import {AvatarTypeMap, Button, TextField} from "@material-ui/core";
 import React, {useEffect, useRef, useState} from "react";
 import {useAuthStyles} from "./auth.style";
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import {registrationUser} from "../../models/UserModels/userTypes";
-import Avatar from '@material-ui/core/Avatar';
+import Avatar from "@material-ui/core/Avatar";
 import {useStore} from "effector-react";
-import {$userGetStatus} from "../../models/UserModels";
+import {$userGetStatus, clearError} from "../../models/UserModels";
 import { getError } from "../../utils/getFieldError";
 
 
@@ -22,7 +22,7 @@ const SignUp = ({ onRegister }: SignUpProps): JSX.Element => {
     register,
     reset,
     watch
-  } = useForm({mode: 'onBlur', reValidateMode: 'onChange'});
+  } = useForm({mode: "onBlur", reValidateMode: "onChange"});
 
   const { loadingRegister }  = useStore($userGetStatus)
 
@@ -57,7 +57,7 @@ const SignUp = ({ onRegister }: SignUpProps): JSX.Element => {
         name="email"
         control={control}
         rules={{required: true}}
-        defaultValue={''}
+        defaultValue={""}
         render={({field, fieldState}) => <TextField
           label="Email"
           variant="outlined"
@@ -72,7 +72,7 @@ const SignUp = ({ onRegister }: SignUpProps): JSX.Element => {
         name="name"
         control={control}
         rules={{required: true}}
-        defaultValue={''}
+        defaultValue={""}
         render={({field, fieldState}) => <TextField
           label="Имя"
           variant="outlined"
@@ -84,7 +84,7 @@ const SignUp = ({ onRegister }: SignUpProps): JSX.Element => {
       />
 
       <div className={classes.avatarWrap}>
-        <Avatar alt="photo" src={typeof image === "string" ? image : ''} className={classes.large}/>
+        <Avatar alt="photo" src={typeof image === "string" ? image : ""} className={classes.large}/>
         <input
           {...register("avatar")}
           className={classes.inputFile}
@@ -114,7 +114,7 @@ const SignUp = ({ onRegister }: SignUpProps): JSX.Element => {
             value: 8,
             message: "Пароль минимум 8 символов"
           }}}
-        defaultValue={''}
+        defaultValue={""}
         render={({field, fieldState}) => <TextField
           label="Пароль"
           variant="outlined"
@@ -131,7 +131,7 @@ const SignUp = ({ onRegister }: SignUpProps): JSX.Element => {
         control={control}
         rules={{required: true, validate: value =>
             value === currentPassword || "Пароли не совпадают"}}
-        defaultValue={''}
+        defaultValue={""}
         render={({field, fieldState}) => <TextField
           label="Подтвердите пароль"
           variant="outlined"

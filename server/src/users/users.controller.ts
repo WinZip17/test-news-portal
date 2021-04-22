@@ -58,7 +58,17 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Patch()
-  update(@Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(updateUserDto);
+  @UseInterceptors(FileInterceptor('avatar'))
+  update(
+    @UploadedFile() file,
+    @Body() updateUserDto: UpdateUserDto,
+    @Request() req,
+  ) {
+    console.log('UploadedFile file', file)
+
+    return this.usersService.update(
+      { ...updateUserDto, email: req.user.email },
+      file,
+    );
   }
 }
