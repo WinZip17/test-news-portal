@@ -15,6 +15,6 @@ export interface User {
 
 export interface updateUser {
   name: string;
-  password?: string;
-  avatar?: HTMLImageElement[];
+  password: string;
+  avatar?: any;
 }

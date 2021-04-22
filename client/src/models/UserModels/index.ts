@@ -43,7 +43,7 @@ $fetchErrorLogin
     removeToken();
     return error;
   })
-  .on(getMeFx.fail, (_, { error }: {error: AxiosError}) => removeToken())
+  .on(getMeFx.fail, () => removeToken())
   .reset(LoginFx.done, clearError);
 
 export const $fetchErrorUpdateUser = createStore<AxiosError | null>(null);

@@ -4,15 +4,19 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
+import { useStore } from 'effector-react';
 import NewsList from './components/NewsList';
 import NewsPage from './components/NewsPage';
 import AddNews from './components/AddNews';
 import Layout from './components/Layout';
 import User from './components/User';
-import { getMeFx } from './models/UserModels';
+import { $user, getMeFx } from './models/UserModels';
 import TransitionsModal from './components/TransitionsModal';
+import Auth from './components/Auth';
 
 const App = () => {
+  const user = useStore($user);
+
   useEffect(() => {
     getMeFx();
   }, []);
@@ -31,7 +35,7 @@ const App = () => {
             <AddNews />
           </Route>
           <Route path="/user">
-            <User />
+            {user ? <User /> : <Auth /> }
           </Route>
         </Switch>
       </Layout>

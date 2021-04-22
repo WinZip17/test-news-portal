@@ -6,7 +6,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { useStore } from 'effector-react';
 import { registrationUser } from '../../models/UserModels/userTypes';
 import { useAuthStyles } from './auth.style';
-import { $userGetStatus, clearError } from '../../models/UserModels';
+import { $userGetStatus } from '../../models/UserModels';
 import { getError } from '../../utils/getFieldError';
 
 type SignUpProps = {
@@ -34,6 +34,7 @@ const SignUp = ({ onRegister }: SignUpProps): JSX.Element => {
   const currentPassword = watch('password', '');
 
   const sendForm = async (data: registrationUser) => {
+    console.log('registrationUser', data);
     const result = await onRegister(data);
     if (result) {
       reset();
@@ -43,7 +44,7 @@ const SignUp = ({ onRegister }: SignUpProps): JSX.Element => {
   useEffect(() => {
     if (avatar && avatar.length && imageRef) {
       const reader = new FileReader();
-      reader.onload = function () {
+      reader.onload = () => {
         setImage(reader.result);
       };
       reader.readAsDataURL(avatar[0]);

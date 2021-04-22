@@ -95,7 +95,7 @@ const User = () => {
   useEffect(() => {
     if (change && avatar && avatar.length && imageRef) {
       const reader = new FileReader();
-      reader.onload = function () {
+      reader.onload = () => {
         setImage(reader.result);
       };
       reader.readAsDataURL(avatar[0]);
@@ -115,13 +115,15 @@ const User = () => {
   };
 
   const sendForm = async (data: any) => {
-    clearError();
     console.log('sendForm data', data);
-    const update = await updateUserFx(data);
-    if (update) {
-      await reset();
-      setChange(false);
-    }
+    await updateUserFx(data)
+      .then(() => {
+        setChange(false);
+        reset();
+      })
+      .finally(() => {
+        clearError();
+      });
   };
 
   return (
@@ -179,11 +181,11 @@ const User = () => {
                 {...register('avatar')}
                 className={classes.inputFile}
                 accept="image/*"
-                id="contained-button-file"
+                id="update-avetar"
                 type="file"
               />
 
-              <label htmlFor="contained-button-file">
+              <label htmlFor="update-avetar">
                 <Button
                   variant="contained"
                   color="default"

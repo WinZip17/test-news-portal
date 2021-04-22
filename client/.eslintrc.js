@@ -6,8 +6,8 @@ module.exports = {
   extends: [
     'airbnb',
     'airbnb/hooks',
-    'plugin:react/recommended', // Uses the recommended rules from @eslint-plugin-react
-    'plugin:@typescript-eslint/recommended', // Uses the recommended rules from @typescript-eslint/eslint-plugin
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
   ],
   rules: {
     quotes: ['error'],
@@ -28,5 +28,6 @@ module.exports = {
     'no-use-before-define': [0],
     '@typescript-eslint/no-use-before-define': [1],
     'import/prefer-default-export': 'off',
+    'no-console': 'off',
   },
 };

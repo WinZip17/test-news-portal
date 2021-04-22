@@ -31,6 +31,8 @@ export class UsersController {
   @Post('registration')
   @UseInterceptors(FileInterceptor('avatar'))
   create(@UploadedFile() file, @Body() createUserDto: CreateUserDto) {
+    console.log('UploadedFile file', file);
+
     return this.authService.registration(createUserDto, file);
   }
 
@@ -64,7 +66,7 @@ export class UsersController {
     @Body() updateUserDto: UpdateUserDto,
     @Request() req,
   ) {
-    console.log('UploadedFile file', file)
+    console.log('UploadedFile file', file);
 
     return this.usersService.update(
       { ...updateUserDto, email: req.user.email },
