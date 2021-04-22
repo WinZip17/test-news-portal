@@ -1,22 +1,20 @@
-import React, {useEffect} from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import {useHistory} from "react-router-dom";
-import NewsCard from "./NewsCard";
-import { useStore } from "effector-react";
-import { $newsListGetStatus } from "../../models/NewsListModels";
-import { getNewsListFx } from "../../models/NewsListModels";
-import Preloader from "../Preloader";
+import React, { useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import { useHistory } from 'react-router-dom';
+import { useStore } from 'effector-react';
+import NewsCard from './NewsCard';
+import { $newsListGetStatus, getNewsListFx } from '../../models/NewsListModels';
+
+import Preloader from '../Preloader';
 
 const useStyles = makeStyles({
   header: {
-    textAlign: "center"
-  }
+    textAlign: 'center',
+  },
 });
 
-
 const NewsList = () => {
-
   const classes = useStyles();
 
   const { loading, error, data } = useStore($newsListGetStatus);
@@ -24,12 +22,12 @@ const NewsList = () => {
   const history = useHistory();
 
   useEffect(() => {
-    getNewsListFx()
-  },[])
+    getNewsListFx();
+  }, []);
 
   const handleNews = (newsId: number) => {
-    history.push(`/news/${newsId}`)
-  }
+    history.push(`/news/${newsId}`);
+  };
 
   if (error) {
     return (
@@ -40,15 +38,14 @@ const NewsList = () => {
     );
   }
   return (
-      <div>
-        <Typography variant="h3" gutterBottom className={classes.header}>
-          Свежие новости!
-        </Typography>
-        {data.map( item => <NewsCard news={item} handleNews={handleNews}  key={item.id.toString()} />)}
-        {loading && <Preloader />}
-      </div>
-  )
+    <div>
+      <Typography variant="h3" gutterBottom className={classes.header}>
+        Свежие новости!
+      </Typography>
+      {data.map((item) => <NewsCard news={item} handleNews={handleNews} key={item.id.toString()} />)}
+      {loading && <Preloader />}
+    </div>
+  );
+};
 
-}
-
-export default NewsList
+export default NewsList;

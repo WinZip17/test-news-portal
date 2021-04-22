@@ -1,5 +1,5 @@
-import {combine, createEffect, createStore} from "effector";
-import ApiFactory from "../../api/ApiFactory";
+import { combine, createEffect, createStore } from 'effector';
+import ApiFactory from '../../api/ApiFactory';
 
 export interface News {
   id: number;
@@ -10,30 +10,25 @@ export interface News {
   dislike: number[];
 }
 
-
 // Создаем эффект, который делает GET-запрос на бек
 export const getNewsListFx = createEffect<void, News[], Error>(async () => {
   const api = new ApiFactory().newsApi();
   const responce = await api.getNewsList();
-  return responce.data
+  return responce.data;
 });
 
 // Обычный хендлер на обновление. Добавляем или изменяем новости (аналог редюсера)
-const updateStore = (state: News[], data: News[]) => {
-  return data;
-};
+const updateStore = (state: News[], data: News[]) => data;
 
 // переменная стора
-export const $newsList = createStore<News[]>([])
+export const $newsList = createStore<News[]>([]);
 
-$newsList.on(getNewsListFx.doneData, updateStore )
-
+$newsList.on(getNewsListFx.doneData, updateStore);
 
 export const $fetchErrorNewsList = createStore<Error | null>(null);
 $fetchErrorNewsList
   .on(getNewsListFx.fail, (_, { error }) => error)
   .reset(getNewsListFx.done);
-
 
 export const $newsListGetStatus = combine({
   loading: getNewsListFx.pending,

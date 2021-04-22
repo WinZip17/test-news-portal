@@ -1,4 +1,4 @@
-import { AxiosInstance } from "axios";
+import { AxiosInstance } from 'axios';
 
 export interface NewsApi {
   getNewsList(): Promise<any>;
@@ -11,11 +11,12 @@ export class NewsApiImpl implements NewsApi {
   }
 
   async getNewsList(): Promise<any> {
-    return await this.axios.get("/api/news");
+    const result = await this.axios.get('/api/news');
+    return result;
   }
 
   async getNews(id: number): Promise<any> {
-    return await this.axios.get(`/api/news/${id}`);
+    const result = await this.axios.get(`/api/news/${id}`);
+    return result;
   }
-
 }

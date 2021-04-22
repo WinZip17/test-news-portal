@@ -1,14 +1,11 @@
-import React from "react";
+import React from 'react';
 
-const AddNews = () => {
-
-  return (
+const AddNews = () => (
+  <div>
     <div>
-      <div>
-        AddNews
-      </div>
+      AddNews
     </div>
-  )
-}
+  </div>
+);
 
-export default AddNews
+export default AddNews;

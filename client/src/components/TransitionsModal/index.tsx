@@ -1,32 +1,31 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import {useStore} from "effector-react";
-import {$modal, closeModal, ModalContentTypes} from "../../models/ModalModels";
-import Fade from "@material-ui/core/Fade";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import { useStore } from 'effector-react';
+import Fade from '@material-ui/core/Fade';
+import { $modal, closeModal, ModalContentTypes } from '../../models/ModalModels';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
+    border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
 }));
-
 
 const TransitionsModal = (): JSX.Element => {
   const classes = useStyles();
   const { open, title, content } = useStore<ModalContentTypes>($modal);
 
   const handleClose = () => {
-    closeModal()
+    closeModal();
   };
 
   return (
@@ -50,6 +49,6 @@ const TransitionsModal = (): JSX.Element => {
       </Fade>
     </Modal>
   );
-}
+};
 
 export default TransitionsModal;

@@ -1,13 +1,13 @@
-import {FieldError} from "react-hook-form";
+import { FieldError } from 'react-hook-form';
 
 export const getError = (data: FieldError | null) => {
-  if (data && "type" in data) {
+  if (data && 'type' in data) {
     switch (data.type) {
-      case "required":
-        return "Поле обязательно"
+      case 'required':
+        return 'Поле обязательно';
       default:
-        return data.message || "Некорректное значение"
+        return data.message || 'Некорректное значение';
     }
   }
-  return ""
-}
+  return '';
+};
