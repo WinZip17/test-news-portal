@@ -6,7 +6,7 @@ import { useStore } from 'effector-react';
 import { useAuthStyles } from './auth.style';
 import { getError } from '../../utils/getFieldError';
 import { recoveryPasswordFx } from '../../models/UserModels/userRecoveryPassword';
-import { $fetchErrorRecoveryPasswordUser, clearError } from '../../models/UserModels';
+import { $fetchErrorRecoveryPasswordUser, $userGetStatus, clearError } from '../../models/UserModels';
 import getMessagesError from '../../utils/getMessagesError';
 import ErrorList from '../ErrorList';
 import { ResetPasswordData } from '../../models/UserModels/userTypes';
@@ -24,8 +24,9 @@ const RecoveryPassword = ({ resetPassword }: RecoveryPasswordType): JSX.Element 
     watch,
   } = useForm({ mode: 'onBlur', reValidateMode: 'onChange' });
   const sendEmailError = useStore($fetchErrorRecoveryPasswordUser);
+  const { loadingRecoveryPassword, loadingResetPassword } = useStore($userGetStatus);
   const sendEmailErrorMessage: string[] = sendEmailError ? getMessagesError(sendEmailError.response?.data.message) : [];
-  const isLoadingSendEmail = recoveryPasswordFx.pending;
+
   const currentPassword = watch('password', '');
   const email = watch('email', '');
 
@@ -68,7 +69,7 @@ const RecoveryPassword = ({ resetPassword }: RecoveryPasswordType): JSX.Element 
             На ваш почтовый адрес будет отправлен код для подтверждения сброса пароля
           </Typography>
 
-          <Button type="submit" variant="contained" color="primary" disabled={!isLoadingSendEmail}>Продолжить</Button>
+          <Button type="submit" variant="contained" color="primary" disabled={loadingRecoveryPassword}>Продолжить</Button>
         </form>
       )}
 
@@ -141,7 +142,7 @@ const RecoveryPassword = ({ resetPassword }: RecoveryPasswordType): JSX.Element 
             )}
           />
           <Button type="button" variant="contained" onClick={() => setStep(1)} className={classes.input}>Выслать код на другой e-mail</Button>
-          <Button type="submit" variant="contained" color="primary" disabled={!isLoadingSendEmail}>Изменить пароль</Button>
+          <Button type="submit" variant="contained" color="primary" disabled={loadingResetPassword}>Изменить пароль</Button>
 
         </form>
       )}

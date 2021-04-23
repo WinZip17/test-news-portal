@@ -1,5 +1,6 @@
 import { combine, createEffect, createStore } from 'effector';
 import ApiFactory from '../../api/ApiFactory';
+import { reactionsNewsFx } from './newsReactions';
 
 export interface News {
   id: number;
@@ -10,8 +11,12 @@ export interface News {
   dislike: number[];
 }
 
+export interface NewsListItem extends News {
+  commentCount: string
+}
+
 interface NewsResponse {
-  news: News[],
+  news: NewsListItem[],
   page: number,
   lastPage: number
 }
@@ -33,6 +38,14 @@ const updateStore = (state: NewsResponse, data: NewsResponse) => {
   }
   return state;
 };
+// Обычный хендлер на обновление. Добавляем или изменяем новости (аналог редюсера)
+const updateReactions = (state: NewsResponse, data: News) => {
+  const newsList = state.news;
+  const newsIndex = newsList.findIndex(((obj) => obj.id === data.id));
+  newsList[newsIndex].like = data.like;
+  newsList[newsIndex].dislike = data.dislike;
+  return { ...state, news: newsList };
+};
 
 // переменная стора
 export const $newsList = createStore<NewsResponse>({
@@ -41,7 +54,9 @@ export const $newsList = createStore<NewsResponse>({
   lastPage: 1,
 });
 
-$newsList.on(getNewsListFx.doneData, updateStore);
+$newsList
+  .on(getNewsListFx.doneData, updateStore)
+  .on(reactionsNewsFx.doneData, updateReactions);
 
 export const $fetchErrorNewsList = createStore<Error | null>(null);
 $fetchErrorNewsList
@@ -50,6 +65,7 @@ $fetchErrorNewsList
 
 export const $newsListGetStatus = combine({
   loading: getNewsListFx.pending,
+  reactionLoading: reactionsNewsFx.pending,
   error: $fetchErrorNewsList,
   data: $newsList,
 });

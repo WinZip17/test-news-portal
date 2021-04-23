@@ -2,6 +2,8 @@ import { combine, createEffect, createStore } from 'effector';
 import { AxiosError } from 'axios';
 import ApiFactory from '../../api/ApiFactory';
 import { News } from '../NewsListModels';
+import { addNewsFx } from './newsAdd';
+import { reactionsOneNewsFx } from '../NewsListModels/newsReactions';
 
 export const getNewsFx = createEffect<{id: number}, News, AxiosError>(async (params) => {
   const { id } = params;
@@ -12,7 +14,9 @@ export const getNewsFx = createEffect<{id: number}, News, AxiosError>(async (par
 
 export const $news = createStore<News | null>(null);
 
-$news.on(getNewsFx.doneData, (state, news) => news);
+$news
+  .on(getNewsFx.doneData, (state, news) => news)
+  .on(reactionsOneNewsFx.doneData, (state, news) => news);
 
 export const $fetchErrorNews = createStore<AxiosError | null>(null);
 $fetchErrorNews
@@ -21,6 +25,8 @@ $fetchErrorNews
 
 export const $newsGetStatus = combine({
   loading: getNewsFx.pending,
+  loadingReactions: reactionsOneNewsFx.pending,
+  loadingAddNews: addNewsFx.pending,
   error: $fetchErrorNews,
   news: $news,
 });

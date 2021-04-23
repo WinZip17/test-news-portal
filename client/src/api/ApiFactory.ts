@@ -3,8 +3,6 @@ import { NewsApi, NewsApiImpl } from './NewsApi';
 import { UserApi, UserApiImpl } from './UserApi';
 import { BASE_URL } from '../constant';
 
-const accessToken = window.localStorage.getItem('token');
-
 class ApiFactory {
   private readonly axios;
 
@@ -12,7 +10,7 @@ class ApiFactory {
     this.axios = Axios.create({
       baseURL: BASE_URL,
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
       },
     });
     this.getInterceptors();

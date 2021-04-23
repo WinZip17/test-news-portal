@@ -13,13 +13,18 @@ export class ModalContentTypes {
   open = false;
 }
 
-export const showModal = createEvent<ModalContentTypes>();
+type showModalType = {
+  title: string;
+  content: string;
+}
+
+export const showModal = createEvent<showModalType>();
 export const closeModal = createEvent();
 
 export const $modal = createStore<ModalContentTypes>(new ModalContentTypes());
 
 $modal
-  .on(showModal, (state, data) => data)
+  .on(showModal, (state, data) => ({ ...data, open: true }))
   .on(closeModal, (state) => ({ ...state, open: false }))
   .on(registrationFx.doneData, () => ({
     title: 'Поздравляем!',

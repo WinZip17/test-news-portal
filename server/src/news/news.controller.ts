@@ -9,12 +9,15 @@ import {
   UseInterceptors,
   UploadedFile,
   Query,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { NewsService } from './news.service';
 import { CreateNewsDto } from './dto/create-news.dto';
 import { UpdateNewsDto } from './dto/update-news.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateCommentDto } from './dto/create-comment.dto';
+import { JwtAuthGuard } from '../auth/ jwt-auth.guard';
 
 @Controller('api/news')
 export class NewsController {
@@ -41,16 +44,20 @@ export class NewsController {
     return this.newsService.update(+id, updateNewsDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('reactions')
   setReactions(
     @Body()
-    reaction: {
+    reactions: {
       id: number;
       reaction: 'like' | 'dislike';
-      userId: number;
     },
+    @Request() req,
   ) {
-    return this.newsService.updateReactions(reaction);
+    return this.newsService.updateReactions({
+      ...reactions,
+      userId: req.user.id,
+    });
   }
 
   @Delete(':id')

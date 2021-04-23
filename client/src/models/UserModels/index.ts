@@ -9,6 +9,7 @@ import { registrationFx } from './userRegistration';
 import { updateUserFx } from './userUpdate';
 import { changePasswordFx } from './userChangePassword';
 import { recoveryPasswordFx } from './userRecoveryPassword';
+import { resetPasswordFx } from './userResetPassword';
 
 const removeToken = (): void => {
   window.localStorage.removeItem('token');
@@ -61,10 +62,13 @@ $fetchErrorUpdateUser
   .reset(recoveryPasswordFx.done, clearError);
 
 export const $userGetStatus = combine({
+  loadingChangePassword: changePasswordFx.pending,
   loadingRegister: registrationFx.pending,
-  loadingLogin: registrationFx.pending,
+  loadingLogin: LoginFx.pending,
   loadingGetMe: getMeFx.pending,
   loginError: $fetchErrorLogin,
+  loadingRecoveryPassword: recoveryPasswordFx.pending,
+  loadingResetPassword: resetPasswordFx.pending,
   loadingUpdateUser: updateUserFx.pending,
   updateError: $fetchErrorUpdateUser,
   user: $user,

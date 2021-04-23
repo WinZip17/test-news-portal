@@ -1,10 +1,11 @@
 import { AxiosInstance } from 'axios';
-import { AddNewsTypes } from '../models/NewsModels/newsTypes';
+import { AddNewsTypes, ReactionNewsTypes } from '../models/NewsModels/newsTypes';
 
 export interface NewsApi {
   getNewsList(page?: number, size?: number): Promise<any>;
   getNews(id: number): Promise<any>;
   addNews(data: AddNewsTypes): Promise<any>;
+  setReaction(data: ReactionNewsTypes): Promise<any>;
 }
 
 export class NewsApiImpl implements NewsApi {
@@ -30,6 +31,11 @@ export class NewsApiImpl implements NewsApi {
       formData.append('image', data.image[0]);
     }
     const result = await this.axios.post('/api/news', formData);
+    return result;
+  }
+
+  async setReaction(data: ReactionNewsTypes): Promise<any> {
+    const result = await this.axios.post('/api/news/reactions', data);
     return result;
   }
 }

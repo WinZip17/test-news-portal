@@ -10,6 +10,7 @@ import { News } from './entities/news.entity';
 import { Comment } from './entities/comment.entity';
 import { FileService, FileType } from '../file/file.service';
 import { NewsResponse } from './interfaces/newsList.interfaces';
+import { Sequelize } from 'sequelize-typescript';
 
 @Injectable()
 export class NewsService {
@@ -39,12 +40,20 @@ export class NewsService {
     const page =
       (Number(queryPage) || 1) > lastPage ? lastPage : Number(queryPage);
     const news = await this.newsRepository.findAll<News>({
+      subQuery: false,
       offset: (page - 1) * size,
       limit: size,
       include: {
         model: Comment,
-        attributes: ['content'],
+        attributes: [],
       },
+      attributes: {
+        include: [
+          [Sequelize.fn('COUNT', Sequelize.col('comments')), 'commentCount'],
+        ],
+      },
+      order: [['updatedAt', 'DESC']],
+      group: ['News.id'],
     });
     const data = {
       page,
@@ -73,13 +82,20 @@ export class NewsService {
   }
 
   async updateReactions(data): Promise<News> {
-    const { id, userId, reactions } = data;
+    const { id, userId, reaction } = data;
     const news: News = await this.findByPk(id);
-    if (news.like.includes(userId) || news.dislike.includes(userId)) {
+    if (reaction === 'like' && news.dislike.includes(userId)) {
+      news.dislike = news.dislike.filter((id) => id !== userId);
+      news.like = [...news.like, userId];
+    } else if (reaction === 'like' && news.like.includes(userId)) {
       news.like = news.like.filter((id) => id !== userId);
+    } else if (reaction === 'dislike' && news.like.includes(userId)) {
+      news.like = news.like.filter((id) => id !== userId);
+      news.dislike = [...news.dislike, userId];
+    } else if (reaction === 'dislike' && news.dislike.includes(userId)) {
       news.dislike = news.dislike.filter((id) => id !== userId);
     } else {
-      news[reactions] = [...news[reactions], userId];
+      news[reaction] = [...news[reaction], userId];
     }
     await news.save();
     return news;

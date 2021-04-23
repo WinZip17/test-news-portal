@@ -24,13 +24,13 @@ export class News extends Model<NewsInterfaces> {
   image;
 
   @Column({
-    defaultValue: [12, 11, 22],
+    defaultValue: [],
     type: DataType.ARRAY(DataType.INTEGER),
   })
   like: number[];
 
   @Column({
-    defaultValue: [12, 11, 22],
+    defaultValue: [],
     type: DataType.ARRAY(DataType.INTEGER),
   })
   dislike;

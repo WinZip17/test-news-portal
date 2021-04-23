@@ -3,3 +3,8 @@ export interface AddNewsTypes {
   content: string;
   image?: any
 }
+
+export interface ReactionNewsTypes {
+  reaction: string;
+  id: number;
+}

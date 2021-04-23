@@ -12,9 +12,11 @@ import { addNewsStylesUser } from './addNews.style';
 import { getError } from '../../utils/getFieldError';
 import { AddNewsTypes } from '../../models/NewsModels/newsTypes';
 import { addNewsFx } from '../../models/NewsModels/newsAdd';
+import { $newsGetStatus } from '../../models/NewsModels';
 
 const AddNews = () => {
   const user = useStore($user);
+  const { loadingAddNews } = useStore($newsGetStatus);
   const classes = addNewsStylesUser();
   const {
     handleSubmit,
@@ -115,7 +117,13 @@ const AddNews = () => {
         <Controller
           name="content"
           control={control}
-          rules={{ required: true }}
+          rules={{
+            required: true,
+            minLength: {
+              value: 5,
+              message: 'Текст новости 5 символов',
+            },
+          }}
           defaultValue=""
           render={({ field, fieldState }) => (
             <TextField
@@ -131,7 +139,7 @@ const AddNews = () => {
           )}
         />
         <div>
-          <Button type="submit" variant="contained" className={classes.saveButton} color="primary" disabled={false}>Добавить новость</Button>
+          <Button type="submit" variant="contained" className={classes.saveButton} color="primary" disabled={loadingAddNews}>Добавить новость</Button>
         </div>
       </form>
     </Card>

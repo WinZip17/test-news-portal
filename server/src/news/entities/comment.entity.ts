@@ -12,7 +12,6 @@ import { News } from './news.entity';
 
 @Table
 export class Comment extends Model<CommentInterfaces> {
-
   @Column(DataType.TEXT)
   content: string;
 
