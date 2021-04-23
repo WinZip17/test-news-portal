@@ -1,5 +1,6 @@
 import { createEvent, createStore } from 'effector';
 import { registrationFx } from '../UserModels/userRegistration';
+import { changePasswordFx } from '../UserModels/userChangePassword';
 
 export class ModalContentTypes {
   title = '';
@@ -25,5 +26,15 @@ $modal
   .on(registrationFx.fail, (state, { error }) => ({
     title: 'Внимание!',
     content: error ? error.response?.data.message : 'Что то пошло не так',
+    open: true,
+  }))
+  .on(changePasswordFx.fail, (state, { error }) => ({
+    title: 'Внимание!',
+    content: error ? error.response?.data.message : 'Что то пошло не так',
+    open: true,
+  }))
+  .on(changePasswordFx.doneData, (state, { message }) => ({
+    title: 'Поздравляем',
+    content: message || 'Пароль изменен',
     open: true,
   }));

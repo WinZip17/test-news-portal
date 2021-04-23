@@ -1,88 +1,30 @@
-// eslint-disable-next-line no-use-before-define
 import React, { useEffect, useRef, useState } from 'react';
 import { useStore } from 'effector-react';
 import Card from '@material-ui/core/Card';
-import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import {
-  Avatar, AvatarTypeMap, Button, TextField,
+  Avatar, AvatarTypeMap, Button,
 } from '@material-ui/core';
-import { Controller, useForm } from 'react-hook-form';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import { signOut, $userGetStatus, clearError } from '../../models/UserModels';
+import { useForm } from 'react-hook-form';
+import {
+  signOut, $userGetStatus, clearError,
+} from '../../models/UserModels';
 import { BASE_URL } from '../../constant';
 import Preloader from '../Preloader';
 import Auth from '../Auth';
-import { getError } from '../../utils/getFieldError';
-import ErrorList from '../ErrorList';
-import getMessagesError from '../../utils/getMessagesError';
 import { updateUserFx } from '../../models/UserModels/userUpdate';
-
-const useStyles = makeStyles({
-  header: {
-    textAlign: 'center',
-  },
-  card: {
-    '&:not(:last-child)': {
-      marginBottom: 20,
-    },
-    padding: 10,
-  },
-  button: {
-    '&:not(:last-child)': {
-      marginRight: 20,
-    },
-  },
-  avatarWrap: {
-    display: 'flex',
-    marginBottom: 20,
-    alignItems: 'center',
-  },
-  avatar: {
-    marginLeft: 20,
-    width: 70,
-    height: 70,
-  },
-  changeAvatar: {
-    marginRight: 20,
-    width: 70,
-    height: 70,
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  input: {
-    '&:not(:last-child)': {
-      marginBottom: 10,
-    },
-  },
-  inputFile: {
-    display: 'none',
-  },
-  fileButton: {
-    width: '100%',
-  },
-  saveButton: {
-    marginBottom: 10,
-    width: 'auto',
-  },
-});
+import { updateUser } from '../../models/UserModels/userTypes';
+import { changePasswordFx } from '../../models/UserModels/userChangePassword';
+import UpdateUserInfo from './UpdateUserInfo';
+import { useStylesUser } from './user.style';
+import ChangeUserPassword from './ChangeUserPassword';
 
 const User = () => {
-  const {
-    user, loadingGetMe, loadingUpdateUser, updateError,
-  } = useStore($userGetStatus);
-  const classes = useStyles();
-  const {
-    handleSubmit,
-    control,
-    register,
-    reset,
-    watch,
-  } = useForm({ mode: 'onBlur', reValidateMode: 'onChange' });
+  const classes = useStylesUser();
 
-  const updateErrorMessage: string[] = updateError ? getMessagesError(updateError.response?.data.message) : [];
+  const { user, loadingGetMe } = useStore($userGetStatus);
+
+  const { reset, watch } = useForm({ mode: 'onBlur', reValidateMode: 'onChange' });
 
   const [image, setImage] = useState<string | ArrayBuffer | null>(null);
 
@@ -90,7 +32,8 @@ const User = () => {
 
   const imageRef = useRef<AvatarTypeMap>(null);
 
-  const [change, setChange] = useState(false);
+  // 0: не изменять, 1: данные пользователя, 2: смена пароля
+  const [change, setChange] = useState(0);
 
   useEffect(() => {
     if (change && avatar && avatar.length && imageRef) {
@@ -114,11 +57,21 @@ const User = () => {
     signOut();
   };
 
-  const sendForm = async (data: any) => {
-    console.log('sendForm data', data);
+  const handleUpdateUserInfo = async (data: updateUser) => {
     await updateUserFx(data)
       .then(() => {
-        setChange(false);
+        setChange(0);
+        reset();
+      })
+      .finally(() => {
+        clearError();
+      });
+  };
+
+  const handleChangePassword = async (data: {password: string, newPassword: string}) => {
+    await changePasswordFx(data)
+      .then(() => {
+        setChange(0);
         reset();
       })
       .finally(() => {
@@ -151,78 +104,21 @@ const User = () => {
         </div>
         )}
         <Button variant="contained" color="primary" className={classes.button} onClick={handleSignOut}>Выйти</Button>
-        {!change && <Button variant="contained" color="secondary" onClick={() => setChange(true)}>Редактировать данные</Button>}
+        {change !== 1 && <Button variant="contained" color="secondary" className={classes.button} onClick={() => setChange(1)}>Редактировать данные</Button>}
+        {change !== 2 && <Button variant="contained" className={classes.button} onClick={() => setChange(2)}>Изменить пароль</Button>}
       </Card>
-      {change && (
-        <Card className={classes.card}>
-
-          <form autoComplete="off" className={classes.form} onSubmit={handleSubmit(sendForm)}>
-
-            <Controller
-              name="name"
-              control={control}
-              rules={{ required: true }}
-              defaultValue={user.name}
-              render={({ field, fieldState }) => (
-                <TextField
-                  label="Имя"
-                  variant="outlined"
-                  className={classes.input}
-                  {...field}
-                  helperText={getError(fieldState.error ? fieldState.error : null)}
-                  error={!!fieldState.error}
-                />
-              )}
-            />
-
-            <div className={classes.avatarWrap}>
-              <Avatar alt="photo" src={typeof image === 'string' ? image : user.avatar ? `${BASE_URL}/${user.avatar}` : ''} className={classes.changeAvatar} />
-              <input
-                {...register('avatar')}
-                className={classes.inputFile}
-                accept="image/*"
-                id="update-avetar"
-                type="file"
-              />
-
-              <label htmlFor="update-avetar">
-                <Button
-                  variant="contained"
-                  color="default"
-                  component="span"
-                  className={classes.fileButton}
-                  startIcon={<CloudUploadIcon />}
-                >
-                  Загрузить аватарку
-                </Button>
-              </label>
-            </div>
-
-            <Controller
-              name="password"
-              control={control}
-              rules={{ required: true }}
-              defaultValue=""
-              render={({ field, fieldState }) => (
-                <TextField
-                  label="Пароль"
-                  variant="outlined"
-                  type="password"
-                  className={classes.input}
-                  {...field}
-                  helperText={getError(fieldState.error ? fieldState.error : null)}
-                  error={!!fieldState.error}
-                />
-              )}
-            />
-            {updateError && <ErrorList errors={updateErrorMessage} />}
-            <div>
-              <Button type="submit" variant="contained" className={classes.saveButton} color="primary" disabled={loadingUpdateUser}>Сохранить изменения</Button>
-            </div>
-          </form>
-          <Button variant="contained" color="secondary" onClick={() => setChange(false)}>Отменить редактирование </Button>
-
-        </Card>
+      {change === 1 && (
+        <UpdateUserInfo
+          setChange={setChange}
+          handleUpdateUserInfo={handleUpdateUserInfo}
+          image={image}
+        />
+      )}
+      {change === 2 && (
+        <ChangeUserPassword
+          setChange={setChange}
+          handleChangePassword={handleChangePassword}
+        />
       )}
     </div>
   );

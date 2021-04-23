@@ -7,6 +7,7 @@ import { User } from './userTypes';
 import { LoginFx } from './userLogin';
 import { registrationFx } from './userRegistration';
 import { updateUserFx } from './userUpdate';
+import { changePasswordFx } from './userChangePassword';
 
 const removeToken = (): void => {
   window.localStorage.removeItem('token');
@@ -31,11 +32,8 @@ $user
     removeToken();
     return null;
   })
-  .on(updateUserFx.doneData, (state, user) => {
-    console.log('updateUserFx user', user);
-    return user;
-  })
-  .reset(getMeFx.fail);
+  .on(updateUserFx.doneData, (state, user) => user)
+  .reset(getMeFx.fail, changePasswordFx.done);
 
 export const $fetchErrorLogin = createStore<AxiosError | null>(null);
 $fetchErrorLogin
@@ -50,6 +48,11 @@ export const $fetchErrorUpdateUser = createStore<AxiosError | null>(null);
 $fetchErrorUpdateUser
   .on(updateUserFx.fail, (_, { error }: {error: AxiosError}) => error)
   .reset(LoginFx.done, clearError);
+
+export const $fetchErrorChangePasswordUser = createStore<AxiosError | null>(null);
+$fetchErrorUpdateUser
+  .on(changePasswordFx.fail, (_, { error }: {error: AxiosError}) => error)
+  .reset(changePasswordFx.done, clearError);
 
 export const $userGetStatus = combine({
   loadingRegister: registrationFx.pending,
