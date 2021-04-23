@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Button } from '@material-ui/core';
 import { useStore } from 'effector-react';
@@ -6,41 +6,103 @@ import { useAuthStyles } from './auth.style';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import { registrationFx } from '../../models/UserModels/userRegistration';
-import { registrationUser } from '../../models/UserModels/userTypes';
+import { registrationUser, ResetPasswordData } from '../../models/UserModels/userTypes';
 import { $isMobile } from '../../models/MediaModels';
 import { clearError } from '../../models/UserModels';
+import RecoveryPassword from './RecoveryPassword';
+import { recoveryPasswordFx } from '../../models/UserModels/userRecoveryPassword';
+import { resetPasswordFx } from '../../models/UserModels/userResetPassword';
 
 const Auth = () => {
   const classes = useAuthStyles();
   const isMobile = useStore($isMobile);
-  const [signIn, setSignIn] = useState(true);
 
-  const handleChangeAuth = () => {
-    clearError();
-    setSignIn((value) => !value);
+  // 1: авторизация, 2: регистрация. 3: восстановление парольки
+  const [typePage, setTypePage] = useState(1);
+
+  const getHeader = () => {
+    switch (typePage) {
+      case 2:
+        return 'Регистрация';
+      case 3:
+        return 'Восстановление пароля';
+      default:
+        return 'Войти';
+    }
   };
+
+  const handleChangeAuth = useCallback((step: number) => {
+    clearError();
+    setTypePage(step);
+  }, []);
 
   const onRegister = async (data: registrationUser): Promise<boolean> => {
     await registrationFx(data)
       .then(() => {
-        setSignIn(true);
+        setTypePage(1);
         return true;
       })
       .catch(() => false);
     return false;
   };
 
+  const handleResetPassword = (data: ResetPasswordData) => {
+    resetPasswordFx(data)
+      .then(() => {
+        setTypePage(1);
+      })
+      .finally(() => {
+        clearError();
+      });
+  };
+
   return (
     <div>
       <Typography variant={isMobile ? 'h4' : 'h2'} gutterBottom className={classes.header}>
-        {signIn ? 'Войти' : 'Регистрация'}
+        {getHeader()}
       </Typography>
-      {signIn && <SignIn />}
-      {!signIn && <SignUp onRegister={onRegister} />}
-      <div className={classes.footer}>
-        {signIn ? 'Я не зарегистрирован, ' : 'У меня есть пользователь, '}
-        <Button size="small" onClick={handleChangeAuth} color="primary">{signIn ? 'Зарегистрироваться' : 'Войти'}</Button>
-      </div>
+      {typePage === 1 && <SignIn />}
+      {typePage === 2 && <SignUp onRegister={onRegister} />}
+
+      {typePage !== 3 && (
+        <div className={classes.footer}>
+          {typePage === 1 ? 'Я не зарегистрирован, ' : 'У меня есть пользователь, '}
+          <Button
+            size="small"
+            onClick={() => handleChangeAuth(typePage === 1 ? 2 : 1)}
+            color="primary"
+          >
+            {typePage === 1 ? 'Зарегистрироваться' : 'Войти'}
+          </Button>
+        </div>
+      )}
+
+      {typePage === 1 && (
+        <div className={classes.footer}>
+          <Button
+            size="small"
+            onClick={() => handleChangeAuth(3)}
+            variant="outlined"
+            color="primary"
+          >
+            Забыл пароль
+          </Button>
+        </div>
+      )}
+
+      {typePage === 3 && (
+        <>
+          <RecoveryPassword resetPassword={handleResetPassword} />
+          <Button
+            size="small"
+            onClick={() => handleChangeAuth(1)}
+            variant="outlined"
+            color="primary"
+          >
+            Вернуться к авторизации
+          </Button>
+        </>
+      )}
     </div>
   );
 };

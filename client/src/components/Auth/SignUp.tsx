@@ -34,7 +34,6 @@ const SignUp = ({ onRegister }: SignUpProps): JSX.Element => {
   const currentPassword = watch('password', '');
 
   const sendForm = async (data: registrationUser) => {
-    console.log('registrationUser', data);
     const result = await onRegister(data);
     if (result) {
       reset();

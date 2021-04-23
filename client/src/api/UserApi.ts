@@ -1,5 +1,5 @@
 import { AxiosInstance, AxiosPromise } from 'axios';
-import { registrationUser, updateUser } from '../models/UserModels/userTypes';
+import { registrationUser, ResetPasswordData, updateUser } from '../models/UserModels/userTypes';
 
 export interface UserApi {
   getMe(): AxiosPromise<any>;
@@ -7,7 +7,7 @@ export interface UserApi {
   registration(data: registrationUser): AxiosPromise<any>;
   changePassword(data: {password: string, newPassword: string}): AxiosPromise<any>;
   recoveryPassword(data: {email: string}): AxiosPromise<any>;
-  resetPassword(data: {email: string, password: string, code: string}): AxiosPromise<any>;
+  resetPassword(data: ResetPasswordData): AxiosPromise<any>;
   updateUser(data: updateUser): AxiosPromise<any>;
 }
 
@@ -48,7 +48,7 @@ export class UserApiImpl implements UserApi {
     return result;
   }
 
-  async resetPassword(data: {email: string, password: string, code: string}): Promise<any> {
+  async resetPassword(data: ResetPasswordData): Promise<any> {
     const result = await this.axios.post('/api/users/reset-password', data);
     return result;
   }

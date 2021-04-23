@@ -7,6 +7,7 @@ export const useAuthStyles = makeStyles({
   form: {
     display: 'flex',
     flexDirection: 'column',
+    marginBottom: 10,
   },
   input: {
     '&:not(:last-child)': {

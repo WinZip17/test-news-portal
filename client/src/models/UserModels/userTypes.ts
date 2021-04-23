@@ -18,3 +18,9 @@ export interface updateUser {
   password: string;
   avatar?: any;
 }
+
+export interface ResponseMessage {statusCode: string, message: string}
+
+export interface SendChangePasswordData {password: string, newPassword: string}
+
+export interface ResetPasswordData {email: string, code: string, password: string}
