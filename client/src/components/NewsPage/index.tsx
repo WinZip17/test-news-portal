@@ -12,9 +12,9 @@ import Preloader from '../Preloader';
 import { getNewsFx, $newsGetStatus } from '../../models/NewsModels';
 import { BASE_URL } from '../../constant';
 import { $user } from '../../models/UserModels';
-import { $newsListGetStatus } from '../../models/NewsListModels';
 import { reactionsOneNewsFx } from '../../models/NewsListModels/newsReactions';
 import { showModal } from '../../models/ModalModels';
+import Comments from '../Comments';
 
 const useStyles = makeStyles({
   header: {
@@ -117,6 +117,7 @@ const NewsPage = () => {
                 {news.dislike.length}
               </div>
             </div>
+            <Comments comments={news.comments} />
           </CardContent>
         </Card>
       )}

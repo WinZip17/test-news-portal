@@ -1,5 +1,6 @@
 import { combine, createEffect, createStore } from 'effector';
 import ApiFactory from '../../api/ApiFactory';
+import { CommentType } from '../NewsModels/newsTypes';
 import { reactionsNewsFx } from './newsReactions';
 
 export interface News {
@@ -9,6 +10,7 @@ export interface News {
   image: string | null;
   like: number[];
   dislike: number[];
+  comments: CommentType[]
 }
 
 export interface NewsListItem extends News {
