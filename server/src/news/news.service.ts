@@ -1,4 +1,4 @@
-import {Injectable, Inject, HttpException, HttpStatus} from '@nestjs/common';
+import { Injectable, Inject, HttpException, HttpStatus } from '@nestjs/common';
 import {
   COMMENTS_REPOSITORY,
   FILE_SERVICE,
@@ -9,6 +9,7 @@ import { UpdateNewsDto } from './dto/update-news.dto';
 import { News } from './entities/news.entity';
 import { Comment } from './entities/comment.entity';
 import { FileService, FileType } from '../file/file.service';
+import { NewsResponse } from './interfaces/newsList.interfaces';
 
 @Injectable()
 export class NewsService {
@@ -20,6 +21,7 @@ export class NewsService {
 
   async create(createNewsDto: CreateNewsDto, file) {
     const saveImage = await this.fileService.createFile(FileType.IMAGE, file);
+    console.log('saveImage', saveImage);
     const newNews = await this.newsRepository.create({
       ...createNewsDto,
       image: saveImage,
@@ -27,15 +29,29 @@ export class NewsService {
     return newNews.id;
   }
 
-  async findAll(count = 10, offset = 0): Promise<News[]> {
-    return this.newsRepository.findAll<News>({
-      offset,
-      limit: count,
+  async findAll(
+    queryPage: string = '1',
+    querySize: string = '5',
+  ): Promise<NewsResponse> {
+    const newsCount = await this.newsRepository.count();
+    const size = Number(querySize) || 5;
+    const lastPage = Math.round(newsCount / size);
+    const page =
+      (Number(queryPage) || 1) > lastPage ? lastPage : Number(queryPage);
+    const news = await this.newsRepository.findAll<News>({
+      offset: (page - 1) * size,
+      limit: size,
       include: {
         model: Comment,
         attributes: ['content'],
       },
     });
+    const data = {
+      page,
+      lastPage: lastPage,
+      news: news,
+    };
+    return data;
   }
 
   async findByPk(id: number): Promise<News> {

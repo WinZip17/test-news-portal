@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export const userStylesUser = makeStyles({
+export const addNewsStylesUser = makeStyles({
   header: {
     textAlign: 'center',
   },
@@ -10,29 +10,18 @@ export const userStylesUser = makeStyles({
     },
     padding: 10,
   },
-  button: {
-    '&:not(:last-child)': {
-      marginRight: 20,
-    },
-  },
-  avatarWrap: {
-    display: 'flex',
-    marginBottom: 20,
-    alignItems: 'center',
-  },
-  avatar: {
-    marginLeft: 20,
-    width: 70,
-    height: 70,
-  },
-  changeAvatar: {
-    marginRight: 20,
-    width: 70,
-    height: 70,
-  },
   form: {
     display: 'flex',
     flexDirection: 'column',
+  },
+  newsWrap: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginBottom: 20,
+    alignItems: 'center',
+  },
+  image: {
+    marginBottom: 10,
   },
   input: {
     '&:not(:last-child)': {

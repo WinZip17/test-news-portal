@@ -1,9 +1,13 @@
-export interface NewsListInterfaces {
+import { News } from '../entities/news.entity';
+
+export interface NewsListInterfaces extends News {
   id?: number;
-  title: string;
-  content: string;
-  image: string | null;
   like: number[];
   dislike: number[];
-  comments: number;
+}
+
+export interface NewsResponse {
+  news: NewsListInterfaces[];
+  page: number;
+  lastPage: number;
 }

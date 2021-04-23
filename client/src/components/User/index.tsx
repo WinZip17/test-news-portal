@@ -16,11 +16,11 @@ import { updateUserFx } from '../../models/UserModels/userUpdate';
 import { updateUser } from '../../models/UserModels/userTypes';
 import { changePasswordFx } from '../../models/UserModels/userChangePassword';
 import UpdateUserInfo from './UpdateUserInfo';
-import { useStylesUser } from './user.style';
+import { userStylesUser } from './user.style';
 import ChangeUserPassword from './ChangeUserPassword';
 
 const User = () => {
-  const classes = useStylesUser();
+  const classes = userStylesUser();
 
   const { user, loadingGetMe } = useStore($userGetStatus);
 

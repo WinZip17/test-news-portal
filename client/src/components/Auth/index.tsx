@@ -10,7 +10,6 @@ import { registrationUser, ResetPasswordData } from '../../models/UserModels/use
 import { $isMobile } from '../../models/MediaModels';
 import { clearError } from '../../models/UserModels';
 import RecoveryPassword from './RecoveryPassword';
-import { recoveryPasswordFx } from '../../models/UserModels/userRecoveryPassword';
 import { resetPasswordFx } from '../../models/UserModels/userResetPassword';
 
 const Auth = () => {

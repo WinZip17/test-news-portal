@@ -27,8 +27,8 @@ export class NewsController {
   }
 
   @Get()
-  findAll(@Query('count') count: number, @Query('offset') offset: number) {
-    return this.newsService.findAll(count, offset);
+  findAll(@Query('page') page: string, @Query('offset') size: string) {
+    return this.newsService.findAll(page, size);
   }
 
   @Get(':id')

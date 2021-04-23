@@ -3,7 +3,7 @@ import { Button, TextField } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import React from 'react';
 import { useStore } from 'effector-react';
-import { useStylesUser } from './user.style';
+import { userStylesUser } from './user.style';
 import { getError } from '../../utils/getFieldError';
 import ErrorList from '../ErrorList';
 import { $fetchErrorChangePasswordUser } from '../../models/UserModels';
@@ -16,7 +16,7 @@ type ChangePasswordPropsType = {
 }
 
 const ChangeUserPassword = ({ setChange, handleChangePassword }: ChangePasswordPropsType): JSX.Element => {
-  const classes = useStylesUser();
+  const classes = userStylesUser();
   const passwordError = useStore($fetchErrorChangePasswordUser);
   const {
     handleSubmit,

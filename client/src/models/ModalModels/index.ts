@@ -3,6 +3,7 @@ import { registrationFx } from '../UserModels/userRegistration';
 import { changePasswordFx } from '../UserModels/userChangePassword';
 import { recoveryPasswordFx } from '../UserModels/userRecoveryPassword';
 import { resetPasswordFx } from '../UserModels/userResetPassword';
+import { addNewsFx } from '../NewsModels/newsAdd';
 
 export class ModalContentTypes {
   title = '';
@@ -53,5 +54,15 @@ $modal
   .on(resetPasswordFx.doneData, (state, { message }) => ({
     title: 'Поздравляем!',
     content: message || 'Новый пароль установлен',
+    open: true,
+  }))
+  .on(addNewsFx.done, () => ({
+    title: 'Поздравляем!',
+    content: 'Новость успешно добавлена',
+    open: true,
+  }))
+  .on(addNewsFx.fail, () => ({
+    title: 'Очень жаль',
+    content: 'Не получилось добавить новость по неизвестным нам причинам',
     open: true,
   }));

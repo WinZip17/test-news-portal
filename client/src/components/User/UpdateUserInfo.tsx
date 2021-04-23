@@ -7,7 +7,7 @@ import { useStore } from 'effector-react';
 import { getError } from '../../utils/getFieldError';
 import { BASE_URL } from '../../constant';
 import ErrorList from '../ErrorList';
-import { useStylesUser } from './user.style';
+import { userStylesUser } from './user.style';
 import { $userGetStatus } from '../../models/UserModels';
 import Auth from '../Auth';
 import getMessagesError from '../../utils/getMessagesError';
@@ -20,7 +20,7 @@ type UpdateUserInfoPropsType = {
 }
 
 const UpdateUserInfo = ({ setChange, handleUpdateUserInfo, image }: UpdateUserInfoPropsType): JSX.Element => {
-  const classes = useStylesUser();
+  const classes = userStylesUser();
   const {
     user, loadingUpdateUser, updateError,
   } = useStore($userGetStatus);

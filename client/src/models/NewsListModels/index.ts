@@ -10,18 +10,36 @@ export interface News {
   dislike: number[];
 }
 
+interface NewsResponse {
+  news: News[],
+  page: number,
+  lastPage: number
+}
+
 // Создаем эффект, который делает GET-запрос на бек
-export const getNewsListFx = createEffect<void, News[], Error>(async () => {
+export const getNewsListFx = createEffect<number, NewsResponse, Error>(async (page = 1) => {
   const api = new ApiFactory().newsApi();
-  const responce = await api.getNewsList();
+  const responce = await api.getNewsList(page);
   return responce.data;
 });
 
 // Обычный хендлер на обновление. Добавляем или изменяем новости (аналог редюсера)
-const updateStore = (state: News[], data: News[]) => data;
+const updateStore = (state: NewsResponse, data: NewsResponse) => {
+  if (data.page === 1) {
+    return data;
+  }
+  if (state.page !== data.page) {
+    return { news: [...state.news, ...data.news], page: data.page, lastPage: data.lastPage };
+  }
+  return state;
+};
 
 // переменная стора
-export const $newsList = createStore<News[]>([]);
+export const $newsList = createStore<NewsResponse>({
+  news: [],
+  page: 1,
+  lastPage: 1,
+});
 
 $newsList.on(getNewsListFx.doneData, updateStore);
 
