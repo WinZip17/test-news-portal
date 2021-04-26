@@ -27,13 +27,19 @@ export class News extends Model<NewsInterfaces> {
     defaultValue: [],
     type: DataType.ARRAY(DataType.INTEGER),
   })
-  like: number[];
+  like;
 
   @Column({
     defaultValue: [],
     type: DataType.ARRAY(DataType.INTEGER),
   })
   dislike;
+
+  // @HasMany(() => Comment, 'UserId')
+  // like: number[];
+  //
+  // @HasMany(() => Comment, 'UserId')
+  // dislike: number[];
 
   @HasMany(() => Comment, 'NewsId')
   comments: Comment[];

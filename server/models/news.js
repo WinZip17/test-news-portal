@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       News.belongsTo(models.Users);
       News.hasMany(models.Comments);
+      News.hasMany(models.Users);
       // define association here
     }
   }
@@ -29,11 +30,6 @@ module.exports = (sequelize, DataTypes) => {
       modelName: 'News',
     },
   );
-
-  // News.associate = (models) => {
-  //   News.belongsTo(models.Users);
-  //   News.hasMany(models.Comments);
-  // };
 
   return News;
 };
