@@ -36,7 +36,7 @@ export class NewsService {
   ): Promise<NewsResponse> {
     const newsCount = await this.newsRepository.count();
     const size = Number(querySize) || 5;
-    const lastPage = Math.round(newsCount / size);
+    const lastPage = Math.round(newsCount / size) || 1;
     const page =
       (Number(queryPage) || 1) > lastPage ? lastPage : Number(queryPage);
     const news = await this.newsRepository.findAll<News>({

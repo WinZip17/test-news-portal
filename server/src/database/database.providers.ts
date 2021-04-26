@@ -9,7 +9,7 @@ export const databaseProviders = [
     useFactory: async () => {
       const db = await require('../../models');
       db.sequelize.addModels([News, Comment, User]);
-      // await db.sequelize.sync({ alter: true });
+      // await db.sequelize.sync({ force: true });
       return db.sequelize;
     },
   },
