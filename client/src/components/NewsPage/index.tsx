@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt';
+import parse from 'html-react-parser';
 import Preloader from '../Preloader';
 import { getNewsFx, $newsGetStatus } from '../../models/NewsModels';
 import { BASE_URL } from '../../constant';
@@ -92,8 +93,8 @@ const NewsPage = () => {
             <Typography gutterBottom variant="h5" component="h2">
               {news.title}
             </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-              {news.content}
+            <Typography variant="body2" color="textSecondary" component="div">
+              {parse(news.content)}
             </Typography>
             <div className={classes.reactionsWrap}>
               <div className={classes.newsButton}>

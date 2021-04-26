@@ -42,7 +42,7 @@ export class News extends Model<NewsInterfaces> {
   // dislike: number[];
 
   @HasMany(() => Comment, 'NewsId')
-  comments: Comment[];
+  comments: number[];
 
   @BelongsTo(() => User, 'UserId')
   userId: number;

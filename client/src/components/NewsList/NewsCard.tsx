@@ -6,10 +6,10 @@ import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt';
 import { useStore } from 'effector-react';
+import parse from 'html-react-parser';
 import { $newsListGetStatus, NewsListItem } from '../../models/NewsListModels';
 import { BASE_URL } from '../../constant';
 import { $user } from '../../models/UserModels';
@@ -76,8 +76,8 @@ const NewsCard = ({ news, handleNews }: NewsCardPros): JSX.Element => {
           <Typography gutterBottom variant="h5" component="h2">
             {news.title}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            {news.content}
+          <Typography variant="body2" color="textSecondary" component="div">
+            {parse(news.content)}
           </Typography>
         </CardContent>
       </CardActionArea>

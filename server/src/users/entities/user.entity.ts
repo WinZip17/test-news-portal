@@ -9,6 +9,7 @@ import {
 } from 'sequelize-typescript';
 import { UserInterfaces } from '../interfaces/user.interfaces';
 import { Comment } from '../../news/entities/comment.entity';
+import { News } from '../../news/entities/news.entity';
 
 @DefaultScope(() => ({
   attributes: ['id', 'email', 'name', 'avatar'],
@@ -57,6 +58,6 @@ export class User extends Model<UserInterfaces> {
   @HasOne(() => Comment, 'UserId')
   comment;
 
-  @HasOne(() => Comment, 'UserId')
+  @HasOne(() => News, 'UserId')
   news;
 }
