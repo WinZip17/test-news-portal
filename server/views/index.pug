@@ -8,7 +8,7 @@ html(lang="ru-ru")
         h1 Рады вам показать свежие новости!!
         a.news-add_button(href="/add") Добавить новость
         div(class="news-list")
-            each item in news
+            each item in news.news
               div(class='news')
                 h2
                   a(href=`news/${item.id}`) #{item.title}
