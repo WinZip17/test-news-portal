@@ -1,20 +1,24 @@
 import { INestApplication } from '@nestjs/common';
 import AdminBro from 'admin-bro';
+import bcrypt from 'bcrypt';
+import AdminBroSequelize from '@admin-bro/sequelize';
 import * as AdminBroExpress from 'admin-bro-expressjs';
 import { User } from 'src/users/entities/user.entity';
 import { News } from 'src/news/entities/news.entity';
 import { Comment } from 'src/news/entities/comment.entity';
-const AdminBroSequelize = require('@admin-bro/sequelize');
+
 AdminBro.registerAdapter(AdminBroSequelize);
 const db = require('../../models');
-
-const uploadFeature = require('@admin-bro/upload');
-const bcrypt = require('bcrypt');
 
 const baseNavigation = {
   name: 'База данных',
   icon: 'Accessibility',
 };
+
+const {
+  after: uploadAfterHook,
+  before: uploadBeforeHook,
+} = require('./actions/upload-image.hook');
 
 export async function setupAdminPanel(app: INestApplication): Promise<void> {
   /** Create adminBro instance */
@@ -29,32 +33,50 @@ export async function setupAdminPanel(app: INestApplication): Promise<void> {
           navigation: baseNavigation,
           properties: {
             content: { type: 'richtext' },
-            image: {
+            uploadImage: {
               components: {
-                edit: AdminBro.bundle('./components/Image'),
+                edit: AdminBro.bundle('./components/upload-image.edit.tsx'),
               },
             },
           },
-          features: [
-            uploadFeature({
-              provider: {
-                aws: {
-                  bucket: 'config.s3.bucket',
-                  accessKeyId: 'config.s3.accessKeyId',
-                  secretAccessKey: 'config.s3.secretAccessKey',
-                  region: 'config.s3.region',
-                },
+          action: {
+            new: {
+              after: async (response, request, context) => {
+                const modifiedResponse = await uploadAfterHook(
+                  response,
+                  request,
+                  context,
+                );
+                return modifiedResponse;
               },
-              properties: {
-                key: 'path',
-                filePath: 'imagePaths',
+              before: async (response, request, context) => {
+                const modifiedResponse = await uploadBeforeHook(
+                  response,
+                  request,
+                  context,
+                );
+                return modifiedResponse;
               },
-              validation: {
-                mimeTypes: ['image/png', 'image/jpg', 'image/jpeg'],
+            },
+            edit: {
+              after: async (response, request, context) => {
+                const modifiedResponse = await uploadAfterHook(
+                  response,
+                  request,
+                  context,
+                );
+                return modifiedResponse;
               },
-              multiple: true,
-            }),
-          ],
+              before: async (response, request, context) => {
+                const modifiedResponse = await uploadBeforeHook(
+                  response,
+                  request,
+                  context,
+                );
+                return modifiedResponse;
+              },
+            },
+          },
         },
       },
       { resource: Comment, options: { navigation: baseNavigation } },
