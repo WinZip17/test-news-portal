@@ -7,8 +7,11 @@ export enum FileType {
   IMAGE = 'image',
 }
 
-export const fsCreateFile = (type, file) => {
-  const fileExtension = file.originalname.split('.').pop();
+export const fsCreateFile = (type, file, isAdminBro = false) => {
+
+  const fileExtension = file[isAdminBro ? 'name' : 'originalname']
+    .split('.')
+    .pop();
 
   // делаем уникальное имя файла
   const fileName = uuid.v4() + '.' + fileExtension;
@@ -20,13 +23,14 @@ export const fsCreateFile = (type, file) => {
   if (!fs.existsSync(filePath)) {
     fs.mkdirSync(filePath, { recursive: true });
   }
+  const writeFile = isAdminBro ? fs.readFileSync(file.path) : file.buffer;
 
   // сохраняем файл
-  fs.writeFileSync(filePath + '/' + fileName, file.buffer);
+  fs.writeFileSync(filePath + '/' + fileName, writeFile);
 
   // возвращаем путь для сохранения в базе
   return type + '/' + fileName;
-}
+};
 
 export const fsRemoveFile = (filePath) => {
   if (filePath) {
@@ -36,8 +40,7 @@ export const fsRemoveFile = (filePath) => {
     return 'файл удален';
   }
   return 'файл не удален';
-}
-
+};
 
 @Injectable()
 export class FileService {

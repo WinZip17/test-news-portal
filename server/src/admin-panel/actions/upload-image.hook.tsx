@@ -1,19 +1,38 @@
-import AdminBro from 'admin-bro';
-import { fsCreateFile } from 'src/file/file.service';
+import { fsCreateFile, fsRemoveFile } from 'src/file/file.service';
 
-const after = async (response, request, context) => {
-  const { record, uploadImage } = context;
-  if (record.isValid() && uploadImage) {
-    const image = fsCreateFile('image', uploadImage);
-    await record.update({ image });
+const block = (entity): string | null => {
+  switch (entity) {
+    case 'image':
+      return 'newsImage';
+    case 'avatar':
+      return 'Avatar';
+    default:
+      return null;
+  }
+};
+
+const after = async (response, request, context, entity) => {
+  const workImage = block(entity) ? context[block(entity)] : null;
+  const { record } = context;
+
+  if (block(entity) && record.isValid() && workImage) {
+    // если картинка была, предыдущую удалить
+    if (record.params.image) {
+      fsRemoveFile(record.params.image);
+    }
+    const createFile = fsCreateFile('image', workImage, true);
+    await record.update({ [entity]: createFile });
   }
   return response;
 };
 
-const before = async (request, context) => {
+const before = async (request, context, entity) => {
   if (request.method === 'post') {
-    const { uploadImage, ...otherParams } = request.payload;
-    context.uploadImage = uploadImage;
+    const paramName = block(entity);
+    const workImage = request.payload[paramName];
+    delete request.payload[paramName];
+    const { ...otherParams } = request.payload;
+    context[paramName] = workImage;
     return { ...request, payload: otherParams };
   }
   return request;
