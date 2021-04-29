@@ -2,9 +2,9 @@ import { INestApplication } from '@nestjs/common';
 import AdminBro from 'admin-bro';
 import AdminBroSequelize from '@admin-bro/sequelize';
 import * as AdminBroExpress from 'admin-bro-expressjs';
-import { Comment } from 'src/news/entities/comment.entity';
 import UserResources from './resources/user.resources';
 import NewsResources from './resources/news.resources';
+import CommentResources from './resources/comment.resources';
 AdminBro.registerAdapter(AdminBroSequelize);
 const db = require('../../models');
 
@@ -16,7 +16,7 @@ export const baseNavigation = {
 export async function setupAdminPanel(app: INestApplication): Promise<void> {
   const adminBro = new AdminBro({
     databases: [db],
-    resources: [UserResources, NewsResources, { resource: Comment }],
+    resources: [UserResources, NewsResources, CommentResources],
     rootPath: '/admin',
     branding: {
       companyName: 'админОчко',
