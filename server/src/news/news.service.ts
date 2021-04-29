@@ -111,12 +111,14 @@ export class NewsService {
     return `новость с ид ${id} удалена, ${delImage}`;
   }
 
-  async createComment(data): Promise<Comment> {
-    const { id, content } = data;
-    const newComment = await this.commentRepository.create({
+  async createComment(data): Promise<News> {
+    const { NewsId, content, UserId } = data;
+    await this.commentRepository.create({
       content,
-      NewsId: id,
+      UserId,
+      NewsId,
     });
-    return newComment;
+    const news: News = await this.findByPk(NewsId);
+    return news;
   }
 }

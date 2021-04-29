@@ -66,8 +66,6 @@ export class UsersController {
     @Body() updateUserDto: UpdateUserDto,
     @Request() req,
   ) {
-    console.log('UploadedFile file', file);
-
     return this.usersService.update(
       { ...updateUserDto, email: req.user.email },
       file,

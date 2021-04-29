@@ -118,7 +118,7 @@ const NewsPage = () => {
                 {news.dislike.length}
               </div>
             </div>
-            <Comments comments={news.comments} />
+            <Comments comments={news.comments} NewsId={Number(params.id)} />
           </CardContent>
         </Card>
       )}

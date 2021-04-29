@@ -1,7 +1,6 @@
 import { IsNotEmpty, MaxLength, MinLength } from 'class-validator';
 
 export class CreateNewsDto {
-
   @MinLength(5, { message: 'Заголовок минимум 5 символов' })
   @MaxLength(50, { message: 'Заголовок максимум 50 символов' })
   @IsNotEmpty({ message: 'Заголовок обязателен' })

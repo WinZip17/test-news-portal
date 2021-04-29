@@ -65,8 +65,9 @@ export class NewsController {
     return this.newsService.remove(+id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('comment')
-  async createComment(@Body() data: CreateCommentDto) {
-    return this.newsService.createComment(data);
+  async createComment(@Body() data: CreateCommentDto, @Request() req) {
+    return this.newsService.createComment({ ...data, UserId: req.user.id });
   }
 }

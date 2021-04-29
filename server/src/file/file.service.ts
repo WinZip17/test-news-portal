@@ -8,7 +8,6 @@ export enum FileType {
 }
 
 export const fsCreateFile = (type, file, isAdminBro = false) => {
-
   const fileExtension = file[isAdminBro ? 'name' : 'originalname']
     .split('.')
     .pop();

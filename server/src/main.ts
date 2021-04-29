@@ -14,9 +14,7 @@ const start = async () => {
     app.setViewEngine('pug');
     app.enableCors();
     app.useGlobalPipes(new ValidationPipe());
-    /**
-     * Setup Admin panel
-     */
+
     await setupAdminPanel(app);
 
     await app.listen(PORT, () =>

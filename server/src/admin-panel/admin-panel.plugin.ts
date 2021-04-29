@@ -23,10 +23,10 @@ export async function setupAdminPanel(app: INestApplication): Promise<void> {
     },
   });
 
-  /** Create router */
+  /** Роутинг без авторизации  */
   const router = AdminBroExpress.buildRouter(adminBro);
 
-  /** Роутинг с авторизацией  */
+  /** Роутинг с авторизацией, и жестокой проверкой на емаил вместо прав :)  */
   // const router = AdminBroExpress.buildAuthenticatedRouter(adminBro, {
   //   authenticate: async (email, password) => {
   //     const AuthUser = db.sequelize.models.User;
