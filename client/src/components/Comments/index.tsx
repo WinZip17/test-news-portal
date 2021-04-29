@@ -30,9 +30,7 @@ type CommentsPropsType = {
 const Comments = ({ comments, NewsId }: CommentsPropsType): JSX.Element => {
   const classes = useStyles();
   const { loadingAddComment } = useStore($newsGetStatus);
-
   const user = useStore($user);
-  const userId = user ? user.id : 0;
   const {
     handleSubmit,
     control,

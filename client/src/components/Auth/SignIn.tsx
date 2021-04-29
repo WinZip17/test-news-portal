@@ -4,10 +4,10 @@ import React from 'react';
 import { useStore } from 'effector-react';
 import { useAuthStyles } from './auth.style';
 import { $userGetStatus } from '../../models/UserModels';
-import { LoginFx } from '../../models/UserModels/userLogin';
 import { getError } from '../../utils/getFieldError';
 import getMessagesError from '../../utils/getMessagesError';
 import ErrorList from '../ErrorList';
+import { LoginFx } from '../../models/UserModels/userEffects';
 
 const SignIn = (): JSX.Element => {
   const classes = useAuthStyles();

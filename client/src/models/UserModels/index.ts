@@ -1,25 +1,15 @@
 import {
-  combine, createEffect, createEvent, createStore,
+  combine, createEvent, createStore,
 } from 'effector';
 import { AxiosError } from 'axios';
-import ApiFactory from '../../api/ApiFactory';
 import { User } from './userTypes';
-import { LoginFx } from './userLogin';
-import { registrationFx } from './userRegistration';
-import { updateUserFx } from './userUpdate';
-import { changePasswordFx } from './userChangePassword';
-import { recoveryPasswordFx } from './userRecoveryPassword';
-import { resetPasswordFx } from './userResetPassword';
+import {
+  changePasswordFx, getMeFx, LoginFx, recoveryPasswordFx, registrationFx, resetPasswordFx, updateUserFx,
+} from './userEffects';
 
 const removeToken = (): void => {
   window.localStorage.removeItem('token');
 };
-
-export const getMeFx = createEffect<void, User, AxiosError>(async () => {
-  const api = new ApiFactory().userApi();
-  const responce = await api.getMe();
-  return responce.data;
-});
 
 export const signOut = createEvent();
 

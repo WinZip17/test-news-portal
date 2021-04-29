@@ -5,12 +5,11 @@ import { useStore } from 'effector-react';
 import { useAuthStyles } from './auth.style';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
-import { registrationFx } from '../../models/UserModels/userRegistration';
 import { registrationUser, ResetPasswordData } from '../../models/UserModels/userTypes';
 import { $isMobile } from '../../models/MediaModels';
 import { clearError } from '../../models/UserModels';
 import RecoveryPassword from './RecoveryPassword';
-import { resetPasswordFx } from '../../models/UserModels/userResetPassword';
+import { registrationFx, resetPasswordFx } from '../../models/UserModels/userEffects';
 
 const Auth = () => {
   const classes = useAuthStyles();

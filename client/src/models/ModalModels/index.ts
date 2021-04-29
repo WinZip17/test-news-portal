@@ -1,9 +1,8 @@
 import { createEvent, createStore } from 'effector';
-import { registrationFx } from '../UserModels/userRegistration';
-import { changePasswordFx } from '../UserModels/userChangePassword';
-import { recoveryPasswordFx } from '../UserModels/userRecoveryPassword';
-import { resetPasswordFx } from '../UserModels/userResetPassword';
 import { addNewsFx } from '../NewsModels/newsAdd';
+import {
+  changePasswordFx, recoveryPasswordFx, registrationFx, resetPasswordFx,
+} from '../UserModels/userEffects';
 
 export class ModalContentTypes {
   title = '';

@@ -10,9 +10,10 @@ import NewsPage from './components/NewsPage';
 import AddNews from './components/AddNews';
 import Layout from './components/Layout';
 import User from './components/User';
-import { $user, getMeFx } from './models/UserModels';
+import { $user } from './models/UserModels';
 import TransitionsModal from './components/TransitionsModal';
 import Auth from './components/Auth';
+import { getMeFx } from './models/UserModels/userEffects';
 
 const App = () => {
   const user = useStore($user);

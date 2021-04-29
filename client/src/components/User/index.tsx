@@ -12,12 +12,11 @@ import {
 import { BASE_URL } from '../../constant';
 import Preloader from '../Preloader';
 import Auth from '../Auth';
-import { updateUserFx } from '../../models/UserModels/userUpdate';
 import { updateUser } from '../../models/UserModels/userTypes';
-import { changePasswordFx } from '../../models/UserModels/userChangePassword';
 import UpdateUserInfo from './UpdateUserInfo';
 import { userStylesUser } from './user.style';
 import ChangeUserPassword from './ChangeUserPassword';
+import { changePasswordFx, updateUserFx } from '../../models/UserModels/userEffects';
 
 const User = () => {
   const classes = userStylesUser();

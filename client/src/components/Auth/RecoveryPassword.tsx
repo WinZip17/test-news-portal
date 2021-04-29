@@ -5,11 +5,11 @@ import Typography from '@material-ui/core/Typography';
 import { useStore } from 'effector-react';
 import { useAuthStyles } from './auth.style';
 import { getError } from '../../utils/getFieldError';
-import { recoveryPasswordFx } from '../../models/UserModels/userRecoveryPassword';
 import { $fetchErrorRecoveryPasswordUser, $userGetStatus, clearError } from '../../models/UserModels';
 import getMessagesError from '../../utils/getMessagesError';
 import ErrorList from '../ErrorList';
 import { ResetPasswordData } from '../../models/UserModels/userTypes';
+import { recoveryPasswordFx } from '../../models/UserModels/userEffects';
 
 type RecoveryPasswordType = {
   resetPassword: (data: ResetPasswordData) => void
