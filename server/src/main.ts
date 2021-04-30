@@ -4,6 +4,9 @@ import { join } from 'path';
 import { AppModule } from './app.module';
 import { setupAdminPanel } from './admin-panel/admin-panel.plugin';
 import { ValidationPipe } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { UsersModule } from './users/users.module';
+import { NewsModule } from './news/news.module';
 
 const start = async () => {
   try {
@@ -16,6 +19,19 @@ const start = async () => {
     app.useGlobalPipes(new ValidationPipe());
 
     await setupAdminPanel(app);
+
+    const swaggerConfig = new DocumentBuilder()
+      .setTitle('News example')
+      .setDescription('The news API description')
+      .setVersion('1.0')
+      .addTag('News', 'Новости')
+      .addTag('Users', 'Пользователи')
+      .build();
+
+    const document = SwaggerModule.createDocument(app, swaggerConfig, {
+      include: [UsersModule, NewsModule],
+    });
+    SwaggerModule.setup('api', app, document);
 
     await app.listen(PORT, () =>
       console.log(`server started http://localhost:${PORT}`),

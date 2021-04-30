@@ -18,7 +18,9 @@ import { UpdateNewsDto } from './dto/update-news.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { JwtAuthGuard } from '../auth/ jwt-auth.guard';
+import { ApiTags, ApiResponse } from '@nestjs/swagger';
 
+@ApiTags('News')
 @Controller('api/news')
 export class NewsController {
   constructor(private readonly newsService: NewsService) {}
@@ -29,6 +31,9 @@ export class NewsController {
     return this.newsService.create({ ...createNewsDto }, file);
   }
 
+  @ApiResponse({
+    status: 200,
+  })
   @Get()
   findAll(@Query('page') page: string, @Query('offset') size: string) {
     return this.newsService.findAll(page, size);

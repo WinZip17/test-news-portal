@@ -19,7 +19,9 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { RecoveryPasswordDto } from './dto/recovery-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users')
 @Controller('api/users')
 export class UsersController {
   constructor(
