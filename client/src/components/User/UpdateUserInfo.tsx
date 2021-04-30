@@ -22,14 +22,14 @@ type UpdateUserInfoPropsType = {
 const UpdateUserInfo = ({ setChange, handleUpdateUserInfo, image }: UpdateUserInfoPropsType): JSX.Element => {
   const classes = userStylesUser();
   const {
-    user, loadingUpdateUser, updateError,
+    user, loadingUpdateUser, userError,
   } = useStore($userGetStatus);
   const {
     handleSubmit,
     control,
     register,
   } = useForm({ mode: 'onBlur', reValidateMode: 'onChange' });
-  const updateErrorMessage: string[] = updateError ? getMessagesError(updateError.response?.data.message) : [];
+  const userErrorMessage: string[] = userError ? getMessagesError(userError.response?.data.message) : [];
 
   if (!user) {
     return <Auth />;
@@ -97,7 +97,7 @@ const UpdateUserInfo = ({ setChange, handleUpdateUserInfo, image }: UpdateUserIn
             />
           )}
         />
-        {updateError && <ErrorList errors={updateErrorMessage} />}
+        {userError && <ErrorList errors={userErrorMessage} />}
         <div>
           <Button type="submit" variant="contained" className={classes.saveButton} color="primary" disabled={loadingUpdateUser}>Сохранить изменения</Button>
         </div>

@@ -6,7 +6,7 @@ import { useStore } from 'effector-react';
 import { userStylesUser } from './user.style';
 import { getError } from '../../utils/getFieldError';
 import ErrorList from '../ErrorList';
-import { $fetchErrorChangePasswordUser, $userGetStatus } from '../../models/UserModels';
+import { $fetchUserError, $userGetStatus } from '../../models/UserModels';
 import getMessagesError from '../../utils/getMessagesError';
 
 type ChangePasswordPropsType = {
@@ -16,7 +16,7 @@ type ChangePasswordPropsType = {
 
 const ChangeUserPassword = ({ setChange, handleChangePassword }: ChangePasswordPropsType): JSX.Element => {
   const classes = userStylesUser();
-  const passwordError = useStore($fetchErrorChangePasswordUser);
+  const passwordError = useStore($fetchUserError);
   const { loadingChangePassword } = useStore($userGetStatus);
   const {
     handleSubmit,

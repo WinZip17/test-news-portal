@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { useStore } from 'effector-react';
 import { useAuthStyles } from './auth.style';
 import { getError } from '../../utils/getFieldError';
-import { $fetchErrorRecoveryPasswordUser, $userGetStatus, clearError } from '../../models/UserModels';
+import { $fetchUserError, $userGetStatus, clearError } from '../../models/UserModels';
 import getMessagesError from '../../utils/getMessagesError';
 import ErrorList from '../ErrorList';
 import { ResetPasswordData } from '../../models/UserModels/userTypes';
@@ -23,7 +23,7 @@ const RecoveryPassword = ({ resetPassword }: RecoveryPasswordType): JSX.Element 
     control,
     watch,
   } = useForm({ mode: 'onBlur', reValidateMode: 'onChange' });
-  const sendEmailError = useStore($fetchErrorRecoveryPasswordUser);
+  const sendEmailError = useStore($fetchUserError);
   const { loadingRecoveryPassword, loadingResetPassword } = useStore($userGetStatus);
   const sendEmailErrorMessage: string[] = sendEmailError ? getMessagesError(sendEmailError.response?.data.message) : [];
 
