@@ -11,6 +11,7 @@ module.exports = {
     },
   },
   production: {
+    adapter: process.env.PROD_DB_ADAPTER,
     username: process.env.PROD_DB_USER,
     password: process.env.PROD_DB_PASSWORD,
     database: process.env.PROD_DB_NAME,
@@ -20,5 +21,7 @@ module.exports = {
     dialectOptions: {
       bigNumberStrings: true,
     },
+    encoding: 'unicode',
+    pool: 5,
   },
 };
