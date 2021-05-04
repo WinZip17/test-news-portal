@@ -19,7 +19,6 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 import { FrontendMiddleware } from './frontend.middleware';
 
-const mailConfig = require(__dirname + '/../config/mailer.js');
 @Module({
   imports: [
     ServeStaticModule.forRoot({
@@ -31,20 +30,22 @@ const mailConfig = require(__dirname + '/../config/mailer.js');
     UsersModule,
     AuthModule,
     MailerModule.forRootAsync({
-      useFactory: () => ({
-        // transport: `${process.env.MAIL_MAILER}://${process.env.MAIL_USERNAME}:${process.env.MAIL_PASSWORD}@${process.env.MAIL_HOST}`,
-        transport: mailConfig.transport,
-        defaults: {
-          from: 'News portal',
-        },
-        template: {
-          dir: __dirname + '/templates',
-          adapter: new PugAdapter(),
-          options: {
-            strict: true,
+      useFactory: () => {
+        const transport = `${process.env.MAIL_MAILER}://${process.env.MAIL_USERNAME}:${process.env.MAIL_PASSWORD}@${process.env.MAIL_HOST}`
+        return {
+          transport,
+          defaults: {
+            from: 'News portal',
           },
-        },
-      }),
+          template: {
+            dir: __dirname + '/templates',
+            adapter: new PugAdapter(),
+            options: {
+              strict: true,
+            },
+          },
+        }
+      },
     }),
   ],
   controllers: [AppController],
