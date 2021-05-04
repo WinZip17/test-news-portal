@@ -17,12 +17,12 @@ export class UserApiImpl implements UserApi {
   }
 
   async getMe(): Promise<any> {
-    const result = await this.axios.get('/me');
+    const result = await this.axios.get('/api/users/me');
     return result;
   }
 
   async login(data: {email: string, password: string}): Promise<any> {
-    const result = await this.axios.post('/auth/login', data);
+    const result = await this.axios.post('/api/users/login', data);
     return result;
   }
 

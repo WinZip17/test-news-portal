@@ -22,7 +22,6 @@ export class NewsService {
 
   async create(createNewsDto: CreateNewsDto, file) {
     const saveImage = await this.fileService.createFile(FileType.IMAGE, file);
-    console.log('saveImage', saveImage);
     const newNews = await this.newsRepository.create({
       ...createNewsDto,
       image: saveImage,

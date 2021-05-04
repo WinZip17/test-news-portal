@@ -67,7 +67,7 @@ const NewsCard = ({ news, handleNews }: NewsCardPros): JSX.Element => {
         {news.image && (
           <img
             className={classes.media}
-            src={`${BASE_URL}/${news.image}`}
+            src={`${BASE_URL}/static/${news.image}`}
             title="image"
             alt="news logo"
           />

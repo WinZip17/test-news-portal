@@ -99,7 +99,7 @@ const User = () => {
           <Typography variant="subtitle1" gutterBottom>
             Аватарка:
           </Typography>
-          <Avatar src={`${BASE_URL}/${user.avatar}`} className={classes.avatar} />
+          <Avatar src={`${BASE_URL}/static/${user.avatar}`} className={classes.avatar} />
         </div>
         )}
         <Button variant="contained" color="primary" className={classes.button} onClick={handleSignOut}>Выйти</Button>

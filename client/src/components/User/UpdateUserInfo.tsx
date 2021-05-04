@@ -58,7 +58,7 @@ const UpdateUserInfo = ({ setChange, handleUpdateUserInfo, image }: UpdateUserIn
         />
 
         <div className={classes.avatarWrap}>
-          <Avatar alt="photo" src={typeof image === 'string' ? image : user.avatar ? `${BASE_URL}/${user.avatar}` : ''} className={classes.changeAvatar} />
+          <Avatar alt="photo" src={typeof image === 'string' ? image : user.avatar ? `${BASE_URL}/static/${user.avatar}` : ''} className={classes.changeAvatar} />
           <input
             {...register('avatar')}
             className={classes.inputFile}

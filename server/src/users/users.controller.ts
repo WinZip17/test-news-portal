@@ -9,6 +9,7 @@ import {
   Request,
   UseInterceptors,
   UploadedFile,
+  Get,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -20,6 +21,7 @@ import { RecoveryPasswordDto } from './dto/recovery-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
+import { LoginUserDto } from './dto/login-user.dto';
 
 @ApiTags('Users')
 @Controller('api/users')
@@ -29,6 +31,17 @@ export class UsersController {
     @Inject(forwardRef(() => AuthService))
     private readonly authService: AuthService,
   ) {}
+
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  getProfile(@Request() req) {
+    return req.user;
+  }
+
+  @Post('login')
+  async login(@Body() data: LoginUserDto) {
+    return this.authService.login(data);
+  }
 
   @Post('registration')
   @UseInterceptors(FileInterceptor('avatar'))

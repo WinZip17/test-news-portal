@@ -10,14 +10,13 @@ import { NewsModule } from './news/news.module';
 
 const start = async () => {
   try {
-    const PORT = process.env.PORT || 3000;
+    const PORT = process.env.PORT || 3001;
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
     app.useStaticAssets(join(__dirname, '..', 'public'));
     app.setBaseViewsDir(join(__dirname, '..', 'views'));
     app.setViewEngine('pug');
     app.enableCors();
     app.useGlobalPipes(new ValidationPipe());
-
     await setupAdminPanel(app);
 
     const swaggerConfig = new DocumentBuilder()

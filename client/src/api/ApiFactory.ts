@@ -1,14 +1,13 @@
 import Axios from 'axios';
 import { NewsApi, NewsApiImpl } from './NewsApi';
 import { UserApi, UserApiImpl } from './UserApi';
-import { BASE_URL } from '../constant';
 
 class ApiFactory {
   private readonly axios;
 
   constructor() {
     this.axios = Axios.create({
-      baseURL: BASE_URL,
+      baseURL: process.env.REACT_APP_BASE_URL,
       headers: {
         Authorization: `Bearer ${window.localStorage.getItem('token')}`,
       },

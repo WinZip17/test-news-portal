@@ -35,8 +35,10 @@ export const fsRemoveFile = (filePath) => {
   if (filePath) {
     const fileDirPath = path.resolve(__dirname, '..', 'static');
     // удаляем файл
-    fs.unlinkSync(fileDirPath + '/' + filePath);
-    return 'файл удален';
+    if (!fs.existsSync(fileDirPath + '/' + filePath)) {
+      fs.unlinkSync(fileDirPath + '/' + filePath);
+      return 'файл удален';
+    }
   }
   return 'файл не удален';
 };
