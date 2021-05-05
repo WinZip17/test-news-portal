@@ -5,9 +5,13 @@ const { Sequelize } = require('sequelize-typescript');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
+const config2 = require(__dirname + '/../config/config.js');
 const db = {};
 
-console.log('config', config)
+console.log('__dirname', __dirname);
+console.log('config', config);
+console.log('config2', config2);
+
 const sequelize = new Sequelize(config);
 
 fs.readdirSync(__dirname)
