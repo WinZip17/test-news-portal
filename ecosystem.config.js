@@ -27,6 +27,7 @@ module.exports = {
         'npm install  && ' +
         // 'npm run-script build && ' +
         // 'ln -s /data/reactness/app/shared/.env /data/reactness/app/current/server/dist/.env &&' +
+        // ' npx sequelize-cli db:migrate &&' +
         ' cd .. &&' +
         ' cd client && npm install && npm run-script build &&' +
         ' cd .. && ' +

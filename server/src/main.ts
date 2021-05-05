@@ -7,6 +7,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { UsersModule } from './users/users.module';
 import { NewsModule } from './news/news.module';
+require('dotenv').config({ path: `../.env` });
 
 const start = async () => {
   try {
