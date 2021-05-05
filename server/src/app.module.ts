@@ -21,14 +21,14 @@ import { FrontendMiddleware } from './frontend.middleware';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     ServeStaticModule.forRoot({
       rootPath: path.resolve(__dirname, 'static'),
     }),
     NewsModule,
     FileModule,
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
     // ConfigModule.forRoot({ isGlobal: true, cache: false }),
     UsersModule,
     AuthModule,

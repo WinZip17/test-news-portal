@@ -10,9 +10,9 @@ import { NewsModule } from './news/news.module';
 
 const start = async () => {
   try {
+    const app = await NestFactory.create<NestExpressApplication>(AppModule);
     console.log('process.env.PORT2222', process.env.PORT);
     const PORT = process.env.PORT || 3001;
-    const app = await NestFactory.create<NestExpressApplication>(AppModule);
     app.useStaticAssets(join(__dirname, '..', 'public'));
     app.setBaseViewsDir(join(__dirname, '..', 'views'));
     app.setViewEngine('pug');
