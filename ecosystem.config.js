@@ -2,8 +2,11 @@ module.exports = {
   apps: [
     {
       name: 'news',
-      script: 'server/dist/main.js',
+      script: 'cd sever && yarn start',
       watch: '.',
+      "env": {
+        "NODE_ENV": "production"
+      },
     },
     //   {
     //   script: './service-worker/',
@@ -22,8 +25,8 @@ module.exports = {
       'post-deploy':
         'cd server && ' +
         'npm install  && ' +
-        'npm run-script build && ' +
-        'ln -s /data/reactness/app/shared/.env /data/reactness/app/current/server/dist/.env &&' +
+        // 'npm run-script build && ' +
+        // 'ln -s /data/reactness/app/shared/.env /data/reactness/app/current/server/dist/.env &&' +
         ' cd .. &&' +
         ' cd client && npm install && npm run-script build &&' +
         ' cd .. && ' +
