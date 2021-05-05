@@ -30,8 +30,8 @@ import { FrontendMiddleware } from './frontend.middleware';
     UsersModule,
     AuthModule,
     MailerModule.forRootAsync({
-      useFactory: () => {
-        const transport = `${process.env.MAIL_MAILER}://${process.env.MAIL_USERNAME}:${process.env.MAIL_PASSWORD}@${process.env.MAIL_HOST}`
+      useFactory: function () {
+        const transport = `${process.env.MAIL_MAILER}://${process.env.MAIL_USERNAME}:${process.env.MAIL_PASSWORD}@${process.env.MAIL_HOST}`;
         return {
           transport,
           defaults: {
@@ -44,7 +44,7 @@ import { FrontendMiddleware } from './frontend.middleware';
               strict: true,
             },
           },
-        }
+        };
       },
     }),
   ],
