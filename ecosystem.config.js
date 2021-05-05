@@ -20,9 +20,13 @@ module.exports = {
       host: '6rs.ru',
       ref: 'origin/master',
       repo: 'https://github.com/WinZip17/test-news-portal.git',
+      env: {
+        "NODE_ENV": "production"
+      },
       path: '/data/reactness/app',
       'pre-deploy-local': '',
       'post-deploy':
+        'NODE_ENV=production && ' +
         'cd server && ' +
         'npm install  && ' +
         'npm run-script build && ' +
