@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'news-portal-app',
+      name: 'news',
       script: 'server/dist/main.js',
       watch: '.',
     },
@@ -20,7 +20,14 @@ module.exports = {
       path: '/data/reactness/app',
       'pre-deploy-local': '',
       'post-deploy':
-        'cd server && npm install  && npm run-script build && ln -s /data/reactness/app/shared/.env /data/reactness/app/current/server/dist/.env && cd .. && cd client && npm install && npm run-script build && cd .. && pm2 startOrRestart ecosystem.config.js --env production',
+        'cd server && ' +
+        'npm install  && ' +
+        // 'npm run-script build && ' +
+        'ln -s /data/reactness/app/shared/.env /data/reactness/app/current/server/dist/.env &&' +
+        ' cd .. &&' +
+        ' cd client && npm install && npm run-script build &&' +
+        ' cd .. && ' +
+        'pm2 startOrRestart ecosystem.config.js --env production',
       // 'post-deploy':
       //   'cd server && npm install && npm run-script build && cd .. && cd client && npm install && npm run-script build && cd .. && pm2 startOrRestart ecosystem.config.js --env production',
       'pre-setup': '',
