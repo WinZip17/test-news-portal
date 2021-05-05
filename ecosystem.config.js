@@ -2,11 +2,9 @@ module.exports = {
   apps: [
     {
       name: 'news',
-      script: 'server/dist/main.js',
+      // script: 'server/dist/main.js',
+      script: 'cd server && NODE_ENV=production && npx sequelize-cli db:migrate &&',
       watch: '.',
-      "env": {
-        "NODE_ENV": "production"
-      },
     },
     //   {
     //   script: './service-worker/',
@@ -26,12 +24,10 @@ module.exports = {
       path: '/data/reactness/app',
       'pre-deploy-local': '',
       'post-deploy':
-        'NODE_ENV=production && ' +
         'cd server && ' +
         'npm install  && ' +
         'npm run-script build && ' +
         'ln -s /data/reactness/app/shared/.env /data/reactness/app/current/server/dist/.env &&' +
-        ' npx sequelize-cli db:migrate &&' +
         ' cd .. &&' +
         ' cd client && npm install && npm run-script build &&' +
         ' cd .. && ' +
