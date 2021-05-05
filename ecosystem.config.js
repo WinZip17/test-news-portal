@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'news',
       // script: 'server/dist/main.js',
-      script: 'cd server && NODE_ENV=production && npx sequelize-cli db:migrate &&',
+      script: 'cd server && NODE_ENV=production && npx sequelize-cli db:migrate && yarn start',
       watch: '.',
     },
     //   {
@@ -32,8 +32,6 @@ module.exports = {
         ' cd client && npm install && npm run-script build &&' +
         ' cd .. && ' +
         'pm2 startOrRestart ecosystem.config.js --env production',
-      // 'post-deploy':
-      //   'cd server && npm install && npm run-script build && cd .. && cd client && npm install && npm run-script build && cd .. && pm2 startOrRestart ecosystem.config.js --env production',
       'pre-setup': '',
     },
   },
