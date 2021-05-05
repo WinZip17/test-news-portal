@@ -3,12 +3,14 @@ const fs = require('fs');
 const path = require('path');
 const { Sequelize } = require('sequelize-typescript');
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV || 'production';
 const config = require(__dirname + '/../config/config.js')[env];
 const config2 = require(__dirname + '/../config/config.js');
 const db = {};
 
 console.log('__dirname', __dirname);
+console.log('process.env.NODE_ENV', process.env.NODE_ENV);
+console.log('process.env', process.env);
 console.log('config', config);
 console.log('config2', config2);
 
