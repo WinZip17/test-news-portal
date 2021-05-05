@@ -23,6 +23,7 @@ import { FrontendMiddleware } from './frontend.middleware';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: '.env',
     }),
     ServeStaticModule.forRoot({
       rootPath: path.resolve(__dirname, 'static'),
