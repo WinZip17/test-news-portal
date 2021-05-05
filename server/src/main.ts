@@ -10,6 +10,7 @@ import { NewsModule } from './news/news.module';
 
 const start = async () => {
   try {
+    console.log('process.env.PORT', process.env.PORT);
     const PORT = process.env.PORT || 3001;
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
     app.useStaticAssets(join(__dirname, '..', 'public'));

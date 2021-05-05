@@ -27,7 +27,6 @@ import { FrontendMiddleware } from './frontend.middleware';
     NewsModule,
     FileModule,
     ConfigModule.forRoot({
-      envFilePath: '.env',
       isGlobal: true,
     }),
     // ConfigModule.forRoot({ isGlobal: true, cache: false }),
