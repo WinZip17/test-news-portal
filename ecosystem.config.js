@@ -23,7 +23,7 @@ module.exports = {
         'cd server && ' +
         'npm install  && ' +
         // 'npm run-script build && ' +
-        'ln -s /data/reactness/app/shared/.env /data/reactness/app/current/server/dist/.env &&' +
+        // 'ln -s /data/reactness/app/shared/.env /data/reactness/app/current/server/dist/.env &&' +
         ' cd .. &&' +
         ' cd client && npm install && npm run-script build &&' +
         ' cd .. && ' +
