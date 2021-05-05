@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'news',
-      script: 'cd sever && yarn start',
+      script: 'server/dist/main.js',
       watch: '.',
       "env": {
         "NODE_ENV": "production"
@@ -25,9 +25,9 @@ module.exports = {
       'post-deploy':
         'cd server && ' +
         'npm install  && ' +
-        // 'npm run-script build && ' +
-        // 'ln -s /data/reactness/app/shared/.env /data/reactness/app/current/server/dist/.env &&' +
-        // ' npx sequelize-cli db:migrate &&' +
+        'npm run-script build && ' +
+        'ln -s /data/reactness/app/shared/.env /data/reactness/app/current/server/dist/.env &&' +
+        ' npx sequelize-cli db:migrate &&' +
         ' cd .. &&' +
         ' cd client && npm install && npm run-script build &&' +
         ' cd .. && ' +
