@@ -4,6 +4,7 @@ module.exports = {
       name: 'news-portal-app',
       script: 'server/dist/main.js',
       watch: '.',
+      node_args : '-r dotenv/config',
     },
     //   {
     //   script: './service-worker/',

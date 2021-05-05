@@ -26,7 +26,11 @@ import { FrontendMiddleware } from './frontend.middleware';
     }),
     NewsModule,
     FileModule,
-    ConfigModule.forRoot({ isGlobal: true, cache: false }),
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true,
+    }),
+    // ConfigModule.forRoot({ isGlobal: true, cache: false }),
     UsersModule,
     AuthModule,
     MailerModule.forRootAsync({
