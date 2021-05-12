@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'news',
       // script: 'server/dist/main.js',
-      script: 'NODE_ENV=production && cd server && npx sequelize-cli db:migrate && yarn start:dev',
+      script: 'NODE_ENV=production && cd server && yarn start:prod',
       watch: '.',
     },
     //   {
