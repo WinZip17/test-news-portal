@@ -25,20 +25,26 @@ module.exports = {
       },
       comments: {
         type: Sequelize.ARRAY(Sequelize.INTEGER),
-        references: {
-          model: 'Comments',
-          key: 'id',
-        },
-        allowNull: false,
       },
-      userId: {
+      UserId: {
         type: Sequelize.INTEGER,
-        references: {
-          model: 'Users',
-          key: 'id',
-        },
-        allowNull: false,
       },
+      // comments: {
+      //   type: Sequelize.ARRAY(Sequelize.INTEGER),
+      //   references: {
+      //     model: 'Comments',
+      //     key: 'id',
+      //   },
+      //   allowNull: false,
+      // },
+      // userId: {
+      //   type: Sequelize.INTEGER,
+      //   references: {
+      //     model: 'Users',
+      //     key: 'id',
+      //   },
+      //   allowNull: false,
+      // },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

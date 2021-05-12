@@ -12,7 +12,6 @@ require('dotenv').config({ path: `../.env` });
 const start = async () => {
   try {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
-    console.log('process.env.PORT2222', process.env.PORT);
     const PORT = process.env.PORT || 3001;
     app.useStaticAssets(join(__dirname, '..', 'public'));
     app.setBaseViewsDir(join(__dirname, '..', 'views'));
@@ -35,7 +34,6 @@ const start = async () => {
     SwaggerModule.setup('api', app, document);
 
     await app.listen(PORT, () => {
-      console.log('app', app);
       console.log(`server started http://localhost:${PORT}`);
     });
   } catch (e) {
