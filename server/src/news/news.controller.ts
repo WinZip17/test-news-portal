@@ -25,10 +25,18 @@ import { ApiTags, ApiResponse } from '@nestjs/swagger';
 export class NewsController {
   constructor(private readonly newsService: NewsService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   @UseInterceptors(FileInterceptor('image'))
-  async create(@UploadedFile() file, @Body() createNewsDto: CreateNewsDto) {
-    return this.newsService.create({ ...createNewsDto }, file);
+  async create(
+    @UploadedFile() file,
+    @Body() createNewsDto: CreateNewsDto,
+    @Request() req,
+  ) {
+    return this.newsService.create(
+      { ...createNewsDto, UserId: req.user.id },
+      file,
+    );
   }
 
   @ApiResponse({

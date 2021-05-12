@@ -48,7 +48,10 @@ export class NewsService {
       },
       attributes: {
         include: [
-          [Sequelize.fn('COUNT', Sequelize.col('comments')), 'commentCount'],
+          [
+            Sequelize.fn('COUNT', Sequelize.col('comments.NewsId')),
+            'commentCount',
+          ],
         ],
       },
       order: [['updatedAt', 'DESC']],

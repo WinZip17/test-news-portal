@@ -22,4 +22,6 @@ export class CreateNewsDto {
     type: Object,
   })
   image: string | null;
+
+  UserId: number;
 }

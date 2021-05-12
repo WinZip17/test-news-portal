@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       like: DataTypes.ARRAY(DataTypes.INTEGER),
       dislike: DataTypes.ARRAY(DataTypes.INTEGER),
       comments: DataTypes.ARRAY(DataTypes.INTEGER),
-      userId: DataTypes.INTEGER,
+      UserId: DataTypes.INTEGER,
     },
     {
       sequelize,
