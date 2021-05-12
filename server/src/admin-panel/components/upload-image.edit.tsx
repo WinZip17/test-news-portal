@@ -36,7 +36,7 @@ const UploadImageEdit: React.FC<BasePropertyProps> = (props) => {
       {record.params.image && (
         <div>
           <p>Current:</p>
-          <img src={`http://localhost:3003/${record.params.image}`} alt="" />
+          <img src={`/${record.params.image}`} alt="" />
         </div>
       )}
       <div>
