@@ -2,8 +2,8 @@ module.exports = {
   apps: [
     {
       name: 'news',
-      // script: 'server/dist/main.js',
-      script: 'NODE_ENV=production && cd server && yarn start:prod',
+      script: 'server/dist/main.js',
+      // script: 'NODE_ENV=production && cd server && yarn start:prod',
       watch: '.',
     },
     //   {
