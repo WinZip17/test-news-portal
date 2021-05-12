@@ -18,7 +18,6 @@ import { userStylesUser } from './user.style';
 import ChangeUserPassword from './ChangeUserPassword';
 import { changePasswordFx, updateUserFx } from '../../models/UserModels/userEffects';
 
-
 const User = () => {
   const classes = userStylesUser();
 
