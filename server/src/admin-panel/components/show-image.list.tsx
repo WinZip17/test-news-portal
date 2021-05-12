@@ -16,7 +16,7 @@ const getKey = (resourceId: string): string => {
 const Edit: React.FC<BasePropertyProps> = (props) => {
   const { record, property } = props;
   const fileKey = getKey(property.resourceId);
-  const srcImg = `/${record.params[fileKey]}`;
+  const srcImg = `/static/${record.params[fileKey]}`;
   return <Box>{srcImg ? <img src={srcImg} width="100px" /> : 'no image'}</Box>;
 };
 
