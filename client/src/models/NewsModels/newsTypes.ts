@@ -1,3 +1,5 @@
+import { User } from '../UserModels/userTypes';
+
 export interface AddNewsTypes {
   title: string;
   content: string;
@@ -12,4 +14,6 @@ export interface ReactionNewsTypes {
 export interface CommentType {
   NewsId?: number;
   content: string;
+  createdAt: string;
+  user: User
 }

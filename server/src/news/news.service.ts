@@ -11,6 +11,7 @@ import { Comment } from './entities/comment.entity';
 import { FileService, FileType } from '../file/file.service';
 import { NewsResponse } from './interfaces/newsList.interfaces';
 import { Sequelize } from 'sequelize-typescript';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class NewsService {
@@ -67,7 +68,7 @@ export class NewsService {
 
   async findByPk(id: number): Promise<News> {
     const findNews = await this.newsRepository.findByPk(id, {
-      include: [Comment],
+      include: [{ model: Comment, include: [User] }],
     });
     if (!findNews) {
       throw new HttpException(

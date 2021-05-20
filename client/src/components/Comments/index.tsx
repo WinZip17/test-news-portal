@@ -2,13 +2,15 @@ import React from 'react';
 import { useStore } from 'effector-react';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import { format, isToday, isYesterday } from 'date-fns';
 import { Controller, useForm } from 'react-hook-form';
-import { Button, TextField } from '@material-ui/core';
+import { Avatar, Button, TextField } from '@material-ui/core';
 import { getError } from '../../utils/getFieldError';
 import { $user } from '../../models/UserModels';
 import { CommentType } from '../../models/NewsModels/newsTypes';
 import { addCommentFx } from '../../models/NewsModels/commentAdd';
 import { $newsGetStatus } from '../../models/NewsModels';
+import { BASE_URL } from '../../constant';
 
 const useStyles = makeStyles({
   input: {
@@ -19,6 +21,24 @@ const useStyles = makeStyles({
   form: {
     display: 'flex',
     flexDirection: 'column',
+  },
+  commentBlock: {
+    display: 'flex',
+    flexDirection: 'column',
+    borderRadius: 10,
+    border: '1px solid grey',
+    padding: 10,
+    '&:not(:last-child)': {
+      marginBottom: 10,
+    },
+  },
+  userInfo: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  avatar: {
+    marginRight: 10,
   },
 });
 
@@ -45,7 +65,16 @@ const Comments = ({ comments, NewsId }: CommentsPropsType): JSX.Element => {
         });
       });
   };
-
+  const getDateInfo = (date: string) => {
+    const workDate = new Date(date);
+    if (isToday(workDate)) {
+      return format(workDate, 'Сегодня в HH:mm');
+    }
+    if (isYesterday(workDate)) {
+      return format(workDate, 'Вчера в HH:mm');
+    }
+    return format(workDate, 'dd.MM.yyyy в HH:mm');
+  };
   return (
     <div>
       <Typography gutterBottom variant="h6" component="h6">
@@ -57,9 +86,22 @@ const Comments = ({ comments, NewsId }: CommentsPropsType): JSX.Element => {
         </Typography>
       )}
       {comments.map((com, index) => (
-        <Typography gutterBottom variant="subtitle2" component="p" key={index.toString()}>
-          {com.content}
-        </Typography>
+        <div key={index.toString()} className={classes.commentBlock}>
+          <div className={classes.userInfo}>
+            <Avatar alt="photo" src={`${BASE_URL}/static/${com.user.avatar}`} className={classes.avatar} />
+            <Typography gutterBottom variant="h6" component="div">
+              {com.user.name}
+            </Typography>
+          </div>
+          <div>
+            <Typography gutterBottom variant="subtitle1" component="p">
+              {com.content}
+            </Typography>
+            <Typography gutterBottom variant="caption" component="p">
+              {getDateInfo(com.createdAt)}
+            </Typography>
+          </div>
+        </div>
       ))}
       {user && (
         <form autoComplete="off" className={classes.form} onSubmit={handleSubmit(handleAddComment)}>
@@ -92,7 +134,6 @@ const Comments = ({ comments, NewsId }: CommentsPropsType): JSX.Element => {
             <Button type="submit" variant="contained" color="primary" disabled={loadingAddComment}>Отправить</Button>
           </div>
         </form>
-
       )}
     </div>
   );

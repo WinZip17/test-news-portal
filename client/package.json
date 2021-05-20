@@ -18,6 +18,7 @@
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
     "axios": "^0.21.1",
+    "date-fns": "^2.21.3",
     "effector": "^21.8.11",
     "effector-react": "^21.3.2",
     "eslint": "^7.24.0",
