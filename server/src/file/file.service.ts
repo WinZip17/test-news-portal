@@ -24,7 +24,7 @@ export const fsCreateFile = (type, file, isAdminBro = false) => {
     'static',
     type,
   );
-  console.log('__dirname', __dirname);
+
   // проверяем доступность этого пути, если папки нет - создать
   if (!fs.existsSync(filePath)) {
     fs.mkdirSync(filePath, { recursive: true });
