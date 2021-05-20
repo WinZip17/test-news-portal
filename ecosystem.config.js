@@ -4,7 +4,7 @@ module.exports = {
       name: 'news',
       // script: 'server/dist/main.js',
       script: 'NODE_ENV=production && cd server && yarn start',
-      watch: '.',
+      // watch: '.',
     },
     //   {
     //   script: './service-worker/',
