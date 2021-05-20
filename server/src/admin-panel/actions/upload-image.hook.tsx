@@ -14,7 +14,6 @@ const block = (entity): string | null => {
 const after = async (response, request, context, entity) => {
   const workImage = block(entity) ? context[block(entity)] : null;
   const { record } = context;
-  console.log('after workImage ', workImage)
   if (block(entity) && record.isValid() && workImage) {
     // если картинка была, предыдущую удалить
     if (record.params.image) {
@@ -28,7 +27,6 @@ const after = async (response, request, context, entity) => {
 
 const before = async (request, context, entity) => {
   if (request.method === 'post') {
-    console.log('before workImage ', request.payload[block(entity)])
 
     const paramName = block(entity);
     const workImage = request.payload[paramName];
