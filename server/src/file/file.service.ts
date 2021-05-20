@@ -16,8 +16,15 @@ export const fsCreateFile = (type, file, isAdminBro = false) => {
   const fileName = uuid.v4() + '.' + fileExtension;
 
   // сохраняем путь файла
-  const filePath = path.resolve(__dirname, '..', 'static', type);
-
+  const filePath = path.resolve(
+    __dirname,
+    '..',
+    '..',
+    'public',
+    'static',
+    type,
+  );
+  console.log('__dirname', __dirname);
   // проверяем доступность этого пути, если папки нет - создать
   if (!fs.existsSync(filePath)) {
     fs.mkdirSync(filePath, { recursive: true });
@@ -33,7 +40,7 @@ export const fsCreateFile = (type, file, isAdminBro = false) => {
 
 export const fsRemoveFile = (filePath) => {
   if (filePath) {
-    const fileDirPath = path.resolve(__dirname, '..', 'static');
+    const fileDirPath = path.resolve(__dirname, '..', '..', 'public', 'static');
     // удаляем файл
     if (!fs.existsSync(fileDirPath + '/' + filePath)) {
       fs.unlinkSync(fileDirPath + '/' + filePath);
