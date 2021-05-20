@@ -17,6 +17,13 @@ const UploadImageEdit: React.FC<BasePropertyProps> = (props) => {
     const newRecord = { ...record };
     const file = files.length && files[0];
 
+    console.log('onChange', {
+      ...newRecord,
+      params: {
+        ...newRecord.params,
+        [property.name]: file,
+      },
+    });
     onChange({
       ...newRecord,
       params: {
