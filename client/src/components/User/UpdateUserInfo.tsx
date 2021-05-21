@@ -21,9 +21,7 @@ type UpdateUserInfoPropsType = {
 
 const UpdateUserInfo = ({ setChange, handleUpdateUserInfo, image }: UpdateUserInfoPropsType): JSX.Element => {
   const classes = userStylesUser();
-  const {
-    user, loadingUpdateUser, userError,
-  } = useStore($userGetStatus);
+  const { user, userError, isLoading } = useStore($userGetStatus);
   const {
     handleSubmit,
     control,
@@ -99,7 +97,7 @@ const UpdateUserInfo = ({ setChange, handleUpdateUserInfo, image }: UpdateUserIn
         />
         {userError && <ErrorList errors={userErrorMessage} />}
         <div>
-          <Button type="submit" variant="contained" className={classes.saveButton} color="primary" disabled={loadingUpdateUser}>Сохранить изменения</Button>
+          <Button type="submit" variant="contained" className={classes.saveButton} color="primary" disabled={isLoading}>Сохранить изменения</Button>
         </div>
       </form>
       <Button variant="contained" color="secondary" onClick={() => setChange(0)}>Отменить редактирование </Button>

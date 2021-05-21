@@ -16,7 +16,7 @@ const SignIn = (): JSX.Element => {
     control,
   } = useForm({ mode: 'onBlur', reValidateMode: 'onChange' });
 
-  const { loginError, loadingLogin } = useStore($userGetStatus);
+  const { loginError, isLoading } = useStore($userGetStatus);
 
   const messagesErrors: string[] = loginError ? getMessagesError(loginError.response?.data.message) : [];
 
@@ -59,7 +59,7 @@ const SignIn = (): JSX.Element => {
 
       {loginError && <ErrorList errors={messagesErrors} />}
 
-      <Button type="submit" variant="contained" color="primary" disabled={loadingLogin}>Войти</Button>
+      <Button type="submit" variant="contained" color="primary" disabled={isLoading}>Войти</Button>
     </form>
   );
 };

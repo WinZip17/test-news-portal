@@ -39,16 +39,14 @@ $fetchUserError
   .on(updateUserFx.fail, (_, { error }: {error: AxiosError}) => error)
   .on(changePasswordFx.fail, (_, { error }: {error: AxiosError}) => error)
   .on(recoveryPasswordFx.fail, (_, { error }: {error: AxiosError}) => error)
-  .reset(LoginFx.done, changePasswordFx.done, recoveryPasswordFx.done, clearError);
+  .reset(LoginFx.done, changePasswordFx.done, recoveryPasswordFx.done, updateUserFx.done, resetPasswordFx.done, clearError);
+
+export const $isLoading = createStore<boolean>(false)
+  .on([changePasswordFx.pending, registrationFx.pending, LoginFx.pending, recoveryPasswordFx.pending, resetPasswordFx.pending, updateUserFx.pending], (state, loading) => loading);
 
 export const $userGetStatus = combine({
-  loadingChangePassword: changePasswordFx.pending,
-  loadingRegister: registrationFx.pending,
-  loadingLogin: LoginFx.pending,
-  loadingGetMe: getMeFx.pending,
-  loadingRecoveryPassword: recoveryPasswordFx.pending,
-  loadingResetPassword: resetPasswordFx.pending,
-  loadingUpdateUser: updateUserFx.pending,
+  isLoadingGetMe: getMeFx.pending,
+  isLoading: $isLoading,
   userError: $fetchUserError,
   loginError: $fetchErrorLogin,
   user: $user,

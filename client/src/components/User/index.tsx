@@ -6,11 +6,8 @@ import {
   Avatar, AvatarTypeMap, Button,
 } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
-import {
-  signOut, $userGetStatus, clearError,
-} from '../../models/UserModels';
+import { signOut, $user } from '../../models/UserModels';
 import { BASE_URL } from '../../constant';
-import Preloader from '../Preloader';
 import Auth from '../Auth';
 import { updateUser } from '../../models/UserModels/userTypes';
 import UpdateUserInfo from './UpdateUserInfo';
@@ -21,7 +18,7 @@ import { changePasswordFx, updateUserFx } from '../../models/UserModels/userEffe
 const User = () => {
   const classes = userStylesUser();
 
-  const { user, loadingGetMe } = useStore($userGetStatus);
+  const user = useStore($user);
 
   const { reset, watch } = useForm({ mode: 'onBlur', reValidateMode: 'onChange' });
 
@@ -44,37 +41,23 @@ const User = () => {
     }
   }, [avatar, change]);
 
-  if (loadingGetMe) {
-    return <Preloader />;
-  }
-
   if (!user) {
     return <Auth />;
   }
 
-  const handleSignOut = () => {
-    signOut();
-  };
-
-  const handleUpdateUserInfo = async (data: updateUser) => {
-    await updateUserFx(data)
+  const handleUpdateUserInfo = (data: updateUser) => {
+    updateUserFx(data)
       .then(() => {
         setChange(0);
         reset();
-      })
-      .finally(() => {
-        clearError();
       });
   };
 
-  const handleChangePassword = async (data: {password: string, newPassword: string}) => {
-    await changePasswordFx(data)
+  const handleChangePassword = (data: {password: string, newPassword: string}) => {
+    changePasswordFx(data)
       .then(() => {
         setChange(0);
         reset();
-      })
-      .finally(() => {
-        clearError();
       });
   };
 
@@ -102,7 +85,7 @@ const User = () => {
           <Avatar src={`${BASE_URL}/static/${user.avatar}`} className={classes.avatar} />
         </div>
         )}
-        <Button variant="contained" color="primary" className={classes.button} onClick={handleSignOut}>Выйти</Button>
+        <Button variant="contained" color="primary" className={classes.button} onClick={() => signOut()}>Выйти</Button>
         {change !== 1 && <Button variant="contained" color="secondary" className={classes.button} onClick={() => setChange(1)}>Редактировать данные</Button>}
         {change !== 2 && <Button variant="contained" className={classes.button} onClick={() => setChange(2)}>Изменить пароль</Button>}
       </Card>

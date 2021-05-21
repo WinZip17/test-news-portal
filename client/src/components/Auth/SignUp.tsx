@@ -23,7 +23,7 @@ const SignUp = ({ onRegister }: SignUpProps): JSX.Element => {
     watch,
   } = useForm({ mode: 'onBlur', reValidateMode: 'onChange' });
 
-  const { loadingRegister } = useStore($userGetStatus);
+  const { isLoading } = useStore($userGetStatus);
 
   const [image, setImage] = useState<string | ArrayBuffer | null>(null);
 
@@ -154,7 +154,7 @@ const SignUp = ({ onRegister }: SignUpProps): JSX.Element => {
         )}
       />
 
-      <Button type="submit" variant="contained" color="primary" disabled={loadingRegister}>Зарегистрироваться</Button>
+      <Button type="submit" variant="contained" color="primary" disabled={isLoading}>Зарегистрироваться</Button>
     </form>
   );
 };

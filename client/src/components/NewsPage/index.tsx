@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useStore } from 'effector-react';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import { useParams } from 'react-router-dom';
@@ -16,37 +15,10 @@ import { $user } from '../../models/UserModels';
 import { reactionsOneNewsFx } from '../../models/NewsListModels/newsReactions';
 import { showModal } from '../../models/ModalModels';
 import Comments from '../Comments';
-
-const useStyles = makeStyles({
-  header: {
-    textAlign: 'center',
-  },
-  card: {
-    '&:not(:last-child)': {
-      marginBottom: 20,
-    },
-  },
-  media: {
-    padding: 8,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    display: 'block',
-    borderRadius: 15,
-  },
-  newsButton: {
-    '&:not(:last-child)': {
-      paddingRight: 10,
-    },
-    display: 'flex',
-    alignItems: 'center',
-  },
-  reactionsWrap: {
-    display: 'flex',
-  },
-});
+import newsPageStyle from './newsPage.style';
 
 const NewsPage = () => {
-  const classes = useStyles();
+  const classes = newsPageStyle();
 
   const {
     news, loading, error, loadingReactions,
@@ -75,9 +47,6 @@ const NewsPage = () => {
 
   return (
     <div>
-      <Typography variant="h3" gutterBottom className={classes.header}>
-        И так, внимание!!!
-      </Typography>
       {loading && <Preloader />}
       {news && (
         <Card className={classes.card} key={news.id}>

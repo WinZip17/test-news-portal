@@ -48,9 +48,6 @@ const Auth = () => {
     resetPasswordFx(data)
       .then(() => {
         setTypePage(1);
-      })
-      .finally(() => {
-        clearError();
       });
   };
 

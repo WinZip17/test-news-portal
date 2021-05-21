@@ -5,41 +5,16 @@ import Typography from '@material-ui/core/Typography';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt';
 import { useStore } from 'effector-react';
 import parse from 'html-react-parser';
-import { $newsListGetStatus, NewsListItem } from '../../models/NewsListModels';
-import { BASE_URL } from '../../constant';
-import { $user } from '../../models/UserModels';
-import { reactionsNewsFx } from '../../models/NewsListModels/newsReactions';
-import { showModal } from '../../models/ModalModels';
-
-const useStyles = makeStyles({
-  card: {
-    '&:not(:last-child)': {
-      marginBottom: 20,
-    },
-  },
-  media: {
-    padding: 8,
-    width: 'auto',
-    maxWidth: 'calc(100% - 16px)',
-    maxHeight: 400,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    display: 'block',
-    borderRadius: 15,
-  },
-  CardActionsButton: {
-    '&:not(:last-child)': {
-      paddingRight: 10,
-    },
-    display: 'flex',
-    alignItems: 'center',
-  },
-});
+import { $newsListGetStatus, NewsListItem } from '../../../models/NewsListModels';
+import { BASE_URL } from '../../../constant';
+import { $user } from '../../../models/UserModels';
+import { reactionsNewsFx } from '../../../models/NewsListModels/newsReactions';
+import { showModal } from '../../../models/ModalModels';
+import newsCardStyle from './newsCard.style';
 
 type NewsCardPros = {
   news: NewsListItem;
@@ -47,10 +22,11 @@ type NewsCardPros = {
 }
 
 const NewsCard = ({ news, handleNews }: NewsCardPros): JSX.Element => {
-  const classes = useStyles();
+  const classes = newsCardStyle();
   const user = useStore($user);
   const { reactionLoading } = useStore($newsListGetStatus);
   const userId = user ? user.id : 0;
+
   const handleReactions = (reaction: string) => {
     if (!reactionLoading) {
       if (userId) {

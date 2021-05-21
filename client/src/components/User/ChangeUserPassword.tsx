@@ -6,7 +6,7 @@ import { useStore } from 'effector-react';
 import { userStylesUser } from './user.style';
 import { getError } from '../../utils/getFieldError';
 import ErrorList from '../ErrorList';
-import { $fetchUserError, $userGetStatus } from '../../models/UserModels';
+import { $userGetStatus } from '../../models/UserModels';
 import getMessagesError from '../../utils/getMessagesError';
 
 type ChangePasswordPropsType = {
@@ -16,15 +16,14 @@ type ChangePasswordPropsType = {
 
 const ChangeUserPassword = ({ setChange, handleChangePassword }: ChangePasswordPropsType): JSX.Element => {
   const classes = userStylesUser();
-  const passwordError = useStore($fetchUserError);
-  const { loadingChangePassword } = useStore($userGetStatus);
+  const { isLoading, userError } = useStore($userGetStatus);
   const {
     handleSubmit,
     control,
     watch,
   } = useForm({ mode: 'onBlur', reValidateMode: 'onChange' });
 
-  const changePasswordErrorMessage: string[] = passwordError ? getMessagesError(passwordError.response?.data.message) : [];
+  const changePasswordErrorMessage: string[] = userError ? getMessagesError(userError.response?.data.message) : [];
   const newPassword = watch('newPassword', '');
 
   return (
@@ -92,9 +91,9 @@ const ChangeUserPassword = ({ setChange, handleChangePassword }: ChangePasswordP
             />
           )}
         />
-        {passwordError && <ErrorList errors={changePasswordErrorMessage} />}
+        {userError && <ErrorList errors={changePasswordErrorMessage} />}
         <div>
-          <Button type="submit" variant="contained" className={classes.saveButton} color="primary" disabled={loadingChangePassword}>Изменить пароль</Button>
+          <Button type="submit" variant="contained" className={classes.saveButton} color="primary" disabled={isLoading}>Изменить пароль</Button>
         </div>
       </form>
       <Button variant="contained" color="secondary" onClick={() => setChange(0)}>Отменить изменение пароля</Button>

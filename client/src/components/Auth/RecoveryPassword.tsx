@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { useStore } from 'effector-react';
 import { useAuthStyles } from './auth.style';
 import { getError } from '../../utils/getFieldError';
-import { $fetchUserError, $userGetStatus, clearError } from '../../models/UserModels';
+import { $fetchUserError, $userGetStatus } from '../../models/UserModels';
 import getMessagesError from '../../utils/getMessagesError';
 import ErrorList from '../ErrorList';
 import { ResetPasswordData } from '../../models/UserModels/userTypes';
@@ -24,7 +24,7 @@ const RecoveryPassword = ({ resetPassword }: RecoveryPasswordType): JSX.Element 
     watch,
   } = useForm({ mode: 'onBlur', reValidateMode: 'onChange' });
   const sendEmailError = useStore($fetchUserError);
-  const { loadingRecoveryPassword, loadingResetPassword } = useStore($userGetStatus);
+  const { isLoading } = useStore($userGetStatus);
   const sendEmailErrorMessage: string[] = sendEmailError ? getMessagesError(sendEmailError.response?.data.message) : [];
 
   const currentPassword = watch('password', '');
@@ -34,9 +34,6 @@ const RecoveryPassword = ({ resetPassword }: RecoveryPasswordType): JSX.Element 
     recoveryPasswordFx(data)
       .then(() => {
         setStep(2);
-      })
-      .finally(() => {
-        clearError();
       });
   };
 
@@ -69,7 +66,7 @@ const RecoveryPassword = ({ resetPassword }: RecoveryPasswordType): JSX.Element 
             На ваш почтовый адрес будет отправлен код для подтверждения сброса пароля
           </Typography>
 
-          <Button type="submit" variant="contained" color="primary" disabled={loadingRecoveryPassword}>Продолжить</Button>
+          <Button type="submit" variant="contained" color="primary" disabled={isLoading}>Продолжить</Button>
         </form>
       )}
 
@@ -142,7 +139,7 @@ const RecoveryPassword = ({ resetPassword }: RecoveryPasswordType): JSX.Element 
             )}
           />
           <Button type="button" variant="contained" onClick={() => setStep(1)} className={classes.input}>Выслать код на другой e-mail</Button>
-          <Button type="submit" variant="contained" color="primary" disabled={loadingResetPassword}>Изменить пароль</Button>
+          <Button type="submit" variant="contained" color="primary" disabled={isLoading}>Изменить пароль</Button>
 
         </form>
       )}
