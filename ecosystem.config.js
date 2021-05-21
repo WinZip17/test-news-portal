@@ -4,9 +4,6 @@ module.exports = {
       name: 'news',
       // script: 'server/dist/main.js',
       script: 'NODE_ENV=production && cd server && yarn start',
-      // watch: '.',
-      instances : 'max',
-      exec_mode : 'cluster'
     },
     //   {
     //   script: './service-worker/',
@@ -26,12 +23,8 @@ module.exports = {
       path: '/data/reactness/app',
       'pre-deploy-local': '',
       'post-deploy':
-        'cd server && ' +
-        'npm install  && ' +
-        'npm run-script build && ' +
-        ' cd .. &&' +
-        ' cd client && npm install && npm run-script build &&' +
-        ' cd .. && ' +
+        'cd server && npm install && npm run-script build && cd .. && ' +
+        'cd client && npm install && npm run-script build && cd .. && ' +
         'pm2 startOrReload ecosystem.config.js --env production',
       'pre-setup': '',
     },
