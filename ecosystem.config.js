@@ -5,6 +5,8 @@ module.exports = {
       // script: 'server/dist/main.js',
       script: 'NODE_ENV=production && cd server && yarn start',
       // watch: '.',
+      instances : 'max',
+      exec_mode : 'cluster'
     },
     //   {
     //   script: './service-worker/',
@@ -30,7 +32,7 @@ module.exports = {
         ' cd .. &&' +
         ' cd client && npm install && npm run-script build &&' +
         ' cd .. && ' +
-        'pm2 startOrRestart ecosystem.config.js --env production',
+        'pm2 startOrReload ecosystem.config.js --env production',
       'pre-setup': '',
     },
   },
