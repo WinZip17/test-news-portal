@@ -23,8 +23,8 @@ module.exports = {
       path: '/data/reactness/app',
       'pre-deploy-local': '',
       'post-deploy':
-        'cd server && npm install && npm run-script build && cd .. && ' +
-        'cd client && npm install && npm run-script build && cd .. && ' +
+        'cd server && yarn install && yarn build && cd .. && ' +
+        'cd client && yarn install && yarn build && cd .. && ' +
         'pm2 startOrReload ecosystem.config.js --env production',
       'pre-setup': '',
     },
