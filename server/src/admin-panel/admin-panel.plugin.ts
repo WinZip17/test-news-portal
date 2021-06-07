@@ -1,7 +1,6 @@
 import { INestApplication } from '@nestjs/common';
 import AdminBro from 'admin-bro';
 import AdminBroSequelize from '@admin-bro/sequelize';
-import * as AdminBroExpress from 'admin-bro-expressjs';
 import UserResources from './resources/user.resources';
 import NewsResources from './resources/news.resources';
 import CommentResources from './resources/comment.resources';
@@ -32,28 +31,28 @@ export async function setupAdminPanel(app: INestApplication): Promise<void> {
     },
   });
   /** Роутинг без авторизации  */
-  // const router = AdminBroExpress.buildRouter(adminBro);
+  const router = AdminBroExpressjs.buildRouter(adminBro);
 
   /** Роутинг с авторизацией  */
-  const router = AdminBroExpressjs.buildAuthenticatedRouter(adminBro, {
-    authenticate: async (email, password) => {
-      const user = await db.sequelize.models.User.scope('full').findOne({
-        where: {
-          email,
-        },
-      });
-      if (user) {
-        const matched = await bcrypt.compare(password, user.password);
-        if (matched) {
-          if (user.RoleId === 1) {
-            return user;
-          }
-        }
-      }
-      return false;
-    },
-    cookiePassword: 'some-secret2-password-used-to-secure-cookie',
-  });
+  // const router = AdminBroExpressjs.buildAuthenticatedRouter(adminBro, {
+  //   authenticate: async (email, password) => {
+  //     const user = await db.sequelize.models.User.scope('full').findOne({
+  //       where: {
+  //         email,
+  //       },
+  //     });
+  //     if (user) {
+  //       const matched = await bcrypt.compare(password, user.password);
+  //       if (matched) {
+  //         if (user.RoleId === 1) {
+  //           return user;
+  //         }
+  //       }
+  //     }
+  //     return false;
+  //   },
+  //   cookiePassword: 'some-secret2-password-used-to-secure-cookie',
+  // });
 
   /** Bind routing */
   app.use(adminBro.options.rootPath, router);
