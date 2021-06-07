@@ -31,30 +31,36 @@ export async function setupAdminPanel(app: INestApplication): Promise<void> {
     },
   });
   /** Роутинг без авторизации  */
-  const router = AdminBroExpress.buildRouter(adminBro);
+  // const router = AdminBroExpress.buildRouter(adminBro);
 
-  /** Роутинг с авторизацией, и жестокой проверкой на емаил вместо прав :)  */
-  // const router = AdminBroExpress.buildAuthenticatedRouter(adminBro, {
-  //   authenticate: async (email, password) => {
-  //     const AuthUser = db.sequelize.models.User;
-  //     const user = await AuthUser.scope('full').findOne({
-  //       where: {
-  //         email,
-  //       },
-  //     });
-  //     if (user) {
-  //       const matched = await bcrypt.compare(password, user.password);
-  //       if (matched) {
-  //         if (user.RoleId === 1) {
-  //           return true;
-  //         }
-  //         // return user;
-  //       }
-  //     }
-  //     return false;
-  //   },
-  //   cookiePassword: 'some-secret-password-used-to-secure-cookie',
-  // });
+  /** Роутинг с авторизацией  */
+  const router = AdminBroExpress.buildAuthenticatedRouter(adminBro, {
+    authenticate: async (email, password) => {
+      console.log('router1');
+      const AuthUser = db.sequelize.models.User.scope('full');
+      console.log('router2');
+
+      const user = await AuthUser.scope('full').findOne({
+        where: {
+          email,
+        },
+      });
+      console.log('router3');
+
+      if (user) {
+        const matched = await bcrypt.compare(password, user.password);
+        if (matched) {
+          if (user.RoleId === 1) {
+            return user;
+          }
+          // return user;
+        }
+      }
+      return null;
+    },
+    cookieName: 'adminbro',
+    cookiePassword: 'some-secret-password-used-to-secure-cookie',
+  });
 
   /** Bind routing */
   app.use(adminBro.options.rootPath, router);
