@@ -8,6 +8,7 @@ import CommentResources from './resources/comment.resources';
 import RoleResources from './resources/role.resources';
 AdminBro.registerAdapter(AdminBroSequelize);
 
+const AdminBroExpressjs = require('@admin-bro/express');
 const db = require('../../models');
 const bcrypt = require('bcrypt');
 
@@ -34,27 +35,24 @@ export async function setupAdminPanel(app: INestApplication): Promise<void> {
   // const router = AdminBroExpress.buildRouter(adminBro);
 
   /** Роутинг с авторизацией  */
-  const router = AdminBroExpress.buildAuthenticatedRouter(adminBro, {
+  const router = AdminBroExpressjs.buildAuthenticatedRouter(adminBro, {
     authenticate: async (email, password) => {
-      // const AuthUser = db.sequelize.models.User.scope('full');
-      // const user = await AuthUser.scope('full').findOne({
-      //   where: {
-      //     email,
-      //   },
-      // });
-      // if (user) {
-      //   const matched = await bcrypt.compare(password, user.password);
-      //   if (matched) {
-      //     if (user.RoleId === 1) {
-      //       return user;
-      //     }
-      //   }
-      // }
-      // return null;
-      return true
+      const user = await db.sequelize.models.User.scope('full').findOne({
+        where: {
+          email,
+        },
+      });
+      if (user) {
+        const matched = await bcrypt.compare(password, user.password);
+        if (matched) {
+          if (user.RoleId === 1) {
+            return user;
+          }
+        }
+      }
+      return false;
     },
-    cookieName: 'adminbro',
-    cookiePassword: 'some-secret-password-used-to-secure-cookie',
+    cookiePassword: 'some-secret2-password-used-to-secure-cookie',
   });
 
   /** Bind routing */
