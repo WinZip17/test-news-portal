@@ -32,28 +32,28 @@ export async function setupAdminPanel(app: INestApplication): Promise<void> {
     },
   });
   /** Роутинг без авторизации  */
-  const router = AdminBroExpress.buildRouter(adminBro);
+  // const router = AdminBroExpress.buildRouter(adminBro);
 
   /** Роутинг с авторизацией  */
-  // const router = AdminBroExpressjs.buildAuthenticatedRouter(adminBro, {
-  //   authenticate: async (email, password) => {
-  //     const user = await db.sequelize.models.User.scope('full').findOne({
-  //       where: {
-  //         email,
-  //       },
-  //     });
-  //     if (user) {
-  //       const matched = await bcrypt.compare(password, user.password);
-  //       if (matched) {
-  //         if (user.RoleId === 1) {
-  //           return user;
-  //         }
-  //       }
-  //     }
-  //     return false;
-  //   },
-  //   cookiePassword: 'some-secret2-password-used-to-secure-cookie',
-  // });
+  const router = AdminBroExpressjs.buildAuthenticatedRouter(adminBro, {
+    authenticate: async (email, password) => {
+      const user = await db.sequelize.models.User.scope('full').findOne({
+        where: {
+          email,
+        },
+      });
+      if (user) {
+        const matched = await bcrypt.compare(password, user.password);
+        if (matched) {
+          if (user.RoleId === 1) {
+            return user;
+          }
+        }
+      }
+      return false;
+    },
+    cookiePassword: 'some-secret2-password-used-to-secure-cookie',
+  });
 
   /** Bind routing */
   app.use(adminBro.options.rootPath, router);
