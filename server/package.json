@@ -26,6 +26,7 @@
     "@admin-bro/sequelize": "^1.2.1",
     "@nestjs-modules/mailer": "^1.5.1",
     "@nestjs/common": "^7.6.15",
+    "@nestjs/cli": "^7.6.0",
     "@nestjs/config": "^0.6.3",
     "@nestjs/core": "^7.6.15",
     "@nestjs/jwt": "^7.2.0",
@@ -66,7 +67,6 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@nestjs/cli": "^7.6.0",
     "@nestjs/schematics": "^7.3.0",
     "@nestjs/testing": "^7.6.15",
     "@types/express": "^4.17.11",
