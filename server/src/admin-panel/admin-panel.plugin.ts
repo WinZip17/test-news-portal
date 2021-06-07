@@ -31,30 +31,30 @@ export async function setupAdminPanel(app: INestApplication): Promise<void> {
     },
   });
   /** Роутинг без авторизации  */
-  // const router = AdminBroExpress.buildRouter(adminBro);
+  const router = AdminBroExpress.buildRouter(adminBro);
 
   /** Роутинг с авторизацией, и жестокой проверкой на емаил вместо прав :)  */
-  const router = AdminBroExpress.buildAuthenticatedRouter(adminBro, {
-    authenticate: async (email, password) => {
-      const AuthUser = db.sequelize.models.User;
-      const user = await AuthUser.scope('full').findOne({
-        where: {
-          email,
-        },
-      });
-      if (user) {
-        const matched = await bcrypt.compare(password, user.password);
-        if (matched) {
-          if (user.RoleId === 1) {
-            return true;
-          }
-          // return user;
-        }
-      }
-      return false;
-    },
-    cookiePassword: 'some-secret-password-used-to-secure-cookie',
-  });
+  // const router = AdminBroExpress.buildAuthenticatedRouter(adminBro, {
+  //   authenticate: async (email, password) => {
+  //     const AuthUser = db.sequelize.models.User;
+  //     const user = await AuthUser.scope('full').findOne({
+  //       where: {
+  //         email,
+  //       },
+  //     });
+  //     if (user) {
+  //       const matched = await bcrypt.compare(password, user.password);
+  //       if (matched) {
+  //         if (user.RoleId === 1) {
+  //           return true;
+  //         }
+  //         // return user;
+  //       }
+  //     }
+  //     return false;
+  //   },
+  //   cookiePassword: 'some-secret-password-used-to-secure-cookie',
+  // });
 
   /** Bind routing */
   app.use(adminBro.options.rootPath, router);
