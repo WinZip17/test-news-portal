@@ -17,13 +17,17 @@ export const baseNavigation = {
 export async function setupAdminPanel(app: INestApplication): Promise<void> {
   const adminBro = new AdminBro({
     databases: [db],
-    resources: [UserResources, NewsResources, CommentResources, RoleResources],
+    resources: [
+      UserResources(db),
+      NewsResources,
+      CommentResources,
+      RoleResources,
+    ],
     rootPath: '/admin',
     branding: {
       companyName: 'админОчко',
     },
   });
-
   /** Роутинг без авторизации  */
   const router = AdminBroExpress.buildRouter(adminBro);
 

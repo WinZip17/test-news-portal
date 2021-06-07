@@ -11,7 +11,7 @@ import {
 import { UserInterfaces } from '../interfaces/user.interfaces';
 import { Comment } from '../../news/entities/comment.entity';
 import { News } from '../../news/entities/news.entity';
-import { Role } from "./role.entity";
+import { Role } from './role.entity';
 
 @DefaultScope(() => ({
   attributes: ['id', 'email', 'name', 'avatar'],
