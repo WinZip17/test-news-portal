@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       User.hasOne(models.News);
       User.hasOne(models.Comments);
+      User.belongsTo(models.Roles);
       // define association here
     }
   }

@@ -1,4 +1,5 @@
 import {
+  BelongsTo,
   Column,
   DataType,
   DefaultScope,
@@ -10,6 +11,7 @@ import {
 import { UserInterfaces } from '../interfaces/user.interfaces';
 import { Comment } from '../../news/entities/comment.entity';
 import { News } from '../../news/entities/news.entity';
+import {Role} from "./role.entity";
 
 @DefaultScope(() => ({
   attributes: ['id', 'email', 'name', 'avatar'],
@@ -60,4 +62,7 @@ export class User extends Model<UserInterfaces> {
 
   @HasOne(() => News, 'UserId')
   news;
+
+  @BelongsTo(() => Role, 'RoleId')
+  roleId: number;
 }

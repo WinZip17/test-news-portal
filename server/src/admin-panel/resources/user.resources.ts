@@ -16,6 +16,7 @@ const afterUser = async (response, request, context) => {
   );
   return modifiedResponse;
 };
+
 const beforeUser = async (request, context) => {
   const modifiedResponse = await uploadImageBeforeHook(
     request,

@@ -5,6 +5,7 @@ import * as AdminBroExpress from 'admin-bro-expressjs';
 import UserResources from './resources/user.resources';
 import NewsResources from './resources/news.resources';
 import CommentResources from './resources/comment.resources';
+import RoleResources from './resources/role.resources';
 AdminBro.registerAdapter(AdminBroSequelize);
 const db = require('../../models');
 
@@ -16,7 +17,7 @@ export const baseNavigation = {
 export async function setupAdminPanel(app: INestApplication): Promise<void> {
   const adminBro = new AdminBro({
     databases: [db],
-    resources: [UserResources, NewsResources, CommentResources],
+    resources: [UserResources, NewsResources, CommentResources, RoleResources],
     rootPath: '/admin',
     branding: {
       companyName: 'админОчко',

@@ -26,4 +26,6 @@ export class CreateUserDto {
     required: false,
   })
   avatar?: any;
+
+  RoleId: number;
 }
