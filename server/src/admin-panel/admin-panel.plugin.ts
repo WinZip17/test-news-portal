@@ -36,27 +36,22 @@ export async function setupAdminPanel(app: INestApplication): Promise<void> {
   /** Роутинг с авторизацией  */
   const router = AdminBroExpress.buildAuthenticatedRouter(adminBro, {
     authenticate: async (email, password) => {
-      console.log('router1');
-      const AuthUser = db.sequelize.models.User.scope('full');
-      console.log('router2');
-
-      const user = await AuthUser.scope('full').findOne({
-        where: {
-          email,
-        },
-      });
-      console.log('router3');
-
-      if (user) {
-        const matched = await bcrypt.compare(password, user.password);
-        if (matched) {
-          if (user.RoleId === 1) {
-            return user;
-          }
-          // return user;
-        }
-      }
-      return null;
+      // const AuthUser = db.sequelize.models.User.scope('full');
+      // const user = await AuthUser.scope('full').findOne({
+      //   where: {
+      //     email,
+      //   },
+      // });
+      // if (user) {
+      //   const matched = await bcrypt.compare(password, user.password);
+      //   if (matched) {
+      //     if (user.RoleId === 1) {
+      //       return user;
+      //     }
+      //   }
+      // }
+      // return null;
+      return true
     },
     cookieName: 'adminbro',
     cookiePassword: 'some-secret-password-used-to-secure-cookie',
