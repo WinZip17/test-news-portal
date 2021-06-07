@@ -6,12 +6,6 @@ module.exports = {
       return Promise.all([
         queryInterface.addColumn('Users', 'RoleId', {
           type: Sequelize.INTEGER,
-          references: {
-            model: {
-              tableName: 'Roles',
-            },
-            key: 'id',
-          },
           defaultValue: 1,
         }),
       ]);
