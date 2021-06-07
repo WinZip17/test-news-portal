@@ -26,7 +26,7 @@ const beforeUser = async (request, context) => {
   return modifiedResponse;
 };
 
-const CommentResources = {
+const CommentResources = () => ({
   resource: Comment,
   options: {
     navigation: baseNavigation,
@@ -36,6 +36,6 @@ const CommentResources = {
       },
     },
   },
-};
+});
 
 export default CommentResources;

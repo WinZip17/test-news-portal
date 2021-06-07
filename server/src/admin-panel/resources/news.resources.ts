@@ -26,7 +26,7 @@ const beforeNews = async (request, context) => {
   return modifiedResponse;
 };
 
-const NewsResources = {
+const NewsResources = () => ({
   resource: News,
   options: {
     navigation: baseNavigation,
@@ -63,6 +63,6 @@ const NewsResources = {
       },
     },
   },
-};
+});
 
 export default NewsResources;

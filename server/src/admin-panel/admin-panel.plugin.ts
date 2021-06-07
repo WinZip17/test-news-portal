@@ -19,9 +19,9 @@ export async function setupAdminPanel(app: INestApplication): Promise<void> {
     databases: [db],
     resources: [
       UserResources(db),
-      NewsResources,
-      CommentResources,
-      RoleResources,
+      NewsResources(),
+      CommentResources(),
+      RoleResources(),
     ],
     rootPath: '/admin',
     branding: {
