@@ -40,6 +40,9 @@ const UserResources = (db) => ({
           list: AdminBro.bundle('../components/show-image.list.tsx'),
         },
       },
+      password: {
+        isVisible: false,
+      },
     },
     actions: {
       new: {
