@@ -2363,11 +2363,6 @@ acorn@^8.0.4, acorn@^8.1.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.1.0.tgz#52311fd7037ae119cbb134309e901aa46295b3fe"
   integrity sha512-LWCF/Wn0nfHOmJ9rzQApGnxnvgfROzGilS8936rqN/lfcYkY9MYZzdMqN+2NJ4SlTc+m5HiSa+kNfDtI64dwUA==
 
-admin-bro-expressjs@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/admin-bro-expressjs/-/admin-bro-expressjs-2.1.1.tgz#2b6c68eee2e522c57cc293c5e367fa477d907afb"
-  integrity sha512-xTGmyqT+HvSIy4DLLET9JSvEMt1KrbDIbcZ0H6VgO+l6i8vbcmR1T+k1efx9TXfMZCIMOhUwIS2u4ja4iQMH1Q==
-
 admin-bro@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/admin-bro/-/admin-bro-3.4.0.tgz#ef6ee18942bf871003e7bc46f440ee05f6ac6413"
