@@ -26,8 +26,8 @@ const beforeNews = async (request, context) => {
   return modifiedResponse;
 };
 
-const NewsResources = () => ({
-  resource: News,
+const NewsResources = (db) => ({
+  resource: db.sequelize.models.News,
   options: {
     navigation: baseNavigation,
     properties: {

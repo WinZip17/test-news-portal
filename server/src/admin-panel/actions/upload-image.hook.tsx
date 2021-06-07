@@ -27,7 +27,6 @@ const after = async (response, request, context, entity) => {
 
 const before = async (request, context, entity) => {
   if (request.method === 'post') {
-
     const paramName = block(entity);
     const workImage = request.payload[paramName];
     delete request.payload[paramName];

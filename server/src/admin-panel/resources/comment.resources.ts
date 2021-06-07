@@ -26,8 +26,8 @@ const beforeUser = async (request, context) => {
   return modifiedResponse;
 };
 
-const CommentResources = () => ({
-  resource: Comment,
+const CommentResources = (db) => ({
+  resource: db.sequelize.models.Comment,
   options: {
     navigation: baseNavigation,
     properties: {
