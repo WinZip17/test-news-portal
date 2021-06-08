@@ -24,4 +24,6 @@ export class CreateNewsDto {
   image: string | null;
 
   UserId: number;
+
+  isModerate: boolean;
 }

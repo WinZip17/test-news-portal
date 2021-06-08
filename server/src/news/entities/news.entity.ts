@@ -46,4 +46,10 @@ export class News extends Model<NewsInterfaces> {
 
   @BelongsTo(() => User, 'UserId')
   userId: number;
+
+  @Column({
+    defaultValue: false,
+    type: DataType.BOOLEAN,
+  })
+  isModerate;
 }

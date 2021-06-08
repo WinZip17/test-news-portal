@@ -5,4 +5,5 @@ export interface NewsInterfaces {
   image: string | null;
   like?: number[];
   dislike?: number[];
+  isModerate?: boolean;
 }

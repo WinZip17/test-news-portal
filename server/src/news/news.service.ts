@@ -26,7 +26,9 @@ export class NewsService {
     const newNews = await this.newsRepository.create({
       ...createNewsDto,
       image: saveImage,
+      isModerate: false,
     });
+    console.log('newNews', newNews)
     return newNews.id;
   }
 
@@ -57,7 +59,11 @@ export class NewsService {
       },
       order: [['updatedAt', 'DESC']],
       group: ['News.id'],
+      where: {
+        isModerate: true,
+      },
     });
+    console.log('news', news);
     const data = {
       page,
       lastPage: lastPage,
