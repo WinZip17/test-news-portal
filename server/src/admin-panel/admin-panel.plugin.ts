@@ -42,10 +42,9 @@ export async function setupAdminPanel(app: INestApplication): Promise<void> {
         },
       });
       if (user) {
-        console.log('user', user);
         const matched = await bcrypt.compare(password, user.password);
         if (matched) {
-          if (user.RoleId === 1) {
+          if (user.RoleId === 2) {
             return true;
           }
         }
