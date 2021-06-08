@@ -23,8 +23,7 @@ module.exports = {
       path: '/data/reactness/app',
       'pre-deploy-local': '',
       'post-deploy':
-        'NODE_ENV=production && cd server && yarn install && yarn build && ' +
-        'npx sequelize-cli db:migrate && cd .. && ' +
+        'cd server && yarn install && yarn build && cd .. &&' +
         'cd client && yarn install && yarn build && cd .. && ' +
         'pm2 startOrReload ecosystem.config.js --env production',
       'pre-setup': '',
