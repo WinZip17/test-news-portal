@@ -24,8 +24,8 @@ module.exports = {
       'pre-deploy-local': '',
       'post-deploy':
         'cd server && yarn install && yarn build && cd .. && ' +
-        'cd client && yarn install && yarn build && cd .. && ' +
-        'npx sequelize-cli db:migrate && ' +
+        'cd client && yarn install && yarn build && ' +
+        'npx sequelize-cli db:migrate && cd .. && ' +
         'pm2 startOrReload ecosystem.config.js --env production',
       'pre-setup': '',
     },
