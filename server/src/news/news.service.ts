@@ -63,7 +63,7 @@ export class NewsService {
         isModerate: true,
       },
     });
-    console.log('news', news);
+
     const data = {
       page,
       lastPage: lastPage,

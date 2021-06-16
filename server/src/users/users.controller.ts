@@ -35,7 +35,8 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get('me')
   getProfile(@Request() req) {
-    return req.user;
+    const user = this.usersService.findOne(req.user.email, 'minimalRole');
+    return user;
   }
 
   @Post('login')

@@ -23,11 +23,12 @@ export class UsersService {
     email: string,
     scope: string = 'minimal',
   ): Promise<User | undefined> {
-    return this.userRepository.scope(scope).findOne({
+    const user = this.userRepository.scope(scope).findOne({
       where: {
         email,
       },
     });
+    return user;
   }
 
   async update(updateUserDto: UpdateUserDto, file): Promise<User> {
@@ -51,7 +52,7 @@ export class UsersService {
     }
     Object.assign(updateUser, { ...updateUserDto, avatar: saveImage });
     await updateUser.save();
-    const sendUser = await this.findOne(updateUser.email, 'minimal');
+    const sendUser = await this.findOne(updateUser.email, 'minimalRole');
     return sendUser;
   }
 }

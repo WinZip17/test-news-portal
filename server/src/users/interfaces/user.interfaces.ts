@@ -9,3 +9,12 @@ export interface RoleInterfaces {
   id?: number;
   name: string;
 }
+
+export interface getMeUserInterfaces {
+  id: number;
+  email: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  role: string
+}

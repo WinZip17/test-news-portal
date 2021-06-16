@@ -29,11 +29,11 @@ const NewsPage = () => {
   const userId = user ? user.id : 0;
 
   useEffect(() => {
-    if (params) {
+    if (params && !news && !loading) {
       const id = Number(params.id);
       getNewsFx({ id });
     }
-  }, [params]);
+  }, [params, news, loading]);
 
   const handleReactions = (reaction: string) => {
     if (!loadingReactions && news) {

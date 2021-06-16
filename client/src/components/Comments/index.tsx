@@ -5,6 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { format, isToday, isYesterday } from 'date-fns';
 import { Controller, useForm } from 'react-hook-form';
 import { Avatar, Button, TextField } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { getError } from '../../utils/getFieldError';
 import { $user } from '../../models/UserModels';
 import { CommentType } from '../../models/NewsModels/newsTypes';
@@ -36,9 +38,15 @@ const useStyles = makeStyles({
     display: 'flex',
     alignItems: 'center',
     marginBottom: 10,
+    position: 'relative',
   },
   avatar: {
     marginRight: 10,
+  },
+  deleteIcon: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
   },
 });
 
@@ -51,6 +59,7 @@ const Comments = ({ comments, NewsId }: CommentsPropsType): JSX.Element => {
   const classes = useStyles();
   const { loadingAddComment } = useStore($newsGetStatus);
   const user = useStore($user);
+  console.log('user', user);
   const {
     handleSubmit,
     control,
@@ -92,6 +101,9 @@ const Comments = ({ comments, NewsId }: CommentsPropsType): JSX.Element => {
             <Typography gutterBottom variant="h6" component="div">
               {com.user.name}
             </Typography>
+            <IconButton aria-label="delete" className={classes.deleteIcon}>
+              <DeleteIcon fontSize="small" />
+            </IconButton>
           </div>
           <div>
             <Typography gutterBottom variant="subtitle1" component="p">

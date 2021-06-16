@@ -6,6 +6,7 @@ import {
   HasOne,
   Model,
   Scopes,
+  Sequelize,
   Table,
 } from 'sequelize-typescript';
 import { UserInterfaces } from '../interfaces/user.interfaces';
@@ -20,6 +21,22 @@ import { Role } from './role.entity';
   full: {},
   minimal: {
     attributes: ['id', 'email', 'name', 'avatar'],
+  },
+  minimalRole: {
+    include: {
+      model: Role,
+      attributes: [],
+    },
+    attributes: {
+      include: [[Sequelize.col('roleId.name'), 'role']],
+      exclude: [
+        'RoleId',
+        'confirmationCode',
+        'password',
+        'updatedAt',
+        'createdAt',
+      ],
+    },
   },
 }))
 @Table
