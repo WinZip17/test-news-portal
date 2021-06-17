@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useStore } from 'effector-react';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,7 +10,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { getError } from '../../utils/getFieldError';
 import { $user } from '../../models/UserModels';
 import { CommentType } from '../../models/NewsModels/newsTypes';
-import { addCommentFx } from '../../models/NewsModels/commentAdd';
+import { addCommentFx, removeCommentFx } from '../../models/NewsModels/commentsFx';
 import { $newsGetStatus } from '../../models/NewsModels';
 import { BASE_URL } from '../../constant';
 
@@ -59,7 +59,8 @@ const Comments = ({ comments, NewsId }: CommentsPropsType): JSX.Element => {
   const classes = useStyles();
   const { loadingAddComment } = useStore($newsGetStatus);
   const user = useStore($user);
-  console.log('user', user);
+  const isAdmin = user?.role === 'admin';
+
   const {
     handleSubmit,
     control,
@@ -74,6 +75,11 @@ const Comments = ({ comments, NewsId }: CommentsPropsType): JSX.Element => {
         });
       });
   };
+
+  const handleRemoveComment = useCallback((id: number) => {
+    removeCommentFx(id);
+  }, []);
+
   const getDateInfo = (date: string) => {
     const workDate = new Date(date);
     if (isToday(workDate)) {
@@ -84,6 +90,7 @@ const Comments = ({ comments, NewsId }: CommentsPropsType): JSX.Element => {
     }
     return format(workDate, 'dd.MM.yyyy в HH:mm');
   };
+
   return (
     <div>
       <Typography gutterBottom variant="h6" component="h6">
@@ -101,9 +108,11 @@ const Comments = ({ comments, NewsId }: CommentsPropsType): JSX.Element => {
             <Typography gutterBottom variant="h6" component="div">
               {com.user.name}
             </Typography>
-            <IconButton aria-label="delete" className={classes.deleteIcon}>
+            {isAdmin && (
+            <IconButton type="button" aria-label="delete" className={classes.deleteIcon} onClick={() => handleRemoveComment(com.id)}>
               <DeleteIcon fontSize="small" />
             </IconButton>
+            )}
           </div>
           <div>
             <Typography gutterBottom variant="subtitle1" component="p">

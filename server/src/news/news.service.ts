@@ -28,7 +28,7 @@ export class NewsService {
       image: saveImage,
       isModerate: false,
     });
-    console.log('newNews', newNews)
+    console.log('newNews', newNews);
     return newNews.id;
   }
 
@@ -129,5 +129,10 @@ export class NewsService {
     });
     const news: News = await this.findByPk(NewsId);
     return news;
+  }
+
+  async removeComment(id: number): Promise<{ message: string, id: number }> {
+    await this.commentRepository.destroy({ where: { id } });
+    return { message: `Мы думали этот позор уже никто не удалит...`, id };
   }
 }

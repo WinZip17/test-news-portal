@@ -11,6 +11,9 @@ export interface User {
   name: string;
   email: string;
   avatar?: string | null;
+  role: string;
+  isBlocked: boolean;
+  isConfirmed: boolean;
 }
 
 export interface updateUser {

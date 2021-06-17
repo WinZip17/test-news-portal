@@ -8,3 +8,9 @@ export const addCommentFx = createEffect<CommentType, any, AxiosError>(async (da
   const response = await api.addComment(data);
   return response.data;
 });
+
+export const removeCommentFx = createEffect<number, any, AxiosError>(async (id: number) => {
+  const api = new ApiFactory().newsApi();
+  const response = await api.removeComment(id);
+  return response.data;
+});

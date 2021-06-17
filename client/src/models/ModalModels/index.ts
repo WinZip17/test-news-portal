@@ -3,6 +3,7 @@ import { addNewsFx } from '../NewsModels/newsAdd';
 import {
   changePasswordFx, recoveryPasswordFx, registrationFx, resetPasswordFx,
 } from '../UserModels/userEffects';
+import { removeCommentFx } from '../NewsModels/commentsFx';
 
 export class ModalContentTypes {
   title = '';
@@ -68,5 +69,10 @@ $modal
   .on(addNewsFx.fail, () => ({
     title: 'Очень жаль',
     content: 'Не получилось добавить новость по неизвестным нам причинам',
+    open: true,
+  }))
+  .on(removeCommentFx.doneData, (state, { message }) => ({
+    title: 'Наконец-то',
+    content: message || 'Мы думали этот позор уже никто не удалит...',
     open: true,
   }));

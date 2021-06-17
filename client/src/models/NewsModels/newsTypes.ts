@@ -12,6 +12,7 @@ export interface ReactionNewsTypes {
 }
 
 export interface CommentType {
+  id: number;
   NewsId?: number;
   content: string;
   createdAt: string;

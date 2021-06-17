@@ -7,6 +7,7 @@ export interface NewsApi {
   addNews(data: AddNewsTypes): Promise<any>;
   setReaction(data: ReactionNewsTypes): Promise<any>;
   addComment(data: CommentType): Promise<any>;
+  removeComment(id: number): Promise<any>;
 }
 
 export class NewsApiImpl implements NewsApi {
@@ -42,6 +43,11 @@ export class NewsApiImpl implements NewsApi {
 
   async addComment(data: CommentType): Promise<any> {
     const result = await this.axios.post('/api/news/comment', data);
+    return result;
+  }
+
+  async removeComment(id: number): Promise<any> {
+    const result = await this.axios.delete(`/api/news/comment/${id}`);
     return result;
   }
 }
